@@ -18,9 +18,14 @@ JHMG 游戏引擎是我自己写的一个简单的2D游戏引擎，旨在帮助�
 
 ```bash
 git clone https://github.com/your_username/JHMG-engine.git
+```
+### 类图
+
+![]("./ClassDiagram.png")
 
 ### 示例代码
 
+```cpp
     #include "JHMG engine.h"
     
     //声明游戏全局变量
@@ -97,3 +102,4 @@ git clone https://github.com/your_username/JHMG-engine.git
     	//碰撞输出名字
     	cout<<mainGame->getName(other)<<endl;
     }
+```
