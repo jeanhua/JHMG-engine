@@ -190,7 +190,10 @@ void Game::initWindow()
 
 void Game::setTargetFrame(int targetFrame)
 {
-	this->targetFrame = targetFrame;
+	if(targetFrame>0)
+		this->targetFrame = targetFrame;
+	else
+		this->targetFrame = 60;
 }
 
 void Game::gameLoop()
@@ -251,6 +254,12 @@ void Game::gameLoop()
 			{
 				if (it->value->visible)
 				putimagePNG(it->value->position.x, it->value->position.y, it->value->image);
+			}
+			//遍历界面文本
+			for (auto it = gameUITexts.p_first; it != NULL; it = it->p_next)
+			{
+				if(it->value->visible)
+				outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
 			}
 			//执行自定义函数
 			if(gameLoopFunc!=NULL)
@@ -322,6 +331,12 @@ void Game::addGameUI(jhString name, gameUI* gameUI)
 	this->gameUIMap[name] = gameUI;
 }
 
+void Game::addGameUIText(jhString name,gameUIText* text)
+{
+	this->gameUITexts.addList(text);
+	this->gameUITextsMap[name] = text;
+}
+
 void Game::removeGameUI(jhString name)
 {
 	for (auto it = this->gameUIs.p_first; it != NULL; it = it->p_next)
@@ -331,6 +346,15 @@ void Game::removeGameUI(jhString name)
 			delete it->value->image;
 			delete it->value;
 			this->gameUIs.deleteList(it);
+			return;
+		}
+	}
+	for(auto it = this->gameUITexts.p_first; it != NULL; it = it->p_next)
+	{
+		if (it->value == gameUITextsMap[name])
+		{
+			delete it->value;
+			this->gameUITexts.deleteList(it);
 			return;
 		}
 	}
@@ -357,4 +381,11 @@ char gameInput::getKey()
 	auto tmpKey = key;
 	key = 0;
 	return tmpKey;
+}
+
+gameUIText::gameUIText(jhString text, jhVector2 position, bool visible)
+{
+	this->text = text;
+	this->position = position;
+	this->visible = visible;
 }

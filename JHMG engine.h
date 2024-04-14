@@ -53,6 +53,7 @@ inline void putimagePNG(int x, int y, IMAGE* img) {
 
 class gameObject;
 class gameUI;
+class gameUIText;
 class gameSound;
 class gameInput;
 class Game;
@@ -109,6 +110,22 @@ public:
 	//构造函数
 	gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible = true);
 };
+
+//游戏界面文字类
+class gameUIText
+{
+	friend class Game;	
+public:
+	//文字
+	jhString text;
+	//位置
+	jhVector2 position;
+	//可视性
+	bool visible;
+	//构造函数
+	gameUIText(jhString text, jhVector2 position, bool visible = true);
+};
+
 
 //游戏音效类
 class gameSound
@@ -205,10 +222,10 @@ private:
 	jhList<gameObject*> gameObjects;
 	//游戏界面
 	jhList<gameUI*> gameUIs;
+	//界面文字
+	jhList<gameUIText*> gameUITexts;
 	//游戏帧率
 	int targetFrame = 60;
-	//游戏间隔
-	long deltaTime;
 	//游戏循环自定义函数
 	void(*gameLoopFunc)() = NULL;
 	//游戏音效
@@ -217,6 +234,8 @@ private:
 	map<jhString,gameObject*> gameObjectsMap;
 	//游戏界面map
 	map<jhString,gameUI*> gameUIMap;
+	//游戏界面文字map
+	map<jhString,gameUIText*> gameUITextsMap;
 	//游戏循环
 	void gameLoop();
 public:
@@ -230,6 +249,8 @@ public:
 	void initWindow();
 	//设置游戏帧率
 	void setTargetFrame(int targetFrame);
+	//游戏间隔
+	long deltaTime;
 	//获取游戏窗口大小
 	jhVector2 getWindowSize();
 	//获取游戏窗口标题
@@ -244,6 +265,8 @@ public:
 	jhString getName(gameObject* gameObject);
 	//添加游戏界面
 	void addGameUI(jhString name,gameUI* gameUI);
+	//添加游戏界面文字
+	void addGameUIText(jhString name, gameUIText* text);
 	//删除游戏界面
 	void removeGameUI(jhString name);
 	//获取游戏界面

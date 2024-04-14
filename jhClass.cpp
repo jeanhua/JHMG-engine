@@ -526,8 +526,10 @@ inline jhList<T>::~jhList()
 
 extern class gameObject;
 extern class gameUI;
+extern class gameUIText;
 template class jhList<gameObject*>;
 template class jhList<gameUI*>;
+template class jhList<gameUIText*>;
 
 jhMatrix::jhMatrix(int row, int column)
 {

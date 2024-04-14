@@ -25,6 +25,10 @@ int main(int argc, char* argv[])
 	xiaoxin = new gameUI(jhVector2(0,0),jhVector2(50,50),".\\xiaoxin.png",true);
 	//添加UI对象到游戏中
 	mainGame->addGameUI("xiaoxin",xiaoxin);
+	//创建文本UI
+	gameUIText* text = new gameUIText(jhString("my game"), jhVector2(100, 100), true);
+	//添加文本UI到游戏中
+	mainGame->addGameUIText("text", text);
 	//创建游戏对象
 	player = new gameObject(new jhObject2D::circle(20,jhVector2(170,70)),".\\pkq.png",40,40,true);
 	pikaqiu = new gameObject(new jhObject2D::circle(20, jhVector2(270, 70)), ".\\pkq.png", 40, 40, true);
@@ -66,6 +70,17 @@ void loop()
 		jhVector2 currentPosition = player->transform.circle->getPosition();
 		currentPosition += jhVector2(0,50);
 		player->transform.circle->move(currentPosition);
+	}
+	if (key == KeyMessage::space)
+	{
+		//删除物体
+		cout << "delete pikaqiu" << endl;
+		mainGame->removeGameObject("pikaqiu");
+	}
+	if (key == KeyMessage::esc)
+	{
+		//退出游戏
+		exit(0);
 	}
 }
 
