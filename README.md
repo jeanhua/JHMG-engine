@@ -21,7 +21,7 @@ git clone https://github.com/your_username/JHMG-engine.git
 ```
 ### 类图
 
-![]("./ClassDiagram.png")
+![类图](./ClassDiagram.png)
 
 ### 示例代码
 
