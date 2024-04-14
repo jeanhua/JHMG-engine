@@ -481,37 +481,29 @@ inline void jhList<T>::addList(T value)
 template<class T>
 inline void jhList<T>::deleteList(node* list)
 {
-	if (list->p_back != NULL)
+	if (list->p_back == NULL)
 	{
+		if (list->p_next == NULL)
+		{
+			this->p_first = NULL;
+			delete list;
+			return;
+		}
+		this->p_first = list->p_next;
 		if (list->p_next != NULL)
 		{
-			node* p = list->p_back;
-			p->p_next = list->p_next;
-			node* p1 = list->p_next;
-			p1->p_back = p;
-			delete list;
-		}
-		else
-		{
-			node* p = list->p_back;
-			p->p_next = NULL;
-			delete list;
+			list->p_next->p_back = NULL;
 		}
 	}
 	else
 	{
+		list->p_back->p_next = list->p_next;
 		if (list->p_next != NULL)
 		{
-			node* p = list->p_next;
-			p->p_back = NULL;
-			p_first = p;
-			delete list;
-		}
-		else
-		{
-			delete list;
+			list->p_next->p_back = list->p_back;
 		}
 	}
+	delete list;
 }
 
 template<class T>

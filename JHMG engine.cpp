@@ -289,8 +289,13 @@ void Game::removeGameObject(jhString name)
 	{
 		if (it->value == gameObjectsMap[name])
 		{
+			delete it->value->image;
+			it->value->image = NULL;
 			delete it->value;
+			it->value= NULL;
+			Game::gameObjectsMap.erase(name);
 			this->gameObjects.deleteList(it);
+			return;
 		}
 	}
 }
@@ -323,8 +328,10 @@ void Game::removeGameUI(jhString name)
 	{
 		if (it->value == gameUIMap[name])
 		{
+			delete it->value->image;
 			delete it->value;
 			this->gameUIs.deleteList(it);
+			return;
 		}
 	}
 }
@@ -340,8 +347,7 @@ void gameInput::getMessage()
 	{
 		if (msg.message == WM_KEYDOWN)
 		{
-			if(msg.vkcode>=65&&msg.vkcode<=90)
-			this->key = msg.vkcode-65 + 'A';
+			this->key = msg.vkcode;
 		}
 	}
 }

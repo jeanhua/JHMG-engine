@@ -175,6 +175,7 @@ enum KeyMessage
 	z =90,
 	enter =13,
 	space =32,
+	esc =27,
 };
 
 //¼üÅÌÊäÈëÀà
