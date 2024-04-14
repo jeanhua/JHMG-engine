@@ -1,10 +1,8 @@
 #include "JHMG engine.h"
 
-//声明游戏全局变量
-Game* mainGame = NULL;
-gameUI* xiaoxin = NULL;
-gameObject* pikaqiu = NULL;
-gameObject* player = NULL;
+//声明全局游戏对象
+Game* mainGame;
+
 //声明函数
 void loop();
 void trigle(gameObject* other);
@@ -22,16 +20,16 @@ int main(int argc, char* argv[])
 	mainGame->setGameLoopFunc(loop);
 
 	//创建UI对象
-	xiaoxin = new gameUI(jhVector2(0,0),jhVector2(50,50),".\\xiaoxin.png",true);
+	gameUI* xiaoxin = new gameUI(jhVector2(0,0),jhVector2(50,50),".\\xiaoxin.png",true);
 	//添加UI对象到游戏中
 	mainGame->addGameUI("xiaoxin",xiaoxin);
 	//创建文本UI
-	gameUIText* text = new gameUIText(jhString("my game"), jhVector2(100, 100), true);
+	gameUIText* text = new gameUIText(jhString("fps"), jhVector2(100, 100), true);
 	//添加文本UI到游戏中
 	mainGame->addGameUIText("text", text);
 	//创建游戏对象
-	player = new gameObject(new jhObject2D::circle(20,jhVector2(170,70)),".\\pkq.png",40,40,true);
-	pikaqiu = new gameObject(new jhObject2D::circle(20, jhVector2(270, 70)), ".\\pkq.png", 40, 40, true);
+	gameObject* player = new gameObject(new jhObject2D::circle(25,jhVector2(170,70)),".\\pkq.png",50,50,true);
+	gameObject* pikaqiu = new gameObject(new jhObject2D::circle(25, jhVector2(270, 70)), ".\\pkq.png", 50, 50, true);
 	//绑定游戏对象碰撞事件
 	player->setOnCollision(trigle);
 	//添加游戏对象到游戏中
@@ -44,31 +42,38 @@ int main(int argc, char* argv[])
 
 void loop()
 {
+	//获取游戏对象
+	auto player = mainGame->getGameObject("player");
+	//获取UI文本对象
+	auto text = mainGame->getGameUIText("text");
+	//拼接显示fps
+	text->text = "fps:"+to_string(int(1000 / mainGame->deltaTime));
 	//获取键盘输入
 	auto key = mainGame->Input.getKey();
 	//判断键盘输入
 	if (key == KeyMessage::a)
 	{
 		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(-50,0);
+		//x = deltaX + X0 = V*t + X0
+		currentPosition += jhVector2(-150,0)* ((float)mainGame->deltaTime / 1000);
 		player->transform.circle->move(currentPosition);
 	}
 	if (key == KeyMessage::d)
 	{
 		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(50,0);
+		currentPosition += jhVector2(150,0)* ((float)mainGame->deltaTime / 1000);
 		player->transform.circle->move(currentPosition);
 	}
 	if (key == KeyMessage::w)
 	{
 		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(0,-50);
+		currentPosition += jhVector2(0,-150)* ((float)mainGame->deltaTime / 1000);
 		player->transform.circle->move(currentPosition);
 	}
 	if (key == KeyMessage::s)
 	{
 		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(0,50);
+		currentPosition += jhVector2(0,150)*((float)mainGame->deltaTime/1000);
 		player->transform.circle->move(currentPosition);
 	}
 	if (key == KeyMessage::space)

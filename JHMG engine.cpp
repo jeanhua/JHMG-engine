@@ -311,7 +311,7 @@ void Game::removeGameObject(jhString name)
 
 gameObject* Game::getGameObject(jhString name)
 {
-	return gameObjectsMap[name];
+	return this->gameObjectsMap[name];
 }
 
 jhString Game::getName(gameObject* gameObject)
@@ -362,7 +362,12 @@ void Game::removeGameUI(jhString name)
 
 gameUI* Game::getGameUI(jhString name)
 {
-	return gameUIMap[name];
+	return this->gameUIMap[name];
+}
+
+gameUIText* Game::getGameUIText(jhString name)
+{
+	return this->gameUITextsMap[name];
 }
 
 void gameInput::getMessage()

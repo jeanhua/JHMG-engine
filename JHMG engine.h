@@ -271,6 +271,8 @@ public:
 	void removeGameUI(jhString name);
 	//获取游戏界面
 	gameUI* getGameUI(jhString name);
+	//获取游戏界面文本
+	gameUIText* getGameUIText(jhString name);
 	//键盘输入
 	gameInput Input;
 };
