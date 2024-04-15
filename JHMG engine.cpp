@@ -7,6 +7,9 @@ gameObject::gameObject(jhObject2D::circle* transform, LPCTSTR file, int width, i
 	IMAGE* img = new IMAGE;
 	loadimage(img, file,width,height,true);
 	this->image = img;
+	this->mouseAction = new MouseAction;
+	this->mouseAction->beginPosition = transform->getLeftTopPosition();
+	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
 	this->visible = visible;
 }
 
@@ -17,6 +20,9 @@ gameObject::gameObject(jhObject2D::rectangle* transform, LPCTSTR file, int width
 	IMAGE* img = new IMAGE;
 	loadimage(img, file,width,height,true);
 	this->image = img;
+	this->mouseAction = new MouseAction;
+	this->mouseAction->beginPosition = transform->getLeftTopPosition();
+	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
 	this->visible = visible;
 }
 
@@ -27,6 +33,9 @@ gameObject::gameObject(jhObject2D::diamond* transform, LPCTSTR file, int width, 
 	IMAGE* img = new IMAGE;
 	loadimage(img, file,width,height,true);
 	this->image = img;
+	this->mouseAction = new MouseAction;
+	this->mouseAction->beginPosition = transform->getLeftTopPosition();
+	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
 	this->visible = visible;
 }
 
@@ -37,12 +46,20 @@ gameObject::gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width,
 	IMAGE* img = new IMAGE;
 	loadimage(img, file,width,height,true);
 	this->image = img;
+	this->mouseAction = new MouseAction;
+	this->mouseAction->beginPosition = transform->getLeftTopPosition();
+	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
 	this->visible = visible;
 }
 
 void gameObject::setOnCollision(void(*onCollision)(gameObject* gameObject))
 {
 	this->onCollision = onCollision;
+}
+
+void gameObject::setGameLoopFunc(void(*gameLoopFunc)())
+{
+	this->gameLoopFunc = gameLoopFunc;
 }
 
 
@@ -53,6 +70,9 @@ gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 	IMAGE* img = new IMAGE;
 	loadimage(img, image.to_char(),size.x,size.y,true);
 	this->image = img;
+	this->mouseAction = new MouseAction;
+	this->mouseAction->beginPosition = position;
+	this->mouseAction->endPosition = position + size;
 	this->visible = visible;
 }
 
@@ -176,10 +196,6 @@ void Game::setWindowTitle(jhString windowTitle)
 	this->windowTitle = windowTitle;
 }
 
-void Game::setGameLoopFunc(void(*func)())
-{
-	this->gameLoopFunc = func;
-}
 
 void Game::initWindow()
 {
@@ -211,15 +227,24 @@ void Game::gameLoop()
 			//遍历物体
 			for (auto it = gameObjects.p_first; it != NULL; it = it->p_next)
 			{
-				if(it->value->visible)
-					if(it->value->transformType=='c')
+				//打印物体
+				if (it->value->visible)
+				{
+					if (it->value->transformType == 'c')
 						putimagePNG(it->value->transform.circle->getLeftTopPosition().x, it->value->transform.circle->getLeftTopPosition().y, it->value->image);
-				else if(it->value->transformType=='r')
+					else if (it->value->transformType == 'r')
 						putimagePNG(it->value->transform.rectangle->getLeftTopPosition().x, it->value->transform.rectangle->getLeftTopPosition().y, it->value->image);
-				else if(it->value->transformType=='d')
+					else if (it->value->transformType == 'd')
 						putimagePNG(it->value->transform.diamond->getLeftTopPosition().x, it->value->transform.diamond->getLeftTopPosition().y, it->value->image);
-				else if(it->value->transformType=='t')
+					else if (it->value->transformType == 't')
 						putimagePNG(it->value->transform.triangle->getLeftTopPosition().x, it->value->transform.triangle->getLeftTopPosition().y, it->value->image);
+				}
+				//调用物体循环函数
+				if (it->value->gameLoopFunc != NULL)
+					it->value->gameLoopFunc();
+				//调用鼠标事件
+				if(it->value->mouseAction->onClick!=NULL)
+					it->value->mouseAction->getMouseMessage();
 				//遍历其他物体计算碰撞
 				if(it->value->onCollision!=NULL)
 				for(auto it2 = gameObjects.p_first; it2 != NULL; it2 = it2->p_next)
@@ -228,22 +253,22 @@ void Game::gameLoop()
 					{
 						if (it2->value->transformType == 'c')
 						{
-							if (it->value->transform.circle->isTrigleEnter(*it2->value->transform.circle))
+							if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.circle))
 								it->value->onCollision(it2->value);
 						}
 						else if (it2->value->transformType == 'r')
 						{
-							if (it->value->transform.circle->isTrigleEnter(*it2->value->transform.rectangle))
+							if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.rectangle))
 								it->value->onCollision(it2->value);
 						}
 						else if (it2->value->transformType == 'd')
 						{
-							if (it->value->transform.circle->isTrigleEnter(*it2->value->transform.diamond))
+							if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.diamond))
 								it->value->onCollision(it2->value);
 						}
 						else if (it2->value->transformType == 't')
 						{
-							if (it->value->transform.circle->isTrigleEnter(*it2->value->transform.triangle))
+							if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.triangle))
 								it->value->onCollision(it2->value);
 						}
 					}
@@ -261,9 +286,6 @@ void Game::gameLoop()
 				if(it->value->visible)
 				outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
 			}
-			//执行自定义函数
-			if(gameLoopFunc!=NULL)
-			gameLoopFunc();
 			//获取键盘输入
 			Input.getMessage();
 			//清除缓存
@@ -288,8 +310,14 @@ jhString Game::getWindowTitle()
 
 void Game::addGameObject(jhString name, gameObject* gameObject_pre)
 {
+	if (this->gameTotalMap[name] >= 100)
+	{
+		throw invalid_argument("The name already exists");
+		return;
+	}
 	this->gameObjects.addList(gameObject_pre);
 	this->gameObjectsMap[name] = gameObject_pre;
+	this->gameTotalMap[name] += 100;
 }
 
 void Game::removeGameObject(jhString name)
@@ -300,10 +328,13 @@ void Game::removeGameObject(jhString name)
 		{
 			delete it->value->image;
 			it->value->image = NULL;
+			delete it->value->mouseAction;
+			it->value->mouseAction = NULL;
 			delete it->value;
 			it->value= NULL;
 			Game::gameObjectsMap.erase(name);
 			this->gameObjects.deleteList(it);
+			this->gameTotalMap[name]-=100;
 			return;
 		}
 	}
@@ -327,14 +358,26 @@ jhString Game::getName(gameObject* gameObject)
 
 void Game::addGameUI(jhString name, gameUI* gameUI)
 {
+	if (this->gameTotalMap[name] % 100 >= 10)
+	{
+		throw invalid_argument("The name already exists");
+		return;
+	}
 	this->gameUIs.addList(gameUI);
 	this->gameUIMap[name] = gameUI;
+	this->gameTotalMap[name] += 10;
 }
 
 void Game::addGameUIText(jhString name,gameUIText* text)
 {
+	if (this->gameTotalMap[name] % 10 >= 1)
+	{
+		throw invalid_argument("The name already exists");
+		return;
+	}
 	this->gameUITexts.addList(text);
 	this->gameUITextsMap[name] = text;
+	this->gameTotalMap[name] += 1;
 }
 
 void Game::removeGameUI(jhString name)
@@ -344,17 +387,27 @@ void Game::removeGameUI(jhString name)
 		if (it->value == gameUIMap[name])
 		{
 			delete it->value->image;
+			it->value->image = NULL;
+			delete it->value->mouseAction;
+			it->value->mouseAction = NULL;
 			delete it->value;
+			it->value = NULL;
 			this->gameUIs.deleteList(it);
+			this->gameTotalMap[name] -= 10;
 			return;
 		}
 	}
-	for(auto it = this->gameUITexts.p_first; it != NULL; it = it->p_next)
+}
+
+void Game::removeGameUIText(jhString name)
+{
+	for (auto it = this->gameUITexts.p_first; it != NULL; it = it->p_next)
 	{
 		if (it->value == gameUITextsMap[name])
 		{
 			delete it->value;
 			this->gameUITexts.deleteList(it);
+			this->gameTotalMap[name] -= 1;
 			return;
 		}
 	}
@@ -393,4 +446,48 @@ gameUIText::gameUIText(jhString text, jhVector2 position, bool visible)
 	this->text = text;
 	this->position = position;
 	this->visible = visible;
+}
+
+void MouseAction::getMouseMessage()
+{
+	while (peekmessage(&msg))
+	{
+		if (msg.message == WM_LBUTTONDOWN)
+		{
+			if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
+			{
+				if(onClick!=NULL)
+				onClick(MouseMessage::leftDown, jhVector2(msg.x, msg.y));
+			}
+		}
+		if (msg.message == WM_LBUTTONUP)
+		{
+			if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
+			{
+				if (onClick != NULL)
+				onClick(MouseMessage::leftUp, jhVector2(msg.x, msg.y));
+			}
+		}
+		if (msg.message == WM_RBUTTONDOWN)
+		{
+			if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
+			{
+				if (onClick != NULL)
+				onClick(MouseMessage::rightDown, jhVector2(msg.x, msg.y));
+			}
+		}
+		if (msg.message == WM_RBUTTONUP)
+		{
+			if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
+			{
+				if (onClick != NULL)
+				onClick(MouseMessage::rightUp, jhVector2(msg.x, msg.y));
+			}
+		}
+	}
+}
+
+void MouseAction::setClickFunc(void(*onClick)(int mouseMessage, jhVector2 position))
+{
+	this->onClick = onClick;
 }

@@ -900,7 +900,7 @@ jhVector2 jhObject2D::circle::getLeftTopPosition()
 }
 
 
-bool jhObject2D::circle::isTrigleEnter(const triangle& other)
+bool jhObject2D::circle::isTriggerEnter(const triangle& other)
 {
 	//圆形与三角形的碰撞检测
 	float a = this->position.destance(other.pointA)-radius;
@@ -914,7 +914,7 @@ bool jhObject2D::circle::isTrigleEnter(const triangle& other)
 		return false;
 }
 
-bool jhObject2D::circle::isTrigleEnter(const rectangle& other)
+bool jhObject2D::circle::isTriggerEnter(const rectangle& other)
 {
 	//圆形与矩形的碰撞检测
 	float x = this->position.x;
@@ -929,7 +929,7 @@ bool jhObject2D::circle::isTrigleEnter(const rectangle& other)
 		return false;
 }
 
-bool jhObject2D::circle::isTrigleEnter(const diamond& other)
+bool jhObject2D::circle::isTriggerEnter(const diamond& other)
 {
 	//圆形与菱形粗略的碰撞检测
 	float x = this->position.x;
@@ -944,7 +944,7 @@ bool jhObject2D::circle::isTrigleEnter(const diamond& other)
 		return false;
 }
 
-bool jhObject2D::circle::isTrigleEnter(const circle& other)
+bool jhObject2D::circle::isTriggerEnter(const circle& other)
 {
 	//圆形与圆形的碰撞检测
 	if (this->position.destance(other.position) <= this->radius + other.radius)
@@ -969,7 +969,7 @@ jhVector2 jhObject2D::rectangle::getLeftTopPosition()
 	return jhVector2(this->position.x - this->width / 2, this->position.y - this->height / 2);
 }
 
-bool jhObject2D::rectangle::isTrigleEnter(const triangle& other)
+bool jhObject2D::rectangle::isTriggerEnter(const triangle& other)
 {
 	//矩形与三角形的碰撞检测
 	float x1 = this->position.x - this->width / 2;
@@ -989,7 +989,7 @@ bool jhObject2D::rectangle::isTrigleEnter(const triangle& other)
 
 }
 
-bool jhObject2D::rectangle::isTrigleEnter(const rectangle& other)
+bool jhObject2D::rectangle::isTriggerEnter(const rectangle& other)
 {
 	//矩形与矩形的碰撞检测
 	float x1 = this->position.x - this->width / 2;
@@ -1007,7 +1007,7 @@ bool jhObject2D::rectangle::isTrigleEnter(const rectangle& other)
 
 }
 
-bool jhObject2D::rectangle::isTrigleEnter(const diamond& other)
+bool jhObject2D::rectangle::isTriggerEnter(const diamond& other)
 {
 	//矩形与菱形的碰撞检测
 	float x1 = this->position.x - this->width / 2;
@@ -1025,7 +1025,7 @@ bool jhObject2D::rectangle::isTrigleEnter(const diamond& other)
 
 }
 
-bool jhObject2D::rectangle::isTrigleEnter(const circle& other)
+bool jhObject2D::rectangle::isTriggerEnter(const circle& other)
 {
 	//矩形与圆形的碰撞检测
 	float x1 = this->position.x - this->width / 2;
@@ -1062,7 +1062,7 @@ float jhObject2D::triangle::getAreaSize()
 	return sqrt(p * (p - a) * (p - b) * (p - c));
 }
 
-bool jhObject2D::triangle::isTrigleEnter(const triangle& other)
+bool jhObject2D::triangle::isTriggerEnter(const triangle& other)
 {
 	//三角形与三角形的碰撞检测
 	float x1 = this->pointA.x;
@@ -1103,7 +1103,7 @@ bool jhObject2D::triangle::isTrigleEnter(const triangle& other)
 
 }
 
-bool jhObject2D::triangle::isTrigleEnter(const rectangle& other)
+bool jhObject2D::triangle::isTriggerEnter(const rectangle& other)
 {
 	//三角形与矩形的碰撞检测
 	float x1 = this->pointA.x;
@@ -1129,7 +1129,7 @@ bool jhObject2D::triangle::isTrigleEnter(const rectangle& other)
 
 }
 
-bool jhObject2D::triangle::isTrigleEnter(const diamond& other)
+bool jhObject2D::triangle::isTriggerEnter(const diamond& other)
 {
 	//三角形与菱形的碰撞检测
 	float x1 = this->pointA.x;
@@ -1155,7 +1155,7 @@ bool jhObject2D::triangle::isTrigleEnter(const diamond& other)
 
 }
 
-bool jhObject2D::triangle::isTrigleEnter(const circle& other)
+bool jhObject2D::triangle::isTriggerEnter(const circle& other)
 {
 	//三角形与圆形的碰撞检测
 	float x1 = this->pointA.x;
@@ -1271,7 +1271,7 @@ jhVector2 jhObject2D::diamond::getLeftTopPosition()
 	return jhVector2(this->position.x - this->lengthX / 2, this->position.y - this->lengthY / 2);
 }
 
-bool jhObject2D::diamond::isTrigleEnter(const triangle& other)
+bool jhObject2D::diamond::isTriggerEnter(const triangle& other)
 {
 	//菱形与三角形的碰撞检测
 	float x1 = this->position.x - this->lengthX / 2;
@@ -1291,7 +1291,7 @@ bool jhObject2D::diamond::isTrigleEnter(const triangle& other)
 
 }
 
-bool jhObject2D::diamond::isTrigleEnter(const rectangle& other)
+bool jhObject2D::diamond::isTriggerEnter(const rectangle& other)
 {
 	//菱形与矩形的碰撞检测
 	float x1 = this->position.x - this->lengthX / 2;
@@ -1309,7 +1309,7 @@ bool jhObject2D::diamond::isTrigleEnter(const rectangle& other)
 
 }
 
-bool jhObject2D::diamond::isTrigleEnter(const diamond& other)
+bool jhObject2D::diamond::isTriggerEnter(const diamond& other)
 {
 	//菱形与菱形的碰撞检测
 	float x1 = this->position.x - this->lengthX / 2;
@@ -1327,7 +1327,7 @@ bool jhObject2D::diamond::isTrigleEnter(const diamond& other)
 
 }
 
-bool jhObject2D::diamond::isTrigleEnter(const circle& other)
+bool jhObject2D::diamond::isTriggerEnter(const circle& other)
 {
 	//菱形与圆形的碰撞检测
 	float x1 = this->position.x - this->lengthX / 2;

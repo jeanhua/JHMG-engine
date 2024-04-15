@@ -56,6 +56,7 @@ class gameUI;
 class gameUIText;
 class gameSound;
 class gameInput;
+class MouseAction;
 class Game;
 
 
@@ -74,7 +75,8 @@ public:
 	};
 	Transform transform;
 	char transformType;
-
+	//鼠标事件
+	MouseAction* mouseAction;
 	//游戏对象可视性
 	bool visible;
 	//构造函数
@@ -84,6 +86,8 @@ public:
 	gameObject(jhObject2D::triangle* transform, LPCTSTR file,int width ,int height, bool visible = true);
 	//设置碰撞回调函数
 	void setOnCollision(void (*onCollision)(gameObject* gameObject));
+	//设置游戏循环回调函数
+	void setGameLoopFunc(void(*gameLoopFunc)());
 	
 
 private:
@@ -91,6 +95,8 @@ private:
 	IMAGE* image;
 	//碰撞回调函数
 	void (*onCollision)(gameObject* gameObject) = NULL;
+	//游戏循环回调函数
+	void(*gameLoopFunc)() = NULL;
 };
 
 //游戏界面类
@@ -105,6 +111,8 @@ public:
 	jhVector2 position;
 	//大小
 	jhVector2 size;
+	//鼠标事件
+	MouseAction* mouseAction;
 	//可视性
 	bool visible;
 	//构造函数
@@ -130,9 +138,11 @@ public:
 //游戏音效类
 class gameSound
 {
-public:
+	friend class Game;
+private:
 	//音效
 	jhString music_file;
+public:
 	//设置音乐文件
 	void setSound(jhString music_file);
 	//播放音效
@@ -208,6 +218,35 @@ public:
 	char getKey();
 };
 
+enum MouseMessage
+{
+	leftDown = 513,
+	leftUp = 514,
+	rightDown = 516,
+	rightUp = 517,
+};
+
+//鼠标事件类
+class MouseAction
+{
+	friend class Game;
+	friend class gameObject;
+	friend class gameUI;
+private:
+	ExMessage msg;
+	//左上角起始判断坐标
+	jhVector2 beginPosition;
+	//右下角结束判断坐标
+	jhVector2 endPosition;
+	//获取鼠标点击事件
+	void getMouseMessage();
+	//鼠标点击回调函数
+	void (*onClick)(int mouseMessage,jhVector2 position) = NULL;
+public:
+	//设置鼠标点击回调函数
+	void setClickFunc(void (*onClick)(int mouseMessage,jhVector2 position));
+};
+
 //游戏类
 class Game
 {
@@ -226,8 +265,6 @@ private:
 	jhList<gameUIText*> gameUITexts;
 	//游戏帧率
 	int targetFrame = 60;
-	//游戏循环自定义函数
-	void(*gameLoopFunc)() = NULL;
 	//游戏音效
 	gameSound Sound;
 	//游戏物体map
@@ -236,6 +273,8 @@ private:
 	map<jhString,gameUI*> gameUIMap;
 	//游戏界面文字map
 	map<jhString,gameUIText*> gameUITextsMap;
+	//游戏总map 物体100，界面UI10，界面文字1
+	map<jhString,int> gameTotalMap;
 	//游戏循环
 	void gameLoop();
 public:
@@ -243,8 +282,6 @@ public:
 	void setWindowSize(jhVector2 windowSize);
 	//设置游戏窗口标题
 	void setWindowTitle(jhString windowTitle);
-	//设置循环函数
-	void setGameLoopFunc(void(*func)());
 	//初始化窗口,开始游戏
 	void initWindow();
 	//设置游戏帧率
@@ -269,6 +306,8 @@ public:
 	void addGameUIText(jhString name, gameUIText* text);
 	//删除游戏界面
 	void removeGameUI(jhString name);
+	//删除游戏界面文字
+	void removeGameUIText(jhString name);
 	//获取游戏界面
 	gameUI* getGameUI(jhString name);
 	//获取游戏界面文本

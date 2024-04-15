@@ -17,7 +17,7 @@ JHMG 游戏引擎是我自己写的一个简单的2D游戏引擎，旨在帮助�
 你可以从GitHub仓库下载源代码：
 
 ```bash
-git clone https://github.com/your_username/JHMG-engine.git
+git clone https://github.com/jeanhua/JHMG-engine.git
 ```
 ### 类图
 
@@ -33,7 +33,8 @@ Game* mainGame;
 
 //声明函数
 void loop();
-void trigle(gameObject* other);
+void trigger(gameObject* other);
+void onClick(int messageType, jhVector2 position);
 
 int main(int argc, char* argv[])
 {
@@ -44,9 +45,6 @@ int main(int argc, char* argv[])
 	mainGame->setWindowTitle("Game");
 	//设置游戏帧率
 	mainGame->setTargetFrame(60);
-	//设置游戏循环函数(每帧调用一次)
-	mainGame->setGameLoopFunc(loop);
-
 	//创建UI对象
 	gameUI* xiaoxin = new gameUI(jhVector2(0,0),jhVector2(50,50),".\\xiaoxin.png",true);
 	//添加UI对象到游戏中
@@ -57,11 +55,17 @@ int main(int argc, char* argv[])
 	mainGame->addGameUIText("text", text);
 	//创建游戏对象
 	gameObject* player = new gameObject(new jhObject2D::circle(25,jhVector2(170,70)),".\\pkq.png",50,50,true);
-	gameObject* pikaqiu = new gameObject(new jhObject2D::circle(25, jhVector2(270, 70)), ".\\pkq.png", 50, 50, true);
-	//绑定游戏对象碰撞事件
-	player->setOnCollision(trigle);
+	//绑定游戏对象碰撞事件(物体碰撞调用)
+	player->setOnCollision(trigger);
+	//绑定游戏对象循环事件(每帧调用一次)
+	player->setGameLoopFunc(loop);
 	//添加游戏对象到游戏中
 	mainGame->addGameObject("player",player);
+	//创建游戏对象
+	gameObject* pikaqiu = new gameObject(new jhObject2D::circle(25, jhVector2(270, 70)), ".\\pkq.png", 50, 50, true);
+	//绑定游戏对象点击事件(点击调用)
+	pikaqiu->mouseAction->setClickFunc(onClick);
+	//添加游戏对象到游戏中
 	mainGame->addGameObject("pikaqiu", pikaqiu);
 
 	//初始化窗口开始游戏
@@ -117,9 +121,22 @@ void loop()
 	}
 }
 
-void trigle(gameObject* other)
+void trigger(gameObject* other)
 {
 	//碰撞输出名字
 	cout<<mainGame->getName(other)<<endl;
+}
+
+void onClick(int messageType, jhVector2 position)
+{
+	//点击输出
+	if(messageType==MouseMessage::leftDown)
+		cout << "左键按下" << endl;
+	if (messageType == MouseMessage::leftUp)
+		cout << "左键放开" << endl;
+	if (messageType == MouseMessage::rightDown)
+		cout << "右键按下" << endl;
+	if (messageType == MouseMessage::rightUp)
+		cout << "右键放开" << endl;
 }
 ```

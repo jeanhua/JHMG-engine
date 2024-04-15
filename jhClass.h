@@ -274,13 +274,13 @@ namespace jhObject2D
 		//获取左上角坐标
 		virtual jhVector2 getLeftTopPosition()=0;
 		// 判断是否在三角形内
-		virtual bool isTrigleEnter(const triangle& other) =0;
+		virtual bool isTriggerEnter(const triangle& other) =0;
 		// 判断是否在矩形内
-		virtual bool isTrigleEnter(const rectangle& other)=0;
+		virtual bool isTriggerEnter(const rectangle& other)=0;
 		// 判断是否在菱形内
-		virtual bool isTrigleEnter(const diamond& other) =0;
+		virtual bool isTriggerEnter(const diamond& other) =0;
 		// 判断是否在圆形内
-		virtual bool isTrigleEnter(const circle& other)=0;
+		virtual bool isTriggerEnter(const circle& other)=0;
 	private:
 		// 位置(图形中心坐标，即外接圆中心坐标)
 		jhVector2 position;
@@ -303,13 +303,13 @@ namespace jhObject2D
 		//获取左上角坐标
 		virtual jhVector2 getLeftTopPosition();
 		// 判断是否在三角形内
-		virtual bool isTrigleEnter(const triangle& other) override;
+		virtual bool isTriggerEnter(const triangle& other) override;
 		// 判断是否在矩形内
-		virtual bool isTrigleEnter(const rectangle& other) override;
+		virtual bool isTriggerEnter(const rectangle& other) override;
 		// 判断是否在菱形内
-		virtual bool isTrigleEnter(const diamond& other) override;
+		virtual bool isTriggerEnter(const diamond& other) override;
 		// 判断是否在圆形内
-		virtual bool isTrigleEnter(const circle& other) override;
+		virtual bool isTriggerEnter(const circle& other) override;
 	};
 
 	// 矩形
@@ -331,13 +331,13 @@ namespace jhObject2D
 		//获取左上角坐标
 		virtual jhVector2 getLeftTopPosition();
 		// 判断是否在三角形内
-		virtual bool isTrigleEnter(const triangle& other) override;
+		virtual bool isTriggerEnter(const triangle& other) override;
 		// 判断是否在矩形内
-		virtual bool isTrigleEnter(const rectangle& other) override;
+		virtual bool isTriggerEnter(const rectangle& other) override;
 		// 判断是否在菱形内
-		virtual bool isTrigleEnter(const diamond& other) override;
+		virtual bool isTriggerEnter(const diamond& other) override;
 		// 判断是否在圆形内
-		virtual bool isTrigleEnter(const circle& other) override;
+		virtual bool isTriggerEnter(const circle& other) override;
 
 	};
 
@@ -366,13 +366,13 @@ namespace jhObject2D
 		// 获取面积
 		virtual float getAreaSize();
 		// 判断是否在三角形内
-		virtual bool isTrigleEnter(const triangle& other) override ;
+		virtual bool isTriggerEnter(const triangle& other) override ;
 		// 判断是否在矩形内
-		virtual bool isTrigleEnter(const rectangle& other) override;
+		virtual bool isTriggerEnter(const rectangle& other) override;
 		// 判断是否在菱形内
-		virtual bool isTrigleEnter(const diamond& other) override;
+		virtual bool isTriggerEnter(const diamond& other) override;
 		// 判断是否在圆形内
-		virtual bool isTrigleEnter(const circle& other) override;
+		virtual bool isTriggerEnter(const circle& other) override;
 	};
 
 	// 菱形
@@ -392,13 +392,13 @@ namespace jhObject2D
 		//获取左上角坐标
 		virtual jhVector2 getLeftTopPosition();
 		// 判断是否在三角形内
-		virtual bool isTrigleEnter(const triangle& other) override;
+		virtual bool isTriggerEnter(const triangle& other) override;
 		// 判断是否在矩形内
-		virtual bool isTrigleEnter(const rectangle& other) override;
+		virtual bool isTriggerEnter(const rectangle& other) override;
 		// 判断是否在菱形内
-		virtual bool isTrigleEnter(const diamond& other) override;
+		virtual bool isTriggerEnter(const diamond& other) override;
 		// 判断是否在圆形内
-		virtual bool isTrigleEnter(const circle& other) override;
+		virtual bool isTriggerEnter(const circle& other) override;
 
 	};
 };
