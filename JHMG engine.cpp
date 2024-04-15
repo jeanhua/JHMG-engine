@@ -3,9 +3,9 @@
 gameObject::gameObject(jhObject2D::circle* transform, LPCTSTR file, int width, int height, bool visible)
 {
 	this->transform.circle = transform;
-	this->transformType ='c';
+	this->transformType = 'c';
 	IMAGE* img = new IMAGE;
-	loadimage(img, file,width,height,true);
+	loadimage(img, file, width, height, true);
 	this->image = img;
 	this->mouseAction = new MouseAction;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
@@ -18,7 +18,7 @@ gameObject::gameObject(jhObject2D::rectangle* transform, LPCTSTR file, int width
 	this->transform.rectangle = transform;
 	this->transformType = 'r';
 	IMAGE* img = new IMAGE;
-	loadimage(img, file,width,height,true);
+	loadimage(img, file, width, height, true);
 	this->image = img;
 	this->mouseAction = new MouseAction;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
@@ -31,7 +31,7 @@ gameObject::gameObject(jhObject2D::diamond* transform, LPCTSTR file, int width, 
 	this->transform.diamond = transform;
 	this->transformType = 'd';
 	IMAGE* img = new IMAGE;
-	loadimage(img, file,width,height,true);
+	loadimage(img, file, width, height, true);
 	this->image = img;
 	this->mouseAction = new MouseAction;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
@@ -44,7 +44,7 @@ gameObject::gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width,
 	this->transform.triangle = transform;
 	this->transformType = 't';
 	IMAGE* img = new IMAGE;
-	loadimage(img, file,width,height,true);
+	loadimage(img, file, width, height, true);
 	this->image = img;
 	this->mouseAction = new MouseAction;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
@@ -68,7 +68,7 @@ gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 	this->position = position;
 	this->size = size;
 	IMAGE* img = new IMAGE;
-	loadimage(img, image.to_char(),size.x,size.y,true);
+	loadimage(img, image.to_char(), size.x, size.y, true);
 	this->image = img;
 	this->mouseAction = new MouseAction;
 	this->mouseAction->beginPosition = position;
@@ -206,7 +206,7 @@ void Game::initWindow()
 
 void Game::setTargetFrame(int targetFrame)
 {
-	if(targetFrame>0)
+	if (targetFrame > 0)
 		this->targetFrame = targetFrame;
 	else
 		this->targetFrame = 60;
@@ -262,7 +262,7 @@ void Game::gameLoop()
 				if (it->value->gameLoopFunc != NULL)
 					it->value->gameLoopFunc();
 				//获取消息
-				while(isMessage)
+				while (isMessage)
 				{
 					//调用鼠标事件
 					it->value->mouseAction->getMouseMessage(msg);
@@ -271,33 +271,33 @@ void Game::gameLoop()
 					break;
 				}
 				//遍历其他物体计算碰撞
-				if(it->value->onCollision!=NULL)
-				for(auto it2 = gameObjects.p_first; it2 != NULL; it2 = it2->p_next)
-				{
-					if (it != it2)
+				if (it->value->onCollision != NULL)
+					for (auto it2 = gameObjects.p_first; it2 != NULL; it2 = it2->p_next)
 					{
-						if (it2->value->transformType == 'c')
+						if (it != it2)
 						{
-							if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.circle))
-								it->value->onCollision(it2->value);
-						}
-						else if (it2->value->transformType == 'r')
-						{
-							if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.rectangle))
-								it->value->onCollision(it2->value);
-						}
-						else if (it2->value->transformType == 'd')
-						{
-							if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.diamond))
-								it->value->onCollision(it2->value);
-						}
-						else if (it2->value->transformType == 't')
-						{
-							if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.triangle))
-								it->value->onCollision(it2->value);
+							if (it2->value->transformType == 'c')
+							{
+								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.circle))
+									it->value->onCollision(it2->value);
+							}
+							else if (it2->value->transformType == 'r')
+							{
+								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.rectangle))
+									it->value->onCollision(it2->value);
+							}
+							else if (it2->value->transformType == 'd')
+							{
+								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.diamond))
+									it->value->onCollision(it2->value);
+							}
+							else if (it2->value->transformType == 't')
+							{
+								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.triangle))
+									it->value->onCollision(it2->value);
+							}
 						}
 					}
-				}
 			}
 			//清除消息缓存
 			flushmessage(-1);
@@ -305,13 +305,13 @@ void Game::gameLoop()
 			for (auto it = gameUIs.p_first; it != NULL; it = it->p_next)
 			{
 				if (it->value->visible)
-				putimagePNG(it->value->position.x, it->value->position.y, it->value->image);
+					putimagePNG(it->value->position.x, it->value->position.y, it->value->image);
 			}
 			//遍历界面文本
 			for (auto it = gameUITexts.p_first; it != NULL; it = it->p_next)
 			{
-				if(it->value->visible)
-				outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
+				if (it->value->visible)
+					outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
 			}
 			//清除缓存
 			FlushBatchDraw();
@@ -355,10 +355,10 @@ void Game::removeGameObject(jhString name)
 			delete it->value->mouseAction;
 			it->value->mouseAction = NULL;
 			delete it->value;
-			it->value= NULL;
+			it->value = NULL;
 			Game::gameObjectsMap.erase(name);
 			this->gameObjects.deleteList(it);
-			this->gameTotalMap[name]-=100;
+			this->gameTotalMap[name] -= 100;
 			return;
 		}
 	}
@@ -371,9 +371,9 @@ gameObject* Game::getGameObject(jhString name)
 
 jhString Game::getName(gameObject* gameObject)
 {
-	for(auto it:gameObjectsMap)
+	for (auto it : gameObjectsMap)
 	{
-		if(it.second==gameObject)
+		if (it.second == gameObject)
 		{
 			return it.first;
 		}
@@ -392,7 +392,7 @@ void Game::addGameUI(jhString name, gameUI* gameUI)
 	this->gameTotalMap[name] += 10;
 }
 
-void Game::addGameUIText(jhString name,gameUIText* text)
+void Game::addGameUIText(jhString name, gameUIText* text)
 {
 	if (this->gameTotalMap[name] % 10 >= 1)
 	{

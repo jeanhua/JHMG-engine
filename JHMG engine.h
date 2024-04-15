@@ -9,7 +9,7 @@ using namespace std;
 #include<mmsystem.h>
 #pragma comment(lib,"winmm.lib")
 
-/*	
+/*
 坐标系说明：
 	坐标原点在设备的左上角，X 轴向右为正，Y 轴向下为正，度量单位是像素
 */
@@ -80,15 +80,15 @@ public:
 	//游戏对象可视性
 	bool visible;
 	//构造函数
-	gameObject(jhObject2D::circle* transform, LPCTSTR file,int width ,int height, bool visible = true);
-	gameObject(jhObject2D::rectangle* transform, LPCTSTR file,int width ,int height, bool visible = true);
-	gameObject(jhObject2D::diamond* transform, LPCTSTR file,int width ,int height, bool visible = true);
-	gameObject(jhObject2D::triangle* transform, LPCTSTR file,int width ,int height, bool visible = true);
+	gameObject(jhObject2D::circle* transform, LPCTSTR file, int width, int height, bool visible = true);
+	gameObject(jhObject2D::rectangle* transform, LPCTSTR file, int width, int height, bool visible = true);
+	gameObject(jhObject2D::diamond* transform, LPCTSTR file, int width, int height, bool visible = true);
+	gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width, int height, bool visible = true);
 	//设置碰撞回调函数
 	void setOnCollision(void (*onCollision)(gameObject* gameObject));
 	//设置游戏循环回调函数
 	void setGameLoopFunc(void(*gameLoopFunc)());
-	
+
 
 private:
 	//游戏对象的图片
@@ -122,7 +122,7 @@ public:
 //游戏界面文字类
 class gameUIText
 {
-	friend class Game;	
+	friend class Game;
 public:
 	//文字
 	jhString text;
@@ -174,35 +174,35 @@ public:
 //键盘消息类
 enum KeyMessage
 {
-	a =65,
-	b =66,
-	c =67,
-	d =68,
-	e =69,
-	f =70,
-	g =71,
-	h =72,
-	i =73,
-	j =74,
-	k =75,
-	l =76,
-	m =77,
-	n =78,
-	o =79,
-	p =80,
-	q =81,
-	r =82,
-	s =83,
-	t =84,
-	u =85,
-	v =86,
-	w =87,
-	x =88,
-	y =89,
-	z =90,
-	enter =13,
-	space =32,
-	esc =27,
+	a = 65,
+	b = 66,
+	c = 67,
+	d = 68,
+	e = 69,
+	f = 70,
+	g = 71,
+	h = 72,
+	i = 73,
+	j = 74,
+	k = 75,
+	l = 76,
+	m = 77,
+	n = 78,
+	o = 79,
+	p = 80,
+	q = 81,
+	r = 82,
+	s = 83,
+	t = 84,
+	u = 85,
+	v = 86,
+	w = 87,
+	x = 88,
+	y = 89,
+	z = 90,
+	enter = 13,
+	space = 32,
+	esc = 27,
 };
 
 //键盘输入类
@@ -239,10 +239,10 @@ private:
 	//获取鼠标点击事件
 	void getMouseMessage(const ExMessage& msg);
 	//鼠标点击回调函数
-	void (*onClick)(int mouseMessage,jhVector2 position) = NULL;
+	void (*onClick)(int mouseMessage, jhVector2 position) = NULL;
 public:
 	//设置鼠标点击回调函数
-	void setClickFunc(void (*onClick)(int mouseMessage,jhVector2 position));
+	void setClickFunc(void (*onClick)(int mouseMessage, jhVector2 position));
 };
 
 //游戏类
@@ -252,7 +252,7 @@ private:
 	//游戏窗口句柄
 	HWND window;
 	//游戏窗口大小
-	jhVector2 windowSize= jhVector2(800, 600);
+	jhVector2 windowSize = jhVector2(800, 600);
 	//游戏窗口标题
 	jhString windowTitle = "not define";
 	//游戏物体
@@ -266,13 +266,13 @@ private:
 	//游戏音效
 	gameSound Sound;
 	//游戏物体map
-	map<jhString,gameObject*> gameObjectsMap;
+	map<jhString, gameObject*> gameObjectsMap;
 	//游戏界面map
-	map<jhString,gameUI*> gameUIMap;
+	map<jhString, gameUI*> gameUIMap;
 	//游戏界面文字map
-	map<jhString,gameUIText*> gameUITextsMap;
+	map<jhString, gameUIText*> gameUITextsMap;
 	//游戏总map 物体100，界面UI10，界面文字1
-	map<jhString,int> gameTotalMap;
+	map<jhString, int> gameTotalMap;
 	//游戏循环
 	void gameLoop();
 public:
@@ -291,7 +291,7 @@ public:
 	//获取游戏窗口标题
 	jhString getWindowTitle();
 	//添加游戏物体
-	void addGameObject(jhString name,gameObject* gameObject);
+	void addGameObject(jhString name, gameObject* gameObject);
 	//删除游戏物体
 	void removeGameObject(jhString name);
 	//获取游戏物体
@@ -299,7 +299,7 @@ public:
 	//获取游戏对象名字
 	jhString getName(gameObject* gameObject);
 	//添加游戏界面
-	void addGameUI(jhString name,gameUI* gameUI);
+	void addGameUI(jhString name, gameUI* gameUI);
 	//添加游戏界面文字
 	void addGameUIText(jhString name, gameUIText* text);
 	//删除游戏界面

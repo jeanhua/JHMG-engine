@@ -1,107 +1,131 @@
 #include "jhClass.h"
 
-ostream& operator<<(ostream& cout,const jhString& str)
+ostream& operator<<(ostream& cout, const jhString& str)
 {
 	cout << str.str;
 	return cout;
 }
-istream& operator>>(istream& cin,const jhString& str)
+
+istream& operator>>(istream& cin, const jhString& str)
 {
 	cin >> str.str;
 	return cin;
 }
+
 jhString::jhString()
 {
 	this->str = "";
 }
+
 jhString::jhString(const string& str)
 {
 	this->str = str;
 }
+
 jhString::jhString(const char* str)
 {
 	this->str = string(str);
 }
+
 jhString::jhString(const jhString& str)
 {
 	this->str = str.str;
 }
+
 jhString jhString::operator+(const jhString& str)
 {
 	return jhString(this->str + str.str);
 }
+
 jhString jhString::operator+(const string& str)
 {
 	return jhString(this->str + str);
 }
+
 jhString jhString::operator=(const jhString& str)
 {
 	this->str = str.str;
 	return *this;
 }
+
 jhString jhString::operator=(const string& str)
 {
 	this->str = str;
 	return *this;
 }
+
 jhString jhString::operator+=(const jhString& str)
 {
 	this->str += str.str;
 	return *this;
 }
+
 jhString jhString::operator+=(const string& str)
 {
 	this->str += str;
 	return *this;
 }
+
 bool jhString::operator==(const jhString& str)
 {
 	if (this->str == str.str)
 	{
 		return true;
 	}
+
 	else return false;
 }
+
 bool jhString::operator<(const jhString& str)const
 {
-	if(this->str<str.str)
+	if (this->str < str.str)
 	{
 		return true;
 	}
+
 	else return false;
 }
+
 bool jhString::operator>(const jhString& str)const
 {
-	if(this->str>str.str)
+	if (this->str > str.str)
 	{
 		return true;
 	}
+
 	else return false;
 }
+
 int jhString::to_int()
 {
 	return atoi(this->str.c_str());
 }
+
 char* jhString::to_char()
 {
 	return (char*)(this->str.c_str());
 }
+
 float jhString::to_float()
 {
 	return atof(this->str.c_str());
 }
+
 int jhString::indexOf(const string& str)
 {
 	return this->str.find(str);
 }
+
 int jhString::indexOf(const jhString& str)
 {
 	return this->str.find(str.str);
 }
+
 string jhString::to_stdString()
 {
 	return this->str;
 }
+
 string jhString::substr(int begin, int end)
 {
 	if (end <= begin)
@@ -109,7 +133,8 @@ string jhString::substr(int begin, int end)
 	else
 		return this->str;
 }
-string jhString::substr(const string& leftStr,const string& rightStr)//»°≥ˆ÷–º‰◊÷∑˚¥Æ
+
+string jhString::substr(const string& leftStr, const string& rightStr)//»°≥ˆ÷–º‰◊÷∑˚¥Æ
 {
 	int left = this->str.find(leftStr);
 	int right;
@@ -117,22 +142,25 @@ string jhString::substr(const string& leftStr,const string& rightStr)//»°≥ˆ÷–º‰◊
 	{
 		return "";//’“≤ªµΩ◊Û±ﬂ£¨∑µªÿø’
 	}
+
 	else
 	{
-		right = this->str.find(rightStr,left);
+		right = this->str.find(rightStr, left);
 	}
+
 	if (right != -1)//’“µΩ”“±ﬂ
 	{
 		return this->str.substr(left + leftStr.length(), right - (left + leftStr.length()));
 	}
+
 	else//’“≤ªµΩ”“±ﬂ£¨Ωÿ»°¥”◊Û±ﬂµΩƒ©Œ≤
 	{
 		return this->str.substr(left + 1);
 	}
+
 }
 
-
-ostream& operator<<(ostream& cout,const jhFraction& num)
+ostream& operator<<(ostream& cout, const jhFraction& num)
 {
 	if (num.m != 1 && num.s != 0)
 		cout << num.s << "/" << num.m;
@@ -140,7 +168,8 @@ ostream& operator<<(ostream& cout,const jhFraction& num)
 		cout << num.s;
 	return cout;
 }
-istream& operator>>(istream& cin,jhFraction& num)
+
+istream& operator>>(istream& cin, jhFraction& num)
 {
 	int s, m;
 	scanf("%d/%d", &s, &m);
@@ -152,6 +181,7 @@ istream& operator>>(istream& cin,jhFraction& num)
 	num.simplify();
 	return cin;
 }
+
 void jhFraction::simplify()
 {
 	if (s >= 0 && m > 0)
@@ -163,8 +193,11 @@ void jhFraction::simplify()
 				s /= i; m /= i;
 				i = 1;
 			}
+
 		}
+
 	}
+
 	if (s <= 0 && m > 0)
 	{
 		s = -s;
@@ -175,45 +208,56 @@ void jhFraction::simplify()
 				s /= i; m /= i;
 				i = 1;
 			}
+
 		}
+
 		s = -s;
 	}
+
 }
+
 void jhFraction::print()
 {
 	cout << s << "/" << m;
 }
+
 jhFraction::jhFraction()
 {
 	s = 0; m = 1;
 }
+
 jhFraction::jhFraction(const jhFraction& num)
 {
 	s = num.s;
 	m = num.m;
 }
+
 jhFraction::jhFraction(int sm)
 {
 	s = sm;
 	m = 1;
 }
+
 jhFraction::jhFraction(double num)
 {
-	int M=1;
-	while (num-int(num)!=0)
+	int M = 1;
+	while (num - int(num) != 0)
 	{
 		num *= 10;
 		M *= 10;
 	}
+
 	s = num; m = M;
 	simplify();
 }
+
 jhFraction::jhFraction(int s, int m)
 {
 	if ((s < 0 && m < 0) || (s > 0 && m < 0))
 	{
 		s = -s; m = -m;
 	}
+
 	this->s = s;
 	if (m != 0)
 		this->m = m;
@@ -221,6 +265,7 @@ jhFraction::jhFraction(int s, int m)
 		this->m = 1;
 	simplify();
 }
+
 float jhFraction::to_float()
 {
 	return float(s) / m;
@@ -230,62 +275,76 @@ jhFraction jhFraction::operator+(const jhFraction& num)
 {
 	return jhFraction(this->s * num.m + this->m * num.s, this->m * num.m);
 }
+
 jhFraction jhFraction::operator+(float num)
 {
 	return jhFraction(this->to_float() + num);
 }
+
 jhFraction& jhFraction::operator+=(float num)
 {
 	*this = *this + num;
 	return *this;
 }
+
 jhFraction jhFraction::operator-(const jhFraction& num)
 {
 	return jhFraction(this->s * num.m - this->m * num.s, this->m * num.m);
 }
+
 jhFraction jhFraction::operator-(float num)
 {
 	return jhFraction(this->to_float() - num);
 }
+
 jhFraction jhFraction::operator*(const jhFraction& num)
 {
 	return jhFraction(this->s * num.s, this->m * num.m);
 }
+
 jhFraction jhFraction::operator*(float num)
 {
 	return jhFraction(this->to_float() * num);
 }
+
 jhFraction jhFraction::operator*=(float num)
 {
 	*this = *this * num;
 	return *this;
 }
+
 jhFraction jhFraction::operator=(const jhFraction& num)
 {
 	this->s = num.s;
 	this->m = num.m;
 	return *this;
 }
+
 jhFraction jhFraction::operator/(const jhFraction& num)
 {
 	return jhFraction(this->s * num.m, this->m * num.s);
 }
+
 jhFraction jhFraction::operator/(float num)
 {
 	return jhFraction(this->to_float() / num);
 }
+
 jhFraction jhFraction::operator/=(float num)
 {
-	if(num!=0)
+	if (num != 0)
 	{
 		*this = *this / num;
 	}
+
 	else
 	{
 		throw std::invalid_argument("Can't be divided by 0");
 	}
+
 	return *this;
 }
+
 bool jhFraction::operator>(const jhFraction& num)
 {
 	if (this->s * num.m - num.s - this->m > 0)
@@ -293,6 +352,7 @@ bool jhFraction::operator>(const jhFraction& num)
 	else
 		return false;
 }
+
 bool jhFraction::operator>(float num)
 {
 	if (this->to_float() > num)
@@ -300,15 +360,18 @@ bool jhFraction::operator>(float num)
 	else
 		return false;
 }
+
 bool jhFraction::operator>=(const jhFraction& num)
 {
 	if (*this > num || *this == num)
 	{
 		return true;
 	}
+
 	else
 		return false;
 }
+
 bool jhFraction::operator>=(float num)
 {
 	if (this->to_float() >= num)
@@ -316,15 +379,18 @@ bool jhFraction::operator>=(float num)
 	else
 		return false;
 }
+
 bool jhFraction::operator<=(const jhFraction& num)
 {
 	if (*this < num || *this == num)
 	{
 		return true;
 	}
+
 	else
 		return false;
 }
+
 bool jhFraction::operator<=(float num)
 {
 	if (this->to_float() <= num)
@@ -332,6 +398,7 @@ bool jhFraction::operator<=(float num)
 	else
 		return false;
 }
+
 bool jhFraction::operator<(const jhFraction& num)
 {
 	if (this->s * num.m - num.s - this->m > 0)
@@ -339,6 +406,7 @@ bool jhFraction::operator<(const jhFraction& num)
 	else
 		return true;
 }
+
 bool jhFraction::operator<(float num)
 {
 	if (this->to_float() < num)
@@ -346,6 +414,7 @@ bool jhFraction::operator<(float num)
 	else
 		return false;
 }
+
 bool jhFraction::operator==(const jhFraction& num)
 {
 	if (this->s * num.m - num.s - this->m == 0)
@@ -353,6 +422,7 @@ bool jhFraction::operator==(const jhFraction& num)
 	else
 		return false;
 }
+
 bool jhFraction::operator==(float num)
 {
 	if (this->to_float() == num)
@@ -360,11 +430,13 @@ bool jhFraction::operator==(float num)
 	else
 		return false;
 }
+
 jhFraction& jhFraction::operator+=(const jhFraction& num)
 {
 	*this = *this + num;
 	return *this;
 }
+
 jhFraction& jhFraction::operator-=(const jhFraction& num)
 {
 	*this = *this - num;
@@ -381,50 +453,60 @@ jhVector2::jhVector2()
 {
 	x = 0; y = 0;
 }
+
 jhVector2::jhVector2(float x, float y)
 {
 	this->x = x;
 	this->y = y;
 }
+
 jhVector2::jhVector2(const jhVector2& v2)
 {
 	this->x = v2.x;
 	this->y = v2.y;
 }
+
 jhVector2& jhVector2::operator=(const jhVector2& v2)
 {
 	this->x = v2.x;
 	this->y = v2.y;
 	return *this;
 }
+
 jhVector2 jhVector2::operator+(const jhVector2& v2)
 {
 	return jhVector2(this->x + v2.x, this->y + v2.y);
 }
+
 jhVector2& jhVector2::operator+=(const jhVector2& v2)
 {
 	this->x += v2.x;
 	this->y += v2.y;
 	return *this;
 }
+
 jhVector2 jhVector2::operator-(const jhVector2& v2)
 {
 	return jhVector2(this->x - v2.x, this->y - v2.y);
 }
+
 jhVector2& jhVector2::operator-=(const jhVector2& v2)
 {
 	this->x -= v2.x;
 	this->y -= v2.y;
 	return *this;
 }
+
 jhVector2 jhVector2::operator*(float i)
 {
 	return jhVector2(this->x * i, this->y * i);
 }
+
 jhVector2 jhVector2::operator/(float i)
 {
 	return jhVector2(this->x / i, this->y / i);
 }
+
 bool jhVector2::operator==(const jhVector2& v2)
 {
 	if (this->x == v2.x && this->y == v2.y)
@@ -432,6 +514,7 @@ bool jhVector2::operator==(const jhVector2& v2)
 	else
 		return false;
 }
+
 double jhVector2::destance(const jhVector2& obj)
 {
 	return sqrt(pow(this->x - obj.x, 2) + pow(this->y - obj.y, 2));
@@ -466,6 +549,7 @@ inline void jhList<T>::addList(T value)
 		this->p_first = newlist;
 		newlist->p_back = NULL;
 	}
+
 	else
 	{
 		node* p = this->p_first;
@@ -473,9 +557,11 @@ inline void jhList<T>::addList(T value)
 		{
 			p = p->p_next;
 		}
+
 		newlist->p_back = p;
 		p->p_next = newlist;
 	}
+
 }
 
 template<class T>
@@ -489,12 +575,15 @@ inline void jhList<T>::deleteList(node* list)
 			delete list;
 			return;
 		}
+
 		this->p_first = list->p_next;
 		if (list->p_next != NULL)
 		{
 			list->p_next->p_back = NULL;
 		}
+
 	}
+
 	else
 	{
 		list->p_back->p_next = list->p_next;
@@ -502,7 +591,9 @@ inline void jhList<T>::deleteList(node* list)
 		{
 			list->p_next->p_back = list->p_back;
 		}
+
 	}
+
 	delete list;
 }
 
@@ -516,12 +607,13 @@ template<class T>
 inline jhList<T>::~jhList()
 {
 	node* now = this->p_first;
-	while (now!=NULL)
+	while (now != NULL)
 	{
 		node* tmp = now;
 		now = now->p_next;
 		delete tmp;
 	}
+
 }
 
 extern class gameObject;
@@ -530,7 +622,6 @@ extern class gameUIText;
 template class jhList<gameObject*>;
 template class jhList<gameUI*>;
 template class jhList<gameUIText*>;
-
 jhMatrix::jhMatrix(int row, int column)
 {
 	this->init(row, column);
@@ -540,7 +631,9 @@ jhMatrix::jhMatrix(int row, int column)
 		{
 			matrix[i][j] = 0;
 		}
+
 	}
+
 }
 
 jhMatrix::jhMatrix(const jhMatrix& other)
@@ -555,7 +648,9 @@ jhMatrix::jhMatrix(const jhMatrix& other)
 		{
 			this->matrix[i][j] = other.matrix[i][j];
 		}
+
 	}
+
 }
 
 jhMatrix::~jhMatrix()
@@ -576,9 +671,11 @@ jhMatrix::jhMatrix(float* other, int row, int column)
 	{
 		for (int j = 0; j < column; j++)
 		{
-			this->matrix[i][j] = *(other+i*column+j);
+			this->matrix[i][j] = *(other + i * column + j);
 		}
+
 	}
+
 }
 
 void jhMatrix::setValue(int row, int column, float value)
@@ -588,15 +685,17 @@ void jhMatrix::setValue(int row, int column, float value)
 
 void jhMatrix::print(bool isFraction)
 {
-	if(isFraction==false)
+	if (isFraction == false)
 		for (int i = 0; i < row; i++)
 		{
 			for (int j = 0; j < column; j++)
 			{
 				cout << matrix[i][j] << " ";
 			}
+
 			cout << endl;
 		}
+
 	else
 		for (int i = 0; i < row; i++)
 		{
@@ -604,14 +703,17 @@ void jhMatrix::print(bool isFraction)
 			{
 				cout << jhFraction(matrix[i][j]) << " ";
 			}
+
 			cout << endl;
 		}
+
 }
 
 void jhMatrix::swapRows(int row1, int row2) {
 	if (row1 < 0 || row1 >= row || row2 < 0 || row2 >= row) {
 		throw std::out_of_range("Row index out of range");
 	}
+
 	float* temp = matrix[row1];
 	matrix[row1] = matrix[row2];
 	matrix[row2] = temp;
@@ -621,37 +723,44 @@ void jhMatrix::divideRow(int row, float divisor) {
 	if (row < 0 || row >= this->row) {
 		throw std::out_of_range("Row index out of range");
 	}
+
 	else if (divisor == 0)
 	{
 		throw std::invalid_argument("Can't be divided by 0");
 	}
+
 	for (int j = 0; j < column; ++j) {
 		matrix[row][j] /= divisor;
 	}
+
 }
 
 void jhMatrix::addToRow(int sourceRow, int destRow, float multiple) {
 	if (sourceRow < 0 || sourceRow >= row || destRow < 0 || destRow >= row) {
 		throw std::out_of_range("Row index out of range");
 	}
+
 	for (int j = 0; j < column; ++j) {
 		matrix[destRow][j] += matrix[sourceRow][j] * multiple;
 	}
-}
 
+}
 
 jhMatrix jhMatrix::getTransposeMatrix()
 {
 	jhMatrix transpose(column, row); // –¬Ω®“ª∏ˆæÿ’Û£¨––¡–ª•ªª
 	for (int i = 0; i < row; ++i)
 	{
-		for (int j = 0; j < column; ++j) 
+		for (int j = 0; j < column; ++j)
 		{
 			transpose.matrix[j][i] = matrix[i][j]; // ◊™÷√
 		}
+
 	}
+
 	return transpose;
 }
+
 float calDeterminant(float** det, int n)//det-––¡– Ω£¨n:––¡– ΩµƒΩ◊ ˝
 {
 	float detVal = 0;//––¡– Ωµƒ÷µ
@@ -670,8 +779,10 @@ float calDeterminant(float** det, int n)//det-––¡– Ω£¨n:––¡– ΩµƒΩ◊ ˝
 				else
 					tempdet[j][k] = det[j + 1][k + 1];
 			}
+
 		detVal += det[0][i] * pow(-1.0, i) * calDeterminant(tempdet, n - 1);
 	}
+
 	for (int i = 0; i < n - 1; i++)delete[] tempdet[i]; delete[] tempdet;
 	return detVal;
 }
@@ -681,6 +792,7 @@ jhMatrix jhMatrix::getInverseMatrix() {
 	if (row != column) {
 		throw std::invalid_argument("Matrix is not square.");
 	}
+
 	// ¥¥Ω®¿©‘ˆæÿ’Û
 	double** augmentedMatrix = new double* [row];
 	for (int i = 0; i < row; ++i) {
@@ -689,7 +801,9 @@ jhMatrix jhMatrix::getInverseMatrix() {
 			augmentedMatrix[i][j] = matrix[i][j];
 			augmentedMatrix[i][j + row] = (i == j) ? 1 : 0; // ∂‘Ω«œﬂ÷√Œ™1£¨∆‰”‡÷√Œ™0
 		}
+
 	}
+
 	// ∏ﬂÀπœ˚‘™
 	for (int i = 0; i < row; ++i) {
 		// ≈–∂œ÷˜‘™Àÿ «∑ÒŒ™0£¨»Áπ˚ «‘ÚΩªªª––
@@ -698,16 +812,20 @@ jhMatrix jhMatrix::getInverseMatrix() {
 			while (swapRow < row && augmentedMatrix[swapRow][i] == 0) {
 				++swapRow;
 			}
+
 			if (swapRow == row) {
 				throw std::invalid_argument("Matrix is singular.");
 			}
+
 			std::swap(augmentedMatrix[i], augmentedMatrix[swapRow]);
 		}
+
 		// Ω´÷˜‘™ÀÿπÈ“ª
 		double pivot = augmentedMatrix[i][i];
 		for (int j = 0; j < 2 * row; ++j) {
 			augmentedMatrix[i][j] /= pivot;
 		}
+
 		//  π”√÷˜‘™Àÿœ˚»•∆‰À˚––
 		for (int j = 0; j < row; ++j) {
 			if (j != i) {
@@ -715,37 +833,46 @@ jhMatrix jhMatrix::getInverseMatrix() {
 				for (int k = 0; k < 2 * row; ++k) {
 					augmentedMatrix[j][k] -= factor * augmentedMatrix[i][k];
 				}
+
 			}
+
 		}
+
 	}
+
 	// Ã·»°ƒÊæÿ’Û
 	jhMatrix inverse(row, column);
 	for (int i = 0; i < row; ++i) {
 		for (int j = 0; j < row; ++j) {
 			inverse.matrix[i][j] = augmentedMatrix[i][j + row];
 		}
+
 	}
+
 	//  Õ∑≈ƒ⁄¥Ê
 	for (int i = 0; i < row; ++i) {
 		delete[] augmentedMatrix[i];
 	}
+
 	delete[] augmentedMatrix;
 	return inverse;
 }
-
 
 float jhMatrix::getDeterminant()
 {
 	if (row != column) {
 		throw std::invalid_argument("Cannot calculate determinant for non-square matrix");
 	}
+
 	if (row == 1) {
 		return matrix[0][0];
 	}
-	else 
+
+	else
 	{
 		return calDeterminant(this->matrix, row);
 	}
+
 }
 
 // æÿ’Ûº”∑®
@@ -753,55 +880,64 @@ jhMatrix jhMatrix::operator+(const jhMatrix& other) {
 	if (row != other.row || column != other.column) {
 		throw std::invalid_argument("Matrix dimensions do not match for addition");
 	}
+
 	jhMatrix result(row, column);
-	for (int i = 0; i < row; ++i) 
+	for (int i = 0; i < row; ++i)
 	{
-		for (int j = 0; j < column; ++j) 
+		for (int j = 0; j < column; ++j)
 		{
 			result.matrix[i][j] = matrix[i][j] + other.matrix[i][j];
 		}
+
 	}
+
 	return result;
 }
 
 // æÿ’Ûºı∑®
 jhMatrix jhMatrix::operator-(const jhMatrix& other)
 {
-	if (row != other.row || column != other.column) 
+	if (row != other.row || column != other.column)
 	{
 		throw std::invalid_argument("Matrix dimensions do not match for subtraction");
 	}
-	jhMatrix result(row, column);
 
+	jhMatrix result(row, column);
 	for (int i = 0; i < row; ++i)
 	{
 		for (int j = 0; j < column; ++j)
 		{
 			result.matrix[i][j] = matrix[i][j] - other.matrix[i][j];
 		}
+
 	}
+
 	return result;
 }
 
 // æÿ’Û≥À∑®
-jhMatrix jhMatrix::operator*(const jhMatrix& other) 
+jhMatrix jhMatrix::operator*(const jhMatrix& other)
 {
-	if (column != other.row) 
+	if (column != other.row)
 	{
 		throw std::invalid_argument("Matrix dimensions do not match for multiplication");
 	}
+
 	jhMatrix result(this->row, other.column);
-	for (int i = 0; i < row; ++i) 
+	for (int i = 0; i < row; ++i)
 	{
-		for (int j = 0; j < other.column; ++j) 
+		for (int j = 0; j < other.column; ++j)
 		{
 			result.matrix[i][j] = 0;
-			for (int k = 0; k <this->column; ++k) 
+			for (int k = 0; k < this->column; ++k)
 			{
 				result.matrix[i][j] += matrix[i][k] * other.matrix[k][j];
 			}
+
 		}
+
 	}
+
 	return result;
 }
 
@@ -809,13 +945,15 @@ jhMatrix jhMatrix::operator*(const jhMatrix& other)
 jhMatrix jhMatrix::operator*(float num)
 {
 	jhMatrix result(row, column);
-	for (int i = 0; i < row; ++i) 
+	for (int i = 0; i < row; ++i)
 	{
-		for (int j = 0; j < column; ++j) 
+		for (int j = 0; j < column; ++j)
 		{
 			result.matrix[i][j] = matrix[i][j] * num;
 		}
+
 	}
+
 	return result;
 }
 
@@ -829,7 +967,9 @@ void jhMatrix::operator=(const jhMatrix& other)
 		{
 			this->matrix[i][j] = other.matrix[i][j];
 		}
+
 	}
+
 }
 
 bool jhMatrix::operator==(const jhMatrix& other)
@@ -842,7 +982,9 @@ bool jhMatrix::operator==(const jhMatrix& other)
 			if (this->matrix[i][j] != other.matrix[i][j])
 				return false;
 		}
+
 	}
+
 	return true;
 }
 
@@ -871,8 +1013,7 @@ float jhObject2D::transform::getDistance(const transform& other)
 	return this->position.destance(other.position);
 }
 
-
-jhObject2D::circle::circle(float radius, jhVector2 position):transform()
+jhObject2D::circle::circle(float radius, jhVector2 position) :transform()
 {
 	this->radius = radius;
 	this->position = position;
@@ -903,9 +1044,9 @@ jhVector2 jhObject2D::circle::getLeftTopPosition()
 bool jhObject2D::circle::isTriggerEnter(const triangle& other)
 {
 	//‘≤–Œ”Î»˝Ω«–Œµƒ≈ˆ◊≤ºÏ≤‚
-	float a = this->position.destance(other.pointA)-radius;
-	float b = this->position.destance(other.pointB)-radius;
-	float c = this->position.destance(other.pointC)-radius;
+	float a = this->position.destance(other.pointA) - radius;
+	float b = this->position.destance(other.pointB) - radius;
+	float c = this->position.destance(other.pointC) - radius;
 	float p = (a + b + c) / 2;
 	float s = sqrt(p * (p - a) * (p - b) * (p - c));
 	if (s == 0)
@@ -923,7 +1064,7 @@ bool jhObject2D::circle::isTriggerEnter(const rectangle& other)
 	float x2 = other.position.x + other.width / 2;
 	float y1 = other.position.y - other.height / 2;
 	float y2 = other.position.y + other.height / 2;
-	if (x+radius >= x1 && x-radius <= x2 && y+radius >= y1 && y-radius <= y2)
+	if (x + radius >= x1 && x - radius <= x2 && y + radius >= y1 && y - radius <= y2)
 		return true;
 	else
 		return false;
@@ -938,7 +1079,7 @@ bool jhObject2D::circle::isTriggerEnter(const diamond& other)
 	float x2 = other.position.x + other.lengthX / 2;
 	float y1 = other.position.y - other.lengthY / 2;
 	float y2 = other.position.y + other.lengthY / 2;
-	if (x+radius >= x1 && x-radius <= x2 && y+radius >= y1 && y-radius <= y2)
+	if (x + radius >= x1 && x - radius <= x2 && y + radius >= y1 && y - radius <= y2)
 		return true;
 	else
 		return false;
@@ -952,7 +1093,6 @@ bool jhObject2D::circle::isTriggerEnter(const circle& other)
 	else
 		return false;
 }
-
 
 float jhObject2D::rectangle::getAreaSize()
 {
@@ -986,7 +1126,6 @@ bool jhObject2D::rectangle::isTriggerEnter(const triangle& other)
 				return true;
 			else
 				return false;
-
 }
 
 bool jhObject2D::rectangle::isTriggerEnter(const rectangle& other)
@@ -1004,7 +1143,6 @@ bool jhObject2D::rectangle::isTriggerEnter(const rectangle& other)
 		return true;
 	else
 		return false;
-
 }
 
 bool jhObject2D::rectangle::isTriggerEnter(const diamond& other)
@@ -1022,7 +1160,6 @@ bool jhObject2D::rectangle::isTriggerEnter(const diamond& other)
 		return true;
 	else
 		return false;
-
 }
 
 bool jhObject2D::rectangle::isTriggerEnter(const circle& other)
@@ -1036,10 +1173,9 @@ bool jhObject2D::rectangle::isTriggerEnter(const circle& other)
 		return true;
 	else
 		return false;
-
 }
 
-jhObject2D::rectangle::rectangle(float width, float height, jhVector2 position):transform()
+jhObject2D::rectangle::rectangle(float width, float height, jhVector2 position) :transform()
 {
 	this->width = width;
 	this->height = height;
@@ -1099,6 +1235,7 @@ bool jhObject2D::triangle::isTriggerEnter(const triangle& other)
 			else
 				return false;
 		}
+
 	}
 
 }
@@ -1126,7 +1263,6 @@ bool jhObject2D::triangle::isTriggerEnter(const rectangle& other)
 				return true;
 			else
 				return false;
-
 }
 
 bool jhObject2D::triangle::isTriggerEnter(const diamond& other)
@@ -1152,7 +1288,6 @@ bool jhObject2D::triangle::isTriggerEnter(const diamond& other)
 				return true;
 			else
 				return false;
-
 }
 
 bool jhObject2D::triangle::isTriggerEnter(const circle& other)
@@ -1173,37 +1308,30 @@ bool jhObject2D::triangle::isTriggerEnter(const circle& other)
 		return true;
 	else
 		return false;
-
 }
 
 jhObject2D::triangle::triangle(jhVector2 pointA, jhVector2 pointB, jhVector2 pointC)
 {
 	//º∆À„»˝Ω«–ŒÕ‚Ω”‘≤÷––ƒ◊¯±Í
 	jhVector2 center;
-
 	// º∆À„÷–µ„◊¯±Í
-	jhVector2 midpointAB = { (pointA.x + pointB.x) / 2, (pointA.y + pointB.y) / 2 };
-	jhVector2 midpointBC = { (pointB.x + pointC.x) / 2, (pointB.y + pointC.y) / 2 };
-
+	jhVector2 midpointAB = { (pointA.x + pointB.x) / 2, (pointA.y + pointB.y) / 2 }
+	;
+	jhVector2 midpointBC = { (pointB.x + pointC.x) / 2, (pointB.y + pointC.y) / 2 }
+	;
 	// º∆À„±ﬂµƒ–±¬ 
 	double slopeAB = (pointB.y - pointA.y) / (pointB.x - pointA.x);
 	double slopeBC = (pointC.y - pointB.y) / (pointC.x - pointB.x);
-
 	// º∆À„÷–¥πœﬂµƒ–±¬ 
 	double perpendicularSlopeAB = -1 / slopeAB;
 	double perpendicularSlopeBC = -1 / slopeBC;
-
 	// º∆À„÷–¥πœﬂµƒΩÿæ‡
 	double interceptAB = midpointAB.y - perpendicularSlopeAB * midpointAB.x;
 	double interceptBC = midpointBC.y - perpendicularSlopeBC * midpointBC.x;
-
 	// º∆À„‘≤–ƒ◊¯±Í
 	center.x = (interceptBC - interceptAB) / (perpendicularSlopeAB - perpendicularSlopeBC);
 	center.y = perpendicularSlopeAB * center.x + interceptAB;
-
 	this->position = center;
-
-
 	this->pointA = pointA;
 	this->pointB = pointB;
 	this->pointC = pointC;
@@ -1288,7 +1416,6 @@ bool jhObject2D::diamond::isTriggerEnter(const triangle& other)
 				return true;
 			else
 				return false;
-
 }
 
 bool jhObject2D::diamond::isTriggerEnter(const rectangle& other)
@@ -1306,7 +1433,6 @@ bool jhObject2D::diamond::isTriggerEnter(const rectangle& other)
 		return true;
 	else
 		return false;
-
 }
 
 bool jhObject2D::diamond::isTriggerEnter(const diamond& other)
@@ -1324,7 +1450,6 @@ bool jhObject2D::diamond::isTriggerEnter(const diamond& other)
 		return true;
 	else
 		return false;
-
 }
 
 bool jhObject2D::diamond::isTriggerEnter(const circle& other)
@@ -1340,10 +1465,9 @@ bool jhObject2D::diamond::isTriggerEnter(const circle& other)
 		return true;
 	else
 		return false;
-
 }
 
-jhObject2D::diamond::diamond(float lengthX, float lengthY,jhVector2 position) : transform()
+jhObject2D::diamond::diamond(float lengthX, float lengthY, jhVector2 position) : transform()
 {
 	this->lengthX = lengthX;
 	this->lengthY = lengthY;
@@ -1356,3 +1480,4 @@ jhObject2D::diamond::diamond(const diamond& other)
 	this->lengthX = other.lengthX;
 	this->lengthY = other.lengthY;
 }
+
