@@ -210,9 +210,8 @@ class gameInput
 {
 	friend class Game;
 private:
-	ExMessage msg;
 	char key;
-	void getMessage();
+	void getMessage(const ExMessage& msg);
 public:
 	//获取键盘输入
 	char getKey();
@@ -233,13 +232,12 @@ class MouseAction
 	friend class gameObject;
 	friend class gameUI;
 private:
-	ExMessage msg;
 	//左上角起始判断坐标
 	jhVector2 beginPosition;
 	//右下角结束判断坐标
 	jhVector2 endPosition;
 	//获取鼠标点击事件
-	void getMouseMessage();
+	void getMouseMessage(const ExMessage& msg);
 	//鼠标点击回调函数
 	void (*onClick)(int mouseMessage,jhVector2 position) = NULL;
 public:

@@ -224,6 +224,9 @@ void Game::gameLoop()
 		while (endtime - starttime >= 1000 / targetFrame)
 		{
 			cleardevice();
+			//消息变量
+			ExMessage msg;
+			bool isMessage = peekmessage(&msg);
 			//遍历物体
 			for (auto it = gameObjects.p_first; it != NULL; it = it->p_next)
 			{
@@ -231,20 +234,42 @@ void Game::gameLoop()
 				if (it->value->visible)
 				{
 					if (it->value->transformType == 'c')
+					{
 						putimagePNG(it->value->transform.circle->getLeftTopPosition().x, it->value->transform.circle->getLeftTopPosition().y, it->value->image);
+						it->value->mouseAction->beginPosition = it->value->transform.circle->getLeftTopPosition();
+						it->value->mouseAction->endPosition = it->value->transform.circle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
+					}
 					else if (it->value->transformType == 'r')
+					{
 						putimagePNG(it->value->transform.rectangle->getLeftTopPosition().x, it->value->transform.rectangle->getLeftTopPosition().y, it->value->image);
+						it->value->mouseAction->beginPosition = it->value->transform.rectangle->getLeftTopPosition();
+						it->value->mouseAction->endPosition = it->value->transform.rectangle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
+					}
 					else if (it->value->transformType == 'd')
+					{
 						putimagePNG(it->value->transform.diamond->getLeftTopPosition().x, it->value->transform.diamond->getLeftTopPosition().y, it->value->image);
+						it->value->mouseAction->beginPosition = it->value->transform.diamond->getLeftTopPosition();
+						it->value->mouseAction->endPosition = it->value->transform.diamond->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
+					}
 					else if (it->value->transformType == 't')
+					{
 						putimagePNG(it->value->transform.triangle->getLeftTopPosition().x, it->value->transform.triangle->getLeftTopPosition().y, it->value->image);
+						it->value->mouseAction->beginPosition = it->value->transform.triangle->getLeftTopPosition();
+						it->value->mouseAction->endPosition = it->value->transform.triangle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
+					}
 				}
 				//调用物体循环函数
 				if (it->value->gameLoopFunc != NULL)
 					it->value->gameLoopFunc();
-				//调用鼠标事件
-				if(it->value->mouseAction->onClick!=NULL)
-					it->value->mouseAction->getMouseMessage();
+				//获取消息
+				while(isMessage)
+				{
+					//调用鼠标事件
+					it->value->mouseAction->getMouseMessage(msg);
+					//获取键盘输入
+					Input.getMessage(msg);
+					break;
+				}
 				//遍历其他物体计算碰撞
 				if(it->value->onCollision!=NULL)
 				for(auto it2 = gameObjects.p_first; it2 != NULL; it2 = it2->p_next)
@@ -274,6 +299,8 @@ void Game::gameLoop()
 					}
 				}
 			}
+			//清除消息缓存
+			flushmessage(-1);
 			//遍历界面
 			for (auto it = gameUIs.p_first; it != NULL; it = it->p_next)
 			{
@@ -286,11 +313,8 @@ void Game::gameLoop()
 				if(it->value->visible)
 				outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
 			}
-			//获取键盘输入
-			Input.getMessage();
 			//清除缓存
 			FlushBatchDraw();
-			flushmessage();
 			deltaTime = endtime - starttime;
 			starttime = clock();
 		}
@@ -423,15 +447,14 @@ gameUIText* Game::getGameUIText(jhString name)
 	return this->gameUITextsMap[name];
 }
 
-void gameInput::getMessage()
+void gameInput::getMessage(const ExMessage& msg)
 {
-	while (peekmessage(&msg))
+
+	if (msg.message == WM_KEYDOWN)
 	{
-		if (msg.message == WM_KEYDOWN)
-		{
-			this->key = msg.vkcode;
-		}
+		this->key = msg.vkcode;
 	}
+
 }
 
 char gameInput::getKey()
@@ -448,41 +471,38 @@ gameUIText::gameUIText(jhString text, jhVector2 position, bool visible)
 	this->visible = visible;
 }
 
-void MouseAction::getMouseMessage()
+void MouseAction::getMouseMessage(const ExMessage& msg)
 {
-	while (peekmessage(&msg))
+	if (msg.message == WM_LBUTTONDOWN)
 	{
-		if (msg.message == WM_LBUTTONDOWN)
+		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
-			if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
-			{
-				if(onClick!=NULL)
+			if (onClick != NULL)
 				onClick(MouseMessage::leftDown, jhVector2(msg.x, msg.y));
-			}
 		}
-		if (msg.message == WM_LBUTTONUP)
+	}
+	if (msg.message == WM_LBUTTONUP)
+	{
+		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
-			if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
-			{
-				if (onClick != NULL)
+			if (onClick != NULL)
 				onClick(MouseMessage::leftUp, jhVector2(msg.x, msg.y));
-			}
 		}
-		if (msg.message == WM_RBUTTONDOWN)
+	}
+	if (msg.message == WM_RBUTTONDOWN)
+	{
+		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
-			if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
-			{
-				if (onClick != NULL)
+			if (onClick != NULL)
 				onClick(MouseMessage::rightDown, jhVector2(msg.x, msg.y));
-			}
 		}
-		if (msg.message == WM_RBUTTONUP)
+	}
+	if (msg.message == WM_RBUTTONUP)
+	{
+		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
-			if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
-			{
-				if (onClick != NULL)
+			if (onClick != NULL)
 				onClick(MouseMessage::rightUp, jhVector2(msg.x, msg.y));
-			}
 		}
 	}
 }
