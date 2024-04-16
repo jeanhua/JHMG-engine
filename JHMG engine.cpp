@@ -483,7 +483,7 @@ gameUIText* gameScene::getGameUIText(jhString name)
 	return this->gameUITextsMap[name];
 }
 
-void gameScene::setGameLoop(void(*gameLoop)())
+void gameScene::setGameLoopFunc(void(*gameLoop)())
 {
 	this->gameLoop = gameLoop;
 }

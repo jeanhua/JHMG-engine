@@ -278,7 +278,7 @@ public:
 	//获取游戏界面文本
 	gameUIText* getGameUIText(jhString name);
 	//设置循环函数
-	void setGameLoop(void (*gameLoop)());
+	void setGameLoopFunc(void (*gameLoop)());
 };
 
 //鼠标事件类
