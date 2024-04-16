@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="jhString">
-    <Position X="8.75" Y="7.75" Width="1.5" />
+    <Position X="8.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAAAAAAgAAAAQAAAQAAAGgAABAgAABAAAA=</HashCode>
       <FileName>jhClass.h</FileName>
@@ -22,9 +22,12 @@
     </TypeIdentifier>
   </Class>
   <Class Name="jhList&lt;T&gt;">
-    <Position X="10.5" Y="9.5" Width="1.5" />
+    <Position X="12.25" Y="6.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
-      <Struct Name="jhList&lt;T&gt;::node" Collapsed="true">
+      <Struct Name="jhList&lt;T&gt;::node">
         <TypeIdentifier>
           <NewMemberFileName>jhClass.h</NewMemberFileName>
         </TypeIdentifier>
@@ -45,19 +48,19 @@
   <Class Name="gameObject">
     <Position X="8.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAAABCAgAAAAAAAAAEAAEAAAAAgAACCAAEAA=</HashCode>
+      <HashCode>AAgAAAAAAAABCAkAAAAAAAAAEAAEAAAAAgAACCAAEAA=</HashCode>
       <FileName>JHMG engine.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="gameUI">
     <Position X="5.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAABAAAAAIAAIAAAEAAAAAAAAAAACBAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAABAAEAAIAAIAAAEAAAAAAAAAAACBAAAAA=</HashCode>
       <FileName>JHMG engine.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="gameUIText">
-    <Position X="8.75" Y="5.75" Width="1.5" />
+    <Position X="8.75" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAIAAAgCAAAAAA=</HashCode>
       <FileName>JHMG engine.h</FileName>
@@ -134,7 +137,7 @@
     </TypeIdentifier>
   </Enum>
   <Enum Name="MouseMessage">
-    <Position X="5.25" Y="10" Width="1.5" />
+    <Position X="5.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAJAAAAg=</HashCode>
       <FileName>JHMG engine.h</FileName>
