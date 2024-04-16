@@ -88,6 +88,8 @@ public:
 	void setOnCollision(void (*onCollision)(gameObject* gameObject));
 	//设置游戏循环回调函数
 	void setGameLoopFunc(void(*gameLoopFunc)());
+	// 修改游戏对象贴图
+	void changeImage(LPCTSTR file,jhVector2 size);
 
 
 private:
@@ -117,6 +119,8 @@ public:
 	bool visible;
 	//构造函数
 	gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible = true);
+	//修改游戏界面贴图
+	void changeImage(LPCTSTR file, jhVector2 size);
 };
 
 //游戏界面文字类

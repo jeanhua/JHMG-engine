@@ -62,6 +62,14 @@ void gameObject::setGameLoopFunc(void(*gameLoopFunc)())
 	this->gameLoopFunc = gameLoopFunc;
 }
 
+void gameObject::changeImage(LPCTSTR file,jhVector2 size)
+{
+	IMAGE* img = new IMAGE;
+	loadimage(img, file, size.x, size.y, true);
+	delete this->image;
+	this->image = img;
+}
+
 
 gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 {
@@ -74,6 +82,14 @@ gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 	this->mouseAction->beginPosition = position;
 	this->mouseAction->endPosition = position + size;
 	this->visible = visible;
+}
+
+void gameUI::changeImage(LPCTSTR file, jhVector2 size)
+{
+	IMAGE* img = new IMAGE;
+	loadimage(img, file, size.x, size.y, true);
+	delete this->image;
+	this->image = img;
 }
 
 
@@ -223,6 +239,7 @@ void Game::gameLoop()
 		//按帧循环
 		while (endtime - starttime >= 1000 / targetFrame)
 		{
+			//清屏
 			cleardevice();
 			//消息变量
 			ExMessage msg;
