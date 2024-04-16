@@ -56,7 +56,10 @@ class gameUI;
 class gameUIText;
 class gameSound;
 class gameInput;
+class gameScene;
 class MouseAction;
+class gameInputBox;
+class gameMessageBox;
 class Game;
 
 
@@ -64,6 +67,7 @@ class Game;
 class gameObject
 {
 	friend class Game;
+	friend class gameScene;
 public:
 	//游戏对象
 	union Transform
@@ -105,6 +109,7 @@ private:
 class gameUI
 {
 	friend class Game;
+	friend class gameScene;
 private:
 	//图片
 	IMAGE* image;
@@ -127,6 +132,7 @@ public:
 class gameUIText
 {
 	friend class Game;
+	friend class gameScene;
 public:
 	//文字
 	jhString text;
@@ -229,6 +235,52 @@ enum MouseMessage
 	rightUp = 517,
 };
 
+//游戏场景类
+class gameScene
+{
+	friend class Game;
+private:
+	//游戏物体
+	jhList<gameObject*> gameObjects;
+	//游戏界面
+	jhList<gameUI*> gameUIs;
+	//界面文字
+	jhList<gameUIText*> gameUITexts;
+	//游戏物体map
+	map<jhString, gameObject*> gameObjectsMap;
+	//游戏界面map
+	map<jhString, gameUI*> gameUIMap;
+	//游戏界面文字map
+	map<jhString, gameUIText*> gameUITextsMap;
+	//资源总map 物体100，界面UI10，界面文字1
+	map<jhString, int> gameTotalMap;
+	//循环函数
+	void (*gameLoop)()=NULL;
+public:
+	//添加游戏物体
+	void addGameObject(jhString name, gameObject* gameObject);
+	//删除游戏物体
+	void removeGameObject(jhString name);
+	//获取游戏对象名字
+	jhString getName(gameObject* gameObject);
+	//添加游戏界面UI对象
+	void addGameUI(jhString name, gameUI* gameUI);
+	//添加游戏界面文字
+	void addGameUIText(jhString name, gameUIText* text);
+	//删除游戏界面
+	void removeGameUI(jhString name);
+	//删除游戏界面文字
+	void removeGameUIText(jhString name);
+	//获取游戏物体
+	gameObject* getGameObject(jhString name);
+	//获取游戏界面
+	gameUI* getGameUI(jhString name);
+	//获取游戏界面文本
+	gameUIText* getGameUIText(jhString name);
+	//设置循环函数
+	void setGameLoop(void (*gameLoop)());
+};
+
 //鼠标事件类
 class MouseAction
 {
@@ -249,6 +301,35 @@ public:
 	void setClickFunc(void (*onClick)(int mouseMessage, jhVector2 position));
 };
 
+//输入框类
+class gameInputBox
+{
+	friend class Game;
+private:
+	jhString* inputText;
+	jhString title = "notice:";
+	jhString prompt = "";
+	jhString defaultText = "";
+	int maxInput = 100;
+	jhVector2 size = jhVector2(0,0);
+public:
+	gameInputBox(jhString* inputText, jhString title, jhString prompt, jhString defaultText,int max, jhVector2 size);
+	void show();
+
+};
+
+//消息框类
+class gameMessageBox
+{
+	friend class Game;
+private:
+		jhString title = "notice:";
+		jhString message = "";
+public:
+	gameMessageBox(jhString title, jhString message);
+	void show();
+};
+
 //游戏类
 class Game
 {
@@ -259,24 +340,12 @@ private:
 	jhVector2 windowSize = jhVector2(800, 600);
 	//游戏窗口标题
 	jhString windowTitle = "not define";
-	//游戏物体
-	jhList<gameObject*> gameObjects;
-	//游戏界面
-	jhList<gameUI*> gameUIs;
-	//界面文字
-	jhList<gameUIText*> gameUITexts;
+	//游戏场景
+	gameScene* Scene = NULL;
 	//游戏帧率
 	int targetFrame = 60;
 	//游戏音效
 	gameSound Sound;
-	//游戏物体map
-	map<jhString, gameObject*> gameObjectsMap;
-	//游戏界面map
-	map<jhString, gameUI*> gameUIMap;
-	//游戏界面文字map
-	map<jhString, gameUIText*> gameUITextsMap;
-	//游戏总map 物体100，界面UI10，界面文字1
-	map<jhString, int> gameTotalMap;
 	//游戏循环
 	void gameLoop();
 public:
@@ -286,6 +355,8 @@ public:
 	void setWindowTitle(jhString windowTitle);
 	//初始化窗口,开始游戏
 	void initWindow();
+	//设置游戏场景
+	void setScene(gameScene* Scene);
 	//设置游戏帧率
 	void setTargetFrame(int targetFrame);
 	//游戏间隔
@@ -294,26 +365,8 @@ public:
 	jhVector2 getWindowSize();
 	//获取游戏窗口标题
 	jhString getWindowTitle();
-	//添加游戏物体
-	void addGameObject(jhString name, gameObject* gameObject);
-	//删除游戏物体
-	void removeGameObject(jhString name);
-	//获取游戏物体
-	gameObject* getGameObject(jhString name);
-	//获取游戏对象名字
-	jhString getName(gameObject* gameObject);
-	//添加游戏界面
-	void addGameUI(jhString name, gameUI* gameUI);
-	//添加游戏界面文字
-	void addGameUIText(jhString name, gameUIText* text);
-	//删除游戏界面
-	void removeGameUI(jhString name);
-	//删除游戏界面文字
-	void removeGameUIText(jhString name);
-	//获取游戏界面
-	gameUI* getGameUI(jhString name);
-	//获取游戏界面文本
-	gameUIText* getGameUIText(jhString name);
+	//获取游戏场景
+	gameScene* getScene();
 	//键盘输入
 	gameInput Input;
 };

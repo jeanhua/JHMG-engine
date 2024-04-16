@@ -220,6 +220,11 @@ void Game::initWindow()
 	this->gameLoop();
 }
 
+void Game::setScene(gameScene* Scene)
+{
+	this->Scene = Scene;
+}
+
 void Game::setTargetFrame(int targetFrame)
 {
 	if (targetFrame > 0)
@@ -236,6 +241,12 @@ void Game::gameLoop()
 	while (1)
 	{
 		endtime = clock();
+		//判断场景是否为空
+		if (this->Scene == NULL)
+		{
+			throw invalid_argument("The scene is empty");
+			return;
+		}
 		//按帧循环
 		while (endtime - starttime >= 1000 / targetFrame)
 		{
@@ -244,8 +255,11 @@ void Game::gameLoop()
 			//消息变量
 			ExMessage msg;
 			bool isMessage = peekmessage(&msg);
+			//调用场景循环函数
+			if (this->Scene->gameLoop != NULL)
+				this->Scene->gameLoop();
 			//遍历物体
-			for (auto it = gameObjects.p_first; it != NULL; it = it->p_next)
+			for (auto it =this->Scene->gameObjects.p_first; it != NULL; it = it->p_next)
 			{
 				//打印物体
 				if (it->value->visible)
@@ -289,7 +303,7 @@ void Game::gameLoop()
 				}
 				//遍历其他物体计算碰撞
 				if (it->value->onCollision != NULL)
-					for (auto it2 = gameObjects.p_first; it2 != NULL; it2 = it2->p_next)
+					for (auto it2 =this->Scene->gameObjects.p_first; it2 != NULL; it2 = it2->p_next)
 					{
 						if (it != it2)
 						{
@@ -319,13 +333,13 @@ void Game::gameLoop()
 			//清除消息缓存
 			flushmessage(-1);
 			//遍历界面
-			for (auto it = gameUIs.p_first; it != NULL; it = it->p_next)
+			for (auto it =this->Scene->gameUIs.p_first; it != NULL; it = it->p_next)
 			{
 				if (it->value->visible)
 					putimagePNG(it->value->position.x, it->value->position.y, it->value->image);
 			}
 			//遍历界面文本
-			for (auto it = gameUITexts.p_first; it != NULL; it = it->p_next)
+			for (auto it = this->Scene->gameUITexts.p_first; it != NULL; it = it->p_next)
 			{
 				if (it->value->visible)
 					outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
@@ -349,7 +363,12 @@ jhString Game::getWindowTitle()
 	return windowTitle;
 }
 
-void Game::addGameObject(jhString name, gameObject* gameObject_pre)
+gameScene* Game::getScene()
+{
+	return Scene;
+}
+
+void gameScene::addGameObject(jhString name, gameObject* gameObject_pre)
 {
 	if (this->gameTotalMap[name] >= 100)
 	{
@@ -361,7 +380,7 @@ void Game::addGameObject(jhString name, gameObject* gameObject_pre)
 	this->gameTotalMap[name] += 100;
 }
 
-void Game::removeGameObject(jhString name)
+void gameScene::removeGameObject(jhString name)
 {
 	for (auto it = this->gameObjects.p_first; it != NULL; it = it->p_next)
 	{
@@ -373,7 +392,7 @@ void Game::removeGameObject(jhString name)
 			it->value->mouseAction = NULL;
 			delete it->value;
 			it->value = NULL;
-			Game::gameObjectsMap.erase(name);
+			gameScene::gameObjectsMap.erase(name);
 			this->gameObjects.deleteList(it);
 			this->gameTotalMap[name] -= 100;
 			return;
@@ -381,12 +400,12 @@ void Game::removeGameObject(jhString name)
 	}
 }
 
-gameObject* Game::getGameObject(jhString name)
+gameObject* gameScene::getGameObject(jhString name)
 {
 	return this->gameObjectsMap[name];
 }
 
-jhString Game::getName(gameObject* gameObject)
+jhString gameScene::getName(gameObject* gameObject)
 {
 	for (auto it : gameObjectsMap)
 	{
@@ -397,7 +416,7 @@ jhString Game::getName(gameObject* gameObject)
 	}
 }
 
-void Game::addGameUI(jhString name, gameUI* gameUI)
+void gameScene::addGameUI(jhString name, gameUI* gameUI)
 {
 	if (this->gameTotalMap[name] % 100 >= 10)
 	{
@@ -409,7 +428,7 @@ void Game::addGameUI(jhString name, gameUI* gameUI)
 	this->gameTotalMap[name] += 10;
 }
 
-void Game::addGameUIText(jhString name, gameUIText* text)
+void gameScene::addGameUIText(jhString name, gameUIText* text)
 {
 	if (this->gameTotalMap[name] % 10 >= 1)
 	{
@@ -421,7 +440,7 @@ void Game::addGameUIText(jhString name, gameUIText* text)
 	this->gameTotalMap[name] += 1;
 }
 
-void Game::removeGameUI(jhString name)
+void gameScene::removeGameUI(jhString name)
 {
 	for (auto it = this->gameUIs.p_first; it != NULL; it = it->p_next)
 	{
@@ -440,7 +459,7 @@ void Game::removeGameUI(jhString name)
 	}
 }
 
-void Game::removeGameUIText(jhString name)
+void gameScene::removeGameUIText(jhString name)
 {
 	for (auto it = this->gameUITexts.p_first; it != NULL; it = it->p_next)
 	{
@@ -454,14 +473,19 @@ void Game::removeGameUIText(jhString name)
 	}
 }
 
-gameUI* Game::getGameUI(jhString name)
+gameUI* gameScene::getGameUI(jhString name)
 {
 	return this->gameUIMap[name];
 }
 
-gameUIText* Game::getGameUIText(jhString name)
+gameUIText* gameScene::getGameUIText(jhString name)
 {
 	return this->gameUITextsMap[name];
+}
+
+void gameScene::setGameLoop(void(*gameLoop)())
+{
+	this->gameLoop = gameLoop;
 }
 
 void gameInput::getMessage(const ExMessage& msg)
@@ -527,4 +551,30 @@ void MouseAction::getMouseMessage(const ExMessage& msg)
 void MouseAction::setClickFunc(void(*onClick)(int mouseMessage, jhVector2 position))
 {
 	this->onClick = onClick;
+}
+
+gameInputBox::gameInputBox(jhString* inputText, jhString title, jhString prompt, jhString defaultText,int max, jhVector2 size)
+{
+	this->inputText = inputText;
+	this->title = title;
+	this->prompt = prompt;
+	this->defaultText = defaultText;
+	this->maxInput = max;
+	this->size = size;
+}
+
+void gameInputBox::show()
+{
+	InputBox(inputText->to_char(), this->maxInput, this->prompt.to_char(), this->title.to_char(), this->defaultText.to_char(), this->size.x, this->size.y);
+}
+
+gameMessageBox::gameMessageBox(jhString title, jhString message)
+{
+	this->title = title;
+	this->message = message;
+}
+
+void gameMessageBox::show()
+{
+	MessageBox(NULL, message.to_char(), title.to_char(), MB_OK);
 }
