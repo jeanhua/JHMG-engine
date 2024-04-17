@@ -103,6 +103,8 @@ private:
 	void (*onCollision)(gameObject* gameObject) = NULL;
 	//游戏循环回调函数
 	void(*gameLoopFunc)() = NULL;
+	//被引用次数
+	int refCount = 0;
 };
 
 //游戏界面类
@@ -113,6 +115,8 @@ class gameUI
 private:
 	//图片
 	IMAGE* image;
+	//被引用次数
+	int refCount = 0;
 public:
 	//位置
 	jhVector2 position;
@@ -142,6 +146,9 @@ public:
 	bool visible;
 	//构造函数
 	gameUIText(jhString text, jhVector2 position, bool visible = true);
+private:
+	//被引用次数
+	int refCount = 0;
 };
 
 
@@ -257,12 +264,16 @@ private:
 	//循环函数
 	void (*gameLoop)()=NULL;
 public:
+	//析构函数
+	~gameScene();
 	//添加游戏物体
 	void addGameObject(jhString name, gameObject* gameObject);
 	//删除游戏物体
 	void removeGameObject(jhString name);
 	//获取游戏对象名字
 	jhString getName(gameObject* gameObject);
+	jhString getName(gameUI* gameUI);
+	jhString getName(gameUIText* gameUIText);
 	//添加游戏界面UI对象
 	void addGameUI(jhString name, gameUI* gameUI);
 	//添加游戏界面文字

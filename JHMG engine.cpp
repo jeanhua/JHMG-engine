@@ -258,6 +258,12 @@ void Game::gameLoop()
 			//调用场景循环函数
 			if (this->Scene->gameLoop != NULL)
 				this->Scene->gameLoop();
+			//遍历界面
+			for (auto it = this->Scene->gameUIs.p_first; it != NULL; it = it->p_next)
+			{
+				if (it->value->visible)
+					putimagePNG(it->value->position.x, it->value->position.y, it->value->image);
+			}
 			//遍历物体
 			for (auto it =this->Scene->gameObjects.p_first; it != NULL; it = it->p_next)
 			{
@@ -330,20 +336,14 @@ void Game::gameLoop()
 						}
 					}
 			}
-			//清除消息缓存
-			flushmessage(-1);
-			//遍历界面
-			for (auto it =this->Scene->gameUIs.p_first; it != NULL; it = it->p_next)
-			{
-				if (it->value->visible)
-					putimagePNG(it->value->position.x, it->value->position.y, it->value->image);
-			}
 			//遍历界面文本
 			for (auto it = this->Scene->gameUITexts.p_first; it != NULL; it = it->p_next)
 			{
 				if (it->value->visible)
 					outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
 			}
+			//清除消息缓存
+			flushmessage(-1);
 			//清除缓存
 			FlushBatchDraw();
 			deltaTime = endtime - starttime;
@@ -368,6 +368,22 @@ gameScene* Game::getScene()
 	return Scene;
 }
 
+gameScene::~gameScene()
+{
+	for (auto it = this->gameObjects.p_first; it != NULL; it = it->p_next)
+	{
+		this->removeGameObject(this->getName(it->value));
+	}
+	for (auto it = this->gameUIs.p_first; it != NULL; it = it->p_next)
+	{
+		this->removeGameUI(this->getName(it->value));
+	}
+	for (auto it = this->gameUITexts.p_first; it != NULL; it = it->p_next)
+	{
+		this->removeGameUIText(this->getName(it->value));
+	}
+}
+
 void gameScene::addGameObject(jhString name, gameObject* gameObject_pre)
 {
 	if (this->gameTotalMap[name] >= 100)
@@ -378,6 +394,7 @@ void gameScene::addGameObject(jhString name, gameObject* gameObject_pre)
 	this->gameObjects.addList(gameObject_pre);
 	this->gameObjectsMap[name] = gameObject_pre;
 	this->gameTotalMap[name] += 100;
+	gameObject_pre->refCount++;
 }
 
 void gameScene::removeGameObject(jhString name)
@@ -386,13 +403,20 @@ void gameScene::removeGameObject(jhString name)
 	{
 		if (it->value == gameObjectsMap[name])
 		{
-			delete it->value->image;
-			it->value->image = NULL;
-			delete it->value->mouseAction;
-			it->value->mouseAction = NULL;
-			delete it->value;
-			it->value = NULL;
-			gameScene::gameObjectsMap.erase(name);
+			if (it->value->refCount == 1)
+			{
+				delete it->value->image;
+				it->value->image = NULL;
+				delete it->value->mouseAction;
+				it->value->mouseAction = NULL;
+				delete it->value;
+				it->value = NULL;
+			}
+			else
+			{
+				it->value->refCount--;
+			}
+			this->gameObjectsMap.erase(name);
 			this->gameObjects.deleteList(it);
 			this->gameTotalMap[name] -= 100;
 			return;
@@ -416,6 +440,28 @@ jhString gameScene::getName(gameObject* gameObject)
 	}
 }
 
+jhString gameScene::getName(gameUI* gameUI)
+{
+	for (auto it : gameUIMap)
+	{
+		if (it.second == gameUI)
+		{
+			return it.first;
+		}
+	}
+}
+
+jhString gameScene::getName(gameUIText* gameUIText)
+{
+	for (auto it : gameUITextsMap)
+	{
+		if (it.second == gameUIText)
+		{
+			return it.first;
+		}
+	}
+}
+
 void gameScene::addGameUI(jhString name, gameUI* gameUI)
 {
 	if (this->gameTotalMap[name] % 100 >= 10)
@@ -426,6 +472,7 @@ void gameScene::addGameUI(jhString name, gameUI* gameUI)
 	this->gameUIs.addList(gameUI);
 	this->gameUIMap[name] = gameUI;
 	this->gameTotalMap[name] += 10;
+	gameUI->refCount++;
 }
 
 void gameScene::addGameUIText(jhString name, gameUIText* text)
@@ -438,6 +485,7 @@ void gameScene::addGameUIText(jhString name, gameUIText* text)
 	this->gameUITexts.addList(text);
 	this->gameUITextsMap[name] = text;
 	this->gameTotalMap[name] += 1;
+	text->refCount++;
 }
 
 void gameScene::removeGameUI(jhString name)
@@ -446,12 +494,19 @@ void gameScene::removeGameUI(jhString name)
 	{
 		if (it->value == gameUIMap[name])
 		{
-			delete it->value->image;
-			it->value->image = NULL;
-			delete it->value->mouseAction;
-			it->value->mouseAction = NULL;
-			delete it->value;
-			it->value = NULL;
+			if (it->value->refCount == 1)
+			{
+				delete it->value->image;
+				it->value->image = NULL;
+				delete it->value->mouseAction;
+				it->value->mouseAction = NULL;
+				delete it->value;
+				it->value = NULL;
+			}
+			else
+			{
+				it->value->refCount--;
+			}
 			this->gameUIs.deleteList(it);
 			this->gameTotalMap[name] -= 10;
 			return;
@@ -465,7 +520,14 @@ void gameScene::removeGameUIText(jhString name)
 	{
 		if (it->value == gameUITextsMap[name])
 		{
-			delete it->value;
+			if (it->value->refCount == 1)
+			{
+				delete it->value;
+			}
+			else
+			{
+				it->value->refCount--;
+			}
 			this->gameUITexts.deleteList(it);
 			this->gameTotalMap[name] -= 1;
 			return;

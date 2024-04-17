@@ -19,8 +19,10 @@ int main(int argc, char* argv[])
 	mainGame->setTargetFrame(165);
 	//创建游戏场景
 	gameScene* scene = new gameScene;
+	//添加场景到游戏中
+	mainGame->setScene(scene);
 	//创建UI对象
-	gameUI* xiaoxin = new gameUI(jhVector2(0, 0), jhVector2(50, 50), ".\\xiaoxin.png", true);
+	gameUI* xiaoxin = new gameUI(jhVector2(0, 0), jhVector2(800, 600), ".\\background.jpg", true);
 	//添加UI对象到场景中
 	scene->addGameUI("xiaoxin", xiaoxin);
 	//创建文本UI
@@ -41,8 +43,6 @@ int main(int argc, char* argv[])
 	pikaqiu->mouseAction->setClickFunc(onClick);
 	//添加游戏对象到场景中
 	scene->addGameObject("pikaqiu", pikaqiu);
-	//添加场景到游戏中
-	mainGame->setScene(scene);
 	//初始化窗口开始游戏
 	mainGame->initWindow();
 }
