@@ -52,7 +52,7 @@
   <Class Name="gameUI">
     <Position X="9.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAABAAEAAIAAIAAAEAAAAAAAAAAAiBAAAAA=</HashCode>
+      <HashCode>AAgAAAAAAAABAAkAAIAAIAAAEAAAAAAAAAAAiBAAAAA=</HashCode>
       <FileName>JHMG engine.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -148,7 +148,7 @@
     </TypeIdentifier>
   </Class>
   <Enum Name="KeyMessage">
-    <Position X="9.75" Y="6" Width="1.5" />
+    <Position X="9.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAC+//9lAQAAAAA=</HashCode>
       <FileName>JHMG engine.h</FileName>

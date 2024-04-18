@@ -523,6 +523,8 @@ private:
 	IMAGE* image;
 	//被引用次数
 	int refCount = 0;
+	//循环函数
+	void (*gameLoopFunc)() = NULL;
 public:
 	//位置
 	jhVector2 position;
@@ -532,6 +534,8 @@ public:
 	MouseAction<gameUI*>* mouseAction;
 	//可视性
 	bool visible;
+	//设置循环函数
+	void setGameLoopFunc(void (*gameLoopFunc)());
 	//构造函数
 	gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible = true);
 	//修改游戏界面贴图

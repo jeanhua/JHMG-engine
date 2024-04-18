@@ -75,6 +75,11 @@ void gameObject::changeImage(LPCTSTR file,jhVector2 size)
 }
 
 
+void gameUI::setGameLoopFunc(void(*gameLoopFunc)())
+{
+	this->gameLoopFunc = gameLoopFunc;
+}
+
 gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 {
 	this->position = position;
@@ -85,6 +90,7 @@ gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 	this->mouseAction = new MouseAction<gameUI*>;
 	this->mouseAction->beginPosition = position;
 	this->mouseAction->endPosition = position + size;
+	this->mouseAction->self = this;
 	this->visible = visible;
 }
 
@@ -269,6 +275,18 @@ void Game::gameLoop()
 			{
 				if (it->value->visible)
 					putimagePNG(it->value->position.x, it->value->position.y, it->value->image);
+				//调用界面循环函数
+				if (it->value->gameLoopFunc != NULL)
+					it->value->gameLoopFunc();
+				//获取消息
+				while (isMessage)
+				{
+					//调用鼠标事件
+					it->value->mouseAction->getMouseMessage(msg);
+					//获取键盘输入
+					Input.getMessage(msg);
+					break;
+				}
 			}
 			//遍历物体
 			for (auto it =this->Scene->gameObjects.p_first; it != NULL; it = it->p_next)
