@@ -284,8 +284,10 @@ int main()
 3.绑定游戏对象点击事件(点击调用)
 ```cpp
 //声明点击事件
-void onClick(int messageType, jhVector2 position)
+void onClick(int messageType, jhVector2 position,gameObject* self)
 {
+  //输出被点击对象id名
+  cout<<mainGame->getScene()->getName(self)<<endl;
   //点击输出
   if (messageType == MouseMessage::leftDown)
 	cout << "左键按下" << endl;
@@ -314,9 +316,9 @@ Game* mainGame;
 //声明函数
 void loop();
 void trigger(gameObject* other);
-void onClick(int messageType, jhVector2 position);
+void onClick(int messageType, jhVector2 position,gameObject* self);
 
-int main(int argc, char* argv[])
+int main()
 {
 	//创建游戏对象
 	mainGame = new Game;
@@ -412,8 +414,9 @@ void trigger(gameObject* other)
 	cout << mainGame->getScene()->getName(other) << endl;
 }
 
-void onClick(int messageType, jhVector2 position)
+void onClick(int messageType, jhVector2 position,gameObject* self)
 {
+	cout<<mainGame->getScene()->getName(self)<<endl;
 	//点击输出
 	if (messageType == MouseMessage::leftDown)
 		cout << "左键按下" << endl;

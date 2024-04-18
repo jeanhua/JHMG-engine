@@ -81,7 +81,7 @@ class gameUIText;
 class gameSound;
 class gameInput;
 class gameScene;
-class MouseAction;
+template<class T> class MouseAction;
 class gameInputBox;
 class gameMessageBox;
 class Game;
@@ -343,6 +343,7 @@ namespace jhObject2D
 		// 判断是否在圆形内
 		virtual bool isTriggerEnter(const circle& other) = 0;
 	private:
+
 		// 位置(图形中心坐标，即外接圆中心坐标)
 		jhVector2 position;
 	};
@@ -485,7 +486,7 @@ public:
 	Transform transform;
 	char transformType;
 	//鼠标事件
-	MouseAction* mouseAction;
+	MouseAction<gameObject*>* mouseAction;
 	//游戏对象可视性
 	bool visible;
 	//构造函数
@@ -528,7 +529,7 @@ public:
 	//大小
 	jhVector2 size;
 	//鼠标事件
-	MouseAction* mouseAction;
+	MouseAction<gameUI*>* mouseAction;
 	//可视性
 	bool visible;
 	//构造函数
@@ -668,6 +669,8 @@ private:
 	map<jhString, int> gameTotalMap;
 	//循环函数
 	void (*gameLoop)()=NULL;
+	//唤醒函数
+	void (*awake)() = NULL;
 public:
 	//析构函数
 	~gameScene();
@@ -695,9 +698,12 @@ public:
 	gameUIText* getGameUIText(jhString name);
 	//设置循环函数
 	void setGameLoopFunc(void (*gameLoop)());
+	//设置唤醒函数
+	void setAwakeFunc(void (*awake)());
 };
 
 //鼠标事件类
+template<class T>
 class MouseAction
 {
 	friend class Game;
@@ -710,11 +716,13 @@ private:
 	jhVector2 endPosition;
 	//获取鼠标点击事件
 	void getMouseMessage(const ExMessage& msg);
+	//父对象指针
+	T self;
 	//鼠标点击回调函数
-	void (*onClick)(int mouseMessage, jhVector2 position) = NULL;
+	void (*onClick)(int mouseMessage, jhVector2 position,T self) = NULL;
 public:
 	//设置鼠标点击回调函数
-	void setClickFunc(void (*onClick)(int mouseMessage, jhVector2 position));
+	void setClickFunc(void (*onClick)(int mouseMessage, jhVector2 position,T self));
 };
 
 //输入框类
@@ -723,15 +731,14 @@ class gameInputBox
 	friend class Game;
 private:
 	jhString* inputText;
-	jhString title = "notice:";
+	jhString title;
 	jhString prompt = "";
 	jhString defaultText = "";
 	int maxInput = 100;
 	jhVector2 size = jhVector2(0,0);
 public:
-	gameInputBox(jhString* inputText, jhString title, jhString prompt, jhString defaultText,int max, jhVector2 size);
+	gameInputBox(jhString* inputText, jhString title="notice", jhString prompt="", jhString defaultText="", int max=256, jhVector2 size=jhVector2(0,0));
 	void show();
-
 };
 
 //消息框类

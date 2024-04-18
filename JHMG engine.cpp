@@ -7,9 +7,10 @@ gameObject::gameObject(jhObject2D::circle* transform, LPCTSTR file, int width, i
 	IMAGE* img = new IMAGE;
 	loadimage(img, file, width, height, true);
 	this->image = img;
-	this->mouseAction = new MouseAction;
+	this->mouseAction = new MouseAction<gameObject*>;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
 	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
+	this->mouseAction->self = this;
 	this->visible = visible;
 }
 
@@ -20,9 +21,10 @@ gameObject::gameObject(jhObject2D::rectangle* transform, LPCTSTR file, int width
 	IMAGE* img = new IMAGE;
 	loadimage(img, file, width, height, true);
 	this->image = img;
-	this->mouseAction = new MouseAction;
+	this->mouseAction = new MouseAction<gameObject*>;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
 	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
+	this->mouseAction->self = this;
 	this->visible = visible;
 }
 
@@ -33,9 +35,10 @@ gameObject::gameObject(jhObject2D::diamond* transform, LPCTSTR file, int width, 
 	IMAGE* img = new IMAGE;
 	loadimage(img, file, width, height, true);
 	this->image = img;
-	this->mouseAction = new MouseAction;
+	this->mouseAction = new MouseAction<gameObject*>;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
 	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
+	this->mouseAction->self = this;
 	this->visible = visible;
 }
 
@@ -46,9 +49,10 @@ gameObject::gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width,
 	IMAGE* img = new IMAGE;
 	loadimage(img, file, width, height, true);
 	this->image = img;
-	this->mouseAction = new MouseAction;
+	this->mouseAction = new MouseAction<gameObject*>;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
 	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
+	this->mouseAction->self = this;
 	this->visible = visible;
 }
 
@@ -78,7 +82,7 @@ gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 	IMAGE* img = new IMAGE;
 	loadimage(img, image.to_char(), size.x, size.y, true);
 	this->image = img;
-	this->mouseAction = new MouseAction;
+	this->mouseAction = new MouseAction<gameUI*>;
 	this->mouseAction->beginPosition = position;
 	this->mouseAction->endPosition = position + size;
 	this->visible = visible;
@@ -217,6 +221,8 @@ void Game::initWindow()
 {
 	this->window = initgraph(windowSize.x, windowSize.y);
 	SetWindowText(window, windowTitle.to_char());
+	if (this->Scene->awake != NULL)
+		this->Scene->awake();
 	this->gameLoop();
 }
 
@@ -550,6 +556,11 @@ void gameScene::setGameLoopFunc(void(*gameLoop)())
 	this->gameLoop = gameLoop;
 }
 
+void gameScene::setAwakeFunc(void(*awake)())
+{
+	this->awake = awake;
+}
+
 void gameInput::getMessage(const ExMessage& msg)
 {
 
@@ -574,14 +585,15 @@ gameUIText::gameUIText(jhString text, jhVector2 position, bool visible)
 	this->visible = visible;
 }
 
-void MouseAction::getMouseMessage(const ExMessage& msg)
+template<class T>
+void MouseAction<T>::getMouseMessage(const ExMessage& msg)
 {
 	if (msg.message == WM_LBUTTONDOWN)
 	{
 		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
 			if (onClick != NULL)
-				onClick(MouseMessage::leftDown, jhVector2(msg.x, msg.y));
+				onClick(MouseMessage::leftDown, jhVector2(msg.x, msg.y),self);
 		}
 	}
 	if (msg.message == WM_LBUTTONUP)
@@ -589,7 +601,7 @@ void MouseAction::getMouseMessage(const ExMessage& msg)
 		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
 			if (onClick != NULL)
-				onClick(MouseMessage::leftUp, jhVector2(msg.x, msg.y));
+				onClick(MouseMessage::leftUp, jhVector2(msg.x, msg.y),self);
 		}
 	}
 	if (msg.message == WM_RBUTTONDOWN)
@@ -597,7 +609,7 @@ void MouseAction::getMouseMessage(const ExMessage& msg)
 		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
 			if (onClick != NULL)
-				onClick(MouseMessage::rightDown, jhVector2(msg.x, msg.y));
+				onClick(MouseMessage::rightDown, jhVector2(msg.x, msg.y),self);
 		}
 	}
 	if (msg.message == WM_RBUTTONUP)
@@ -605,12 +617,13 @@ void MouseAction::getMouseMessage(const ExMessage& msg)
 		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
 			if (onClick != NULL)
-				onClick(MouseMessage::rightUp, jhVector2(msg.x, msg.y));
+				onClick(MouseMessage::rightUp, jhVector2(msg.x, msg.y),self);
 		}
 	}
 }
 
-void MouseAction::setClickFunc(void(*onClick)(int mouseMessage, jhVector2 position))
+template<class T>
+void MouseAction<T>::setClickFunc(void(*onClick)(int mouseMessage, jhVector2 position,T self))
 {
 	this->onClick = onClick;
 }
@@ -1263,6 +1276,8 @@ inline jhList<T>::~jhList()
 template class jhList<gameObject*>;
 template class jhList<gameUI*>;
 template class jhList<gameUIText*>;
+template class MouseAction<gameObject*>;
+template class MouseAction<gameUI*>;
 
 jhMatrix::jhMatrix(int row, int column)
 {
