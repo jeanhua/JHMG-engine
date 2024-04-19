@@ -343,7 +343,6 @@ namespace jhObject2D
 		// 判断是否在圆形内
 		virtual bool isTriggerEnter(const circle& other) = 0;
 	private:
-
 		// 位置(图形中心坐标，即外接圆中心坐标)
 		jhVector2 position;
 	};
@@ -548,14 +547,18 @@ class gameUIText
 	friend class Game;
 	friend class gameScene;
 public:
-	//文字
+	// 文字
 	jhString text;
-	//位置
+	// 颜色
+	COLORREF color;
+	// 字体大小
+	jhVector2 size;
+	// 位置
 	jhVector2 position;
-	//可视性
+	// 可视性
 	bool visible;
-	//构造函数
-	gameUIText(jhString text, jhVector2 position, bool visible = true);
+	// 构造函数
+	gameUIText(jhString text, jhVector2 position, COLORREF color = WHITE, jhVector2 size = jhVector2(0, 15), bool visible = true);
 private:
 	//被引用次数
 	int refCount = 0;

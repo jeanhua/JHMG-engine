@@ -180,7 +180,7 @@ scene->addGameUI("xiaoxin", xiaoxin);
 ```
 10.创建文本UI对象
 ```cpp
-gameUIText* text = new gameUIText(jhString("fps"), jhVector2(100, 100), true);
+gameUIText* text = new gameUIText(jhString("fps"), jhVector2(100, 100));
 ```
 11.添加文本UI到场景中
 ```cpp
@@ -336,7 +336,7 @@ int main()
 	//添加UI对象到场景中
 	scene->addGameUI("xiaoxin", xiaoxin);
 	//创建文本UI
-	gameUIText* text = new gameUIText(jhString("fps"), jhVector2(100, 100), true);
+	gameUIText* text = new gameUIText(jhString("fps"), jhVector2(100, 100));
 	//添加文本UI到场景中
 	scene->addGameUIText("text", text);
 	//创建游戏对象

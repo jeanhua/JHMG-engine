@@ -229,6 +229,7 @@ void Game::initWindow()
 	SetWindowText(window, windowTitle.to_char());
 	if (this->Scene->awake != NULL)
 		this->Scene->awake();
+	setbkmode(TRANSPARENT);
 	this->gameLoop();
 }
 
@@ -363,6 +364,8 @@ void Game::gameLoop()
 			//遍历界面文本
 			for (auto it = this->Scene->gameUITexts.p_first; it != NULL; it = it->p_next)
 			{
+				settextcolor(it->value->color);
+				settextstyle(it->value->size.y, it->value->size.x, _T("宋体"));
 				if (it->value->visible)
 					outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
 			}
@@ -596,9 +599,11 @@ char gameInput::getKey()
 	return tmpKey;
 }
 
-gameUIText::gameUIText(jhString text, jhVector2 position, bool visible)
+gameUIText::gameUIText(jhString text, jhVector2 position,COLORREF color,jhVector2 size, bool visible)
 {
 	this->text = text;
+	this->color = color;
+	this->size = size;
 	this->position = position;
 	this->visible = visible;
 }
@@ -2155,4 +2160,3 @@ jhObject2D::diamond::diamond(const diamond& other)
 	this->lengthX = other.lengthX;
 	this->lengthY = other.lengthY;
 }
-
