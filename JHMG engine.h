@@ -494,11 +494,11 @@ public:
 	gameObject(jhObject2D::diamond* transform, LPCTSTR file, int width, int height, bool visible = true);
 	gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width, int height, bool visible = true);
 	//设置碰撞回调函数
-	void setOnCollision(void (*onCollision)(gameObject* gameObject));
+	gameObject* setOnCollision(void (*onCollision)(gameObject* gameObject));
 	//设置游戏循环回调函数
-	void setGameLoopFunc(void(*gameLoopFunc)());
+	gameObject* setGameLoopFunc(void(*gameLoopFunc)());
 	// 修改游戏对象贴图
-	void changeImage(LPCTSTR file,jhVector2 size);
+	gameObject* changeImage(LPCTSTR file,jhVector2 size);
 
 
 private:
@@ -534,11 +534,11 @@ public:
 	//可视性
 	bool visible;
 	//设置循环函数
-	void setGameLoopFunc(void (*gameLoopFunc)());
+	gameUI* setGameLoopFunc(void (*gameLoopFunc)());
 	//构造函数
 	gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible = true);
 	//修改游戏界面贴图
-	void changeImage(LPCTSTR file, jhVector2 size);
+	gameUI* changeImage(LPCTSTR file, jhVector2 size);
 };
 
 //游戏界面文字类

@@ -56,28 +56,32 @@ gameObject::gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width,
 	this->visible = visible;
 }
 
-void gameObject::setOnCollision(void(*onCollision)(gameObject* gameObject))
+gameObject* gameObject::setOnCollision(void(*onCollision)(gameObject* gameObject))
 {
 	this->onCollision = onCollision;
+	return this;
 }
 
-void gameObject::setGameLoopFunc(void(*gameLoopFunc)())
+gameObject* gameObject::setGameLoopFunc(void(*gameLoopFunc)())
 {
 	this->gameLoopFunc = gameLoopFunc;
+	return this;
 }
 
-void gameObject::changeImage(LPCTSTR file,jhVector2 size)
+gameObject* gameObject::changeImage(LPCTSTR file,jhVector2 size)
 {
 	IMAGE* img = new IMAGE;
 	loadimage(img, file, size.x, size.y, true);
 	delete this->image;
 	this->image = img;
+	return this;
 }
 
 
-void gameUI::setGameLoopFunc(void(*gameLoopFunc)())
+gameUI* gameUI::setGameLoopFunc(void(*gameLoopFunc)())
 {
 	this->gameLoopFunc = gameLoopFunc;
+	return this;
 }
 
 gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
@@ -94,12 +98,13 @@ gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 	this->visible = visible;
 }
 
-void gameUI::changeImage(LPCTSTR file, jhVector2 size)
+gameUI* gameUI::changeImage(LPCTSTR file, jhVector2 size)
 {
 	IMAGE* img = new IMAGE;
 	loadimage(img, file, size.x, size.y, true);
 	delete this->image;
 	this->image = img;
+	return this;
 }
 
 
