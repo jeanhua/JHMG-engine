@@ -2,7 +2,7 @@
 
 JHMG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速搭建和开发2D游戏。
  
-![源仓库地址](https://github.com/jeanhua/JHMG-engine)
+[源仓库地址 https://github.com/jeanhua/JHMG-engine](https://github.com/jeanhua/JHMG-engine)
 
 ## 特点
 
