@@ -316,7 +316,7 @@ int main()
 Game* mainGame;
 
 //声明函数
-void loop();
+void loop(gameObject* self);
 void trigger(gameObject* other);
 void onClick(int messageType, jhVector2 position,gameObject* self);
 
@@ -359,7 +359,7 @@ int main()
 	mainGame->initWindow();
 }
 
-void loop()
+void loop(gameObject* self)
 {
 	//获取游戏场景
 	auto scene = mainGame->getScene();

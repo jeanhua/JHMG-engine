@@ -1,5 +1,7 @@
 #include "JHMG engine.h"
 
+static bool canOperator = true;
+
 gameObject::gameObject(jhObject2D::circle* transform, LPCTSTR file, int width, int height, bool visible)
 {
 	this->transform.circle = transform;
@@ -62,7 +64,7 @@ gameObject* gameObject::setOnCollision(void(*onCollision)(gameObject* gameObject
 	return this;
 }
 
-gameObject* gameObject::setGameLoopFunc(void(*gameLoopFunc)())
+gameObject* gameObject::setGameLoopFunc(void(*gameLoopFunc)(gameObject* gameObject))
 {
 	this->gameLoopFunc = gameLoopFunc;
 	return this;
@@ -78,7 +80,7 @@ gameObject* gameObject::changeImage(LPCTSTR file,jhVector2 size)
 }
 
 
-gameUI* gameUI::setGameLoopFunc(void(*gameLoopFunc)())
+gameUI* gameUI::setGameLoopFunc(void(*gameLoopFunc)(gameUI* self))
 {
 	this->gameLoopFunc = gameLoopFunc;
 	return this;
@@ -259,6 +261,7 @@ void Game::gameLoop()
 	while (1)
 	{
 		endtime = clock();
+		canOperator = true;
 		//判断场景是否为空
 		if (this->Scene == NULL)
 		{
@@ -277,103 +280,134 @@ void Game::gameLoop()
 			if (this->Scene->gameLoop != NULL)
 				this->Scene->gameLoop();
 			//遍历界面
-			for (auto it = this->Scene->gameUIs.p_first; it != NULL; it = it->p_next)
+			if (canOperator)
 			{
-				if (it->value->visible)
-					putimagePNG(it->value->position.x, it->value->position.y, it->value->image);
-				//调用界面循环函数
-				if (it->value->gameLoopFunc != NULL)
-					it->value->gameLoopFunc();
-				//获取消息
-				while (isMessage)
+				for (auto it = this->Scene->gameUIs.p_first; it != NULL; it = it->p_next)
 				{
-					//调用鼠标事件
-					it->value->mouseAction->getMouseMessage(msg);
-					//获取键盘输入
-					Input.getMessage(msg);
-					break;
+					if (it->value->visible)
+						putimagePNG(it->value->position.x, it->value->position.y, it->value->image);
+					//调用界面循环函数
+					if (it->value->gameLoopFunc != NULL)
+						it->value->gameLoopFunc(it->value);
+					//获取消息
+					while (isMessage)
+					{
+						//调用鼠标事件
+						it->value->mouseAction->getMouseMessage(msg);
+						//获取键盘输入
+						Input.getMessage(msg);
+						break;
+					}
 				}
 			}
 			//遍历物体
-			for (auto it =this->Scene->gameObjects.p_first; it != NULL; it = it->p_next)
+			if (canOperator)
 			{
-				//打印物体
-				if (it->value->visible)
+				for (auto it = this->Scene->gameObjects.p_first; it != NULL; it = it->p_next)
 				{
-					if (it->value->transformType == 'c')
+					//打印物体
+					if (it->value)
 					{
-						putimagePNG(it->value->transform.circle->getLeftTopPosition().x, it->value->transform.circle->getLeftTopPosition().y, it->value->image);
-						it->value->mouseAction->beginPosition = it->value->transform.circle->getLeftTopPosition();
-						it->value->mouseAction->endPosition = it->value->transform.circle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
-					}
-					else if (it->value->transformType == 'r')
-					{
-						putimagePNG(it->value->transform.rectangle->getLeftTopPosition().x, it->value->transform.rectangle->getLeftTopPosition().y, it->value->image);
-						it->value->mouseAction->beginPosition = it->value->transform.rectangle->getLeftTopPosition();
-						it->value->mouseAction->endPosition = it->value->transform.rectangle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
-					}
-					else if (it->value->transformType == 'd')
-					{
-						putimagePNG(it->value->transform.diamond->getLeftTopPosition().x, it->value->transform.diamond->getLeftTopPosition().y, it->value->image);
-						it->value->mouseAction->beginPosition = it->value->transform.diamond->getLeftTopPosition();
-						it->value->mouseAction->endPosition = it->value->transform.diamond->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
-					}
-					else if (it->value->transformType == 't')
-					{
-						putimagePNG(it->value->transform.triangle->getLeftTopPosition().x, it->value->transform.triangle->getLeftTopPosition().y, it->value->image);
-						it->value->mouseAction->beginPosition = it->value->transform.triangle->getLeftTopPosition();
-						it->value->mouseAction->endPosition = it->value->transform.triangle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
-					}
-				}
-				//调用物体循环函数
-				if (it->value->gameLoopFunc != NULL)
-					it->value->gameLoopFunc();
-				//获取消息
-				while (isMessage)
-				{
-					//调用鼠标事件
-					it->value->mouseAction->getMouseMessage(msg);
-					//获取键盘输入
-					Input.getMessage(msg);
-					break;
-				}
-				//遍历其他物体计算碰撞
-				if (it->value->onCollision != NULL)
-					for (auto it2 =this->Scene->gameObjects.p_first; it2 != NULL; it2 = it2->p_next)
-					{
-						if (it != it2)
+						if (it->value->visible)
 						{
-							if (it2->value->transformType == 'c')
+							if (it->value->transformType == 'c')
 							{
-								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.circle))
-									it->value->onCollision(it2->value);
+								putimagePNG(it->value->transform.circle->getLeftTopPosition().x, it->value->transform.circle->getLeftTopPosition().y, it->value->image);
+								it->value->mouseAction->beginPosition = it->value->transform.circle->getLeftTopPosition();
+								it->value->mouseAction->endPosition = it->value->transform.circle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
 							}
-							else if (it2->value->transformType == 'r')
+							else if (it->value->transformType == 'r')
 							{
-								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.rectangle))
-									it->value->onCollision(it2->value);
+								putimagePNG(it->value->transform.rectangle->getLeftTopPosition().x, it->value->transform.rectangle->getLeftTopPosition().y, it->value->image);
+								it->value->mouseAction->beginPosition = it->value->transform.rectangle->getLeftTopPosition();
+								it->value->mouseAction->endPosition = it->value->transform.rectangle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
 							}
-							else if (it2->value->transformType == 'd')
+							else if (it->value->transformType == 'd')
 							{
-								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.diamond))
-									it->value->onCollision(it2->value);
+								putimagePNG(it->value->transform.diamond->getLeftTopPosition().x, it->value->transform.diamond->getLeftTopPosition().y, it->value->image);
+								it->value->mouseAction->beginPosition = it->value->transform.diamond->getLeftTopPosition();
+								it->value->mouseAction->endPosition = it->value->transform.diamond->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
 							}
-							else if (it2->value->transformType == 't')
+							else if (it->value->transformType == 't')
 							{
-								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.triangle))
-									it->value->onCollision(it2->value);
+								putimagePNG(it->value->transform.triangle->getLeftTopPosition().x, it->value->transform.triangle->getLeftTopPosition().y, it->value->image);
+								it->value->mouseAction->beginPosition = it->value->transform.triangle->getLeftTopPosition();
+								it->value->mouseAction->endPosition = it->value->transform.triangle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
 							}
 						}
 					}
+					//调用物体循环函数
+					if (canOperator)
+					{
+						if (it->value->gameLoopFunc != NULL)
+						{
+							it->value->gameLoopFunc(it->value);
+						}
+					}
+					//获取消息
+					if (canOperator)
+					{
+						while (isMessage)
+						{
+							//调用鼠标事件
+							it->value->mouseAction->getMouseMessage(msg);
+							//获取键盘输入
+							Input.getMessage(msg);
+							break;
+						}
+					}
+					//遍历其他物体计算碰撞
+					if (canOperator)
+					{
+						if (it->value->onCollision != NULL)
+						{
+							for (auto it2 = this->Scene->gameObjects.p_first; it2 != NULL; it2 = it2->p_next)
+							{
+								if (it != it2)
+								{
+									if(canOperator==false)
+										break;
+									if (it2->value->transformType == 'c')
+									{
+										if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.circle))
+											it->value->onCollision(it2->value);
+									}
+									else if (it2->value->transformType == 'r')
+									{
+										if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.rectangle))
+											it->value->onCollision(it2->value);
+									}
+									else if (it2->value->transformType == 'd')
+									{
+										if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.diamond))
+											it->value->onCollision(it2->value);
+									}
+									else if (it2->value->transformType == 't')
+									{
+										if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.triangle))
+											it->value->onCollision(it2->value);
+									}
+								}
+							}
+						}
+					}
+					else 
+						break;
+				}
 			}
 			//遍历界面文本
-			for (auto it = this->Scene->gameUITexts.p_first; it != NULL; it = it->p_next)
+			if (canOperator)
 			{
-				settextcolor(it->value->color);
-				settextstyle(it->value->size.y, it->value->size.x, _T("宋体"));
-				if (it->value->visible)
-					outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
+				for (auto it = this->Scene->gameUITexts.p_first; it != NULL; it = it->p_next)
+				{
+					settextcolor(it->value->color);
+					settextstyle(it->value->size.y, it->value->size.x, _T("宋体"));
+					if (it->value->visible)
+						outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
+				}
 			}
+			else
+				break;
 			//清除消息缓存
 			flushmessage(-1);
 			//清除缓存
@@ -437,19 +471,22 @@ void gameScene::removeGameObject(jhString name)
 		{
 			if (it->value->refCount == 1)
 			{
+				canOperator = false;
+				it->value->onCollision = NULL;
+				it->value->gameLoopFunc = NULL;
 				delete it->value->image;
 				it->value->image = NULL;
 				delete it->value->mouseAction;
 				it->value->mouseAction = NULL;
 				delete it->value;
 				it->value = NULL;
+				this->gameObjects.deleteList(it);
 			}
 			else
 			{
 				it->value->refCount--;
 			}
 			this->gameObjectsMap.erase(name);
-			this->gameObjects.deleteList(it);
 			this->gameTotalMap[name] -= 100;
 			return;
 		}
@@ -528,18 +565,20 @@ void gameScene::removeGameUI(jhString name)
 		{
 			if (it->value->refCount == 1)
 			{
+				canOperator = false;
+				it->value->gameLoopFunc= NULL;
 				delete it->value->image;
 				it->value->image = NULL;
 				delete it->value->mouseAction;
 				it->value->mouseAction = NULL;
 				delete it->value;
 				it->value = NULL;
+				this->gameUIs.deleteList(it);
 			}
 			else
 			{
 				it->value->refCount--;
 			}
-			this->gameUIs.deleteList(it);
 			this->gameTotalMap[name] -= 10;
 			return;
 		}
@@ -554,6 +593,7 @@ void gameScene::removeGameUIText(jhString name)
 		{
 			if (it->value->refCount == 1)
 			{
+				canOperator = false;
 				delete it->value;
 			}
 			else
@@ -1251,6 +1291,18 @@ inline void jhList<T>::addList(T value)
 template<class T>
 inline void jhList<T>::deleteList(node* list)
 {
+	if(list==NULL)
+		return;
+	if (list == this->p_first)
+	{
+		this->p_first=list->p_next;
+		if (list->p_next != NULL)
+		{
+			list->p_next->p_back=NULL;
+		}
+		delete list;
+		return;
+	}
 	if (list->p_back == NULL)
 	{
 		if (list->p_next == NULL)

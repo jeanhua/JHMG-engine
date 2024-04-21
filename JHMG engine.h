@@ -1,4 +1,5 @@
-#pragma once
+#ifndef JHMG_ENGINE_H
+#define JHMG_ENGINE_H
 #include "easyx.h"
 #include<map>
 #include<string>
@@ -496,9 +497,11 @@ public:
 	//设置碰撞回调函数
 	gameObject* setOnCollision(void (*onCollision)(gameObject* gameObject));
 	//设置游戏循环回调函数
-	gameObject* setGameLoopFunc(void(*gameLoopFunc)());
+	gameObject* setGameLoopFunc(void(*gameLoopFunc)(gameObject* gameObject));
 	// 修改游戏对象贴图
 	gameObject* changeImage(LPCTSTR file,jhVector2 size);
+	//标签
+	jhString tag="gameObject";
 
 
 private:
@@ -507,7 +510,7 @@ private:
 	//碰撞回调函数
 	void (*onCollision)(gameObject* gameObject) = NULL;
 	//游戏循环回调函数
-	void(*gameLoopFunc)() = NULL;
+	void(*gameLoopFunc)(gameObject* gameObject) = NULL;
 	//被引用次数
 	int refCount = 0;
 };
@@ -523,7 +526,7 @@ private:
 	//被引用次数
 	int refCount = 0;
 	//循环函数
-	void (*gameLoopFunc)() = NULL;
+	void (*gameLoopFunc)(gameUI* self) = NULL;
 public:
 	//位置
 	jhVector2 position;
@@ -534,11 +537,13 @@ public:
 	//可视性
 	bool visible;
 	//设置循环函数
-	gameUI* setGameLoopFunc(void (*gameLoopFunc)());
+	gameUI* setGameLoopFunc(void (*gameLoopFunc)(gameUI* self));
 	//构造函数
 	gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible = true);
 	//修改游戏界面贴图
 	gameUI* changeImage(LPCTSTR file, jhVector2 size);
+	//标签
+	jhString tag = "gameUI";
 };
 
 //游戏界面文字类
@@ -562,6 +567,8 @@ public:
 private:
 	//被引用次数
 	int refCount = 0;
+	//标签
+	jhString tag = "gameUIText";
 };
 
 
@@ -800,3 +807,6 @@ public:
 	//键盘输入
 	gameInput Input;
 };
+
+
+#endif // !JHMG_ENGINE_H
