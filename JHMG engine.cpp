@@ -116,12 +116,15 @@ void gameSound::setSound(jhString music_file)
 	this->music_file = music_file;
 }
 
-void gameSound::play()
+void gameSound::play(bool repeat)
 {
 	char command[256];
 	sprintf(command, "open %s alias music", music_file.to_char());
 	mciSendString(command, NULL, 0, NULL);
-	mciSendString("play music", NULL, 0, NULL);
+	if(repeat)
+		mciSendString("play music repeat", NULL, 0, NULL);
+	else
+		mciSendString("play music", NULL, 0, NULL);
 }
 
 void gameSound::stop()

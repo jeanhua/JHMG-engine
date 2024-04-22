@@ -583,7 +583,7 @@ public:
 	//设置音乐文件
 	void setSound(jhString music_file);
 	//播放音效
-	void play();
+	void play(bool repeat=false);
 	//停止音效
 	void stop();
 	//暂停音效
