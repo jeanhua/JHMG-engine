@@ -102,10 +102,10 @@ public:
 	//‘ÀÀ„∑˚÷ÿ‘ÿ
 	jhString operator+(const jhString& str);
 	jhString operator+(const string& str);
-	jhString operator=(const jhString& str);
-	jhString operator=(const string& str);
-	jhString operator+=(const jhString& str);
-	jhString operator+=(const string& str);
+	void operator=(const jhString& str);
+	void operator=(const string& str);
+	void operator+=(const jhString& str);
+	void operator+=(const string& str);
 	bool operator==(const jhString& str);
 	bool operator<(const jhString& str)const;
 	bool operator>(const jhString& str)const;

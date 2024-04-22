@@ -716,7 +716,7 @@ gameMessageBox::gameMessageBox(jhString title, jhString message)
 
 void gameMessageBox::show()
 {
-	MessageBox(NULL, message.to_char(), title.to_char(), MB_OK);
+	MessageBox(GetHWnd(), message.to_char(), title.to_char(), MB_OK);
 }
 
 
@@ -763,28 +763,24 @@ jhString jhString::operator+(const string& str)
 	return jhString(this->str + str);
 }
 
-jhString jhString::operator=(const jhString& str)
+void jhString::operator=(const jhString& str)
 {
 	this->str = str.str;
-	return *this;
 }
 
-jhString jhString::operator=(const string& str)
+void jhString::operator=(const string& str)
 {
 	this->str = str;
-	return *this;
 }
 
-jhString jhString::operator+=(const jhString& str)
+void jhString::operator+=(const jhString& str)
 {
 	this->str += str.str;
-	return *this;
 }
 
-jhString jhString::operator+=(const string& str)
+void jhString::operator+=(const string& str)
 {
 	this->str += str;
-	return *this;
 }
 
 bool jhString::operator==(const jhString& str)
