@@ -724,6 +724,8 @@ class MouseAction
 	friend class gameObject;
 	friend class gameUI;
 private:
+	//鼠标当前位置
+	jhVector2 mousePosition;
 	//左上角起始判断坐标
 	jhVector2 beginPosition;
 	//右下角结束判断坐标
@@ -737,6 +739,8 @@ private:
 public:
 	//设置鼠标点击回调函数
 	void setClickFunc(void (*onClick)(int mouseMessage, jhVector2 position,T self));
+	//获取鼠标当前位置
+	jhVector2 getMousePosition();
 };
 
 //输入框类

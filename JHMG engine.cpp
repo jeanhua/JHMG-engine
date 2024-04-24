@@ -688,12 +688,23 @@ void MouseAction<T>::getMouseMessage(const ExMessage& msg)
 				onClick(MouseMessage::rightUp, jhVector2(msg.x, msg.y), self);
 		}
 	}
+	if (msg.message == WM_MOUSEMOVE)
+	{
+		this->mousePosition.x = msg.x;
+		this->mousePosition.y = msg.y;
+	}
 }
 
 template<class T>
 void MouseAction<T>::setClickFunc(void(*onClick)(int mouseMessage, jhVector2 position, T self))
 {
 	this->onClick = onClick;
+}
+
+template<class T>
+jhVector2 MouseAction<T>::getMousePosition()
+{
+	return this->mousePosition;
 }
 
 gameInputBox::gameInputBox(jhString* inputText, jhString title, jhString prompt, jhString defaultText, int max, jhVector2 size)
