@@ -1,6 +1,6 @@
 #ifndef JHMG_ENGINE_H
 #define JHMG_ENGINE_H
-#include "easyx.h"
+#include<easyx.h>
 #include<map>
 #include<string>
 #include<iostream>
