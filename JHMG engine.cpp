@@ -81,6 +81,26 @@ gameObject* gameObject::changeImage(LPCTSTR file, jhVector2 size)
 	return this;
 }
 
+gameObject::~gameObject()
+{
+	if (this->transformType == 'c')
+		delete this->transform.circle;
+	else if (this->transformType == 'r')
+		delete this->transform.rectangle;
+	else if (this->transformType == 'd')
+		delete this->transform.diamond;
+	else if (this->transformType == 't')
+		delete this->transform.triangle;
+	delete this->image;
+	delete this->mouseAction;
+	this->transform.circle = NULL;
+	this->transform.rectangle = NULL;
+	this->transform.diamond = NULL;
+	this->transform.triangle = NULL;
+	this->image = NULL;
+	this->mouseAction = NULL;
+}
+
 
 gameUI* gameUI::setGameLoopFunc(void(*gameLoopFunc)(gameUI* self))
 {
@@ -109,6 +129,14 @@ gameUI* gameUI::changeImage(LPCTSTR file, jhVector2 size)
 	delete this->image;
 	this->image = img;
 	return this;
+}
+
+gameUI::~gameUI()
+{
+	delete this->image;
+	delete this->mouseAction;
+	this->image = NULL;
+	this->mouseAction = NULL;
 }
 
 
@@ -284,9 +312,8 @@ void Game::gameLoop()
 			//调用场景循环函数
 			if (this->Scene->gameLoop != NULL)
 				this->Scene->gameLoop();
+
 			//遍历界面
-
-
 			for (auto it = this->Scene->gameUIs.p_first; it != NULL; it = it->p_next)
 			{
 				if (it->value->visible)
@@ -470,24 +497,6 @@ void gameScene::removeGameObject(jhString name)
 			if (it->value->refCount == 1)
 			{
 				canOperator = false;
-				if(it->value->transformType == 'c')
-					delete it->value->transform.circle;
-				else if (it->value->transformType == 'r')
-					delete it->value->transform.rectangle;
-				else if (it->value->transformType == 'd')
-					delete it->value->transform.diamond;
-				else if (it->value->transformType == 't')
-					delete it->value->transform.triangle;
-				it->value->transform.circle = NULL;
-				it->value->transform.rectangle = NULL;
-				it->value->transform.diamond = NULL;
-				it->value->transform.triangle = NULL;
-				it->value->onCollision = NULL;
-				it->value->gameLoopFunc = NULL;
-				delete it->value->image;
-				it->value->image = NULL;
-				delete it->value->mouseAction;
-				it->value->mouseAction = NULL;
 				delete it->value;
 				it->value = NULL;
 				this->gameObjects.deleteList(it);
@@ -576,11 +585,6 @@ void gameScene::removeGameUI(jhString name)
 			if (it->value->refCount == 1)
 			{
 				canOperator = false;
-				it->value->gameLoopFunc = NULL;
-				delete it->value->image;
-				it->value->image = NULL;
-				delete it->value->mouseAction;
-				it->value->mouseAction = NULL;
 				delete it->value;
 				it->value = NULL;
 				this->gameUIs.deleteList(it);
@@ -642,6 +646,7 @@ void gameInput::getMessage(const ExMessage& msg)
 
 	if (msg.message == WM_KEYDOWN)
 	{
+		if(msg.vkcode != 0x1B)
 		this->key = msg.vkcode;
 	}
 	else if (msg.message == WM_KEYUP)

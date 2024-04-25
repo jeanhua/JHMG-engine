@@ -502,7 +502,8 @@ public:
 	gameObject* changeImage(LPCTSTR file,jhVector2 size);
 	//标签
 	jhString tag="gameObject";
-
+	//析构函数
+	~gameObject();
 
 private:
 	//游戏对象的图片
@@ -544,6 +545,8 @@ public:
 	gameUI* changeImage(LPCTSTR file, jhVector2 size);
 	//标签
 	jhString tag = "gameUI";
+	//析构函数
+	~gameUI();
 };
 
 //游戏界面文字类
@@ -785,8 +788,6 @@ private:
 	gameScene* Scene = NULL;
 	//游戏帧率
 	int targetFrame = 60;
-	//游戏音效
-	gameSound Sound;
 	//游戏循环
 	void gameLoop();
 public:
@@ -810,6 +811,8 @@ public:
 	gameScene* getScene();
 	//键盘输入
 	gameInput Input;
+	//游戏音效
+	gameSound Sound;
 };
 
 
