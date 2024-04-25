@@ -641,9 +641,7 @@ void gameInput::getMessage(const ExMessage& msg)
 
 char gameInput::getKey()
 {
-	auto tmpKey = key;
-	key = 0;
-	return tmpKey;
+	return this->key;
 }
 
 gameUIText::gameUIText(jhString text, jhVector2 position, COLORREF color, jhVector2 size, bool visible)
