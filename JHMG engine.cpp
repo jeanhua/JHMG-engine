@@ -2,6 +2,7 @@
 
 static bool canOperator = true;
 #define CHECK if(canOperator == false){canOperator = true;break;}
+#define CHECK_n if(canOperator == false){break;}
 
 gameObject::gameObject(jhObject2D::circle* transform, LPCTSTR file, int width, int height, bool visible)
 {
@@ -121,7 +122,7 @@ void gameSound::play(bool repeat)
 	char command[256];
 	sprintf(command, "open %s alias music", music_file.to_char());
 	mciSendString(command, NULL, 0, NULL);
-	if(repeat)
+	if (repeat)
 		mciSendString("play music repeat", NULL, 0, NULL);
 	else
 		mciSendString("play music", NULL, 0, NULL);
@@ -304,10 +305,7 @@ void Game::gameLoop()
 						break;
 					}
 			}
-
 			//遍历物体
-
-
 			for (auto it = this->Scene->gameObjects.p_first; it != NULL; it = it->p_next)
 			{
 				//打印物体
@@ -348,7 +346,6 @@ void Game::gameLoop()
 				}
 				CHECK
 					//获取消息
-
 					while (isMessage)
 					{
 						//调用鼠标事件
@@ -369,7 +366,7 @@ void Game::gameLoop()
 								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.circle))
 								{
 									it->value->onCollision(it2->value);
-									CHECK
+									CHECK_n
 								}
 							}
 							else if (it2->value->transformType == 'r')
@@ -377,7 +374,7 @@ void Game::gameLoop()
 								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.rectangle))
 								{
 									it->value->onCollision(it2->value);
-									CHECK
+									CHECK_n
 								}
 							}
 							else if (it2->value->transformType == 'd')
@@ -385,7 +382,7 @@ void Game::gameLoop()
 								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.diamond))
 								{
 									it->value->onCollision(it2->value);
-									CHECK
+									CHECK_n
 								}
 							}
 							else if (it2->value->transformType == 't')
@@ -393,11 +390,12 @@ void Game::gameLoop()
 								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.triangle))
 								{
 									it->value->onCollision(it2->value);
-									CHECK
+									CHECK_n
 								}
 							}
 						}
 					}
+					CHECK
 				}
 			}
 			//遍历界面文本
