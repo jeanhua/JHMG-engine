@@ -470,6 +470,18 @@ void gameScene::removeGameObject(jhString name)
 			if (it->value->refCount == 1)
 			{
 				canOperator = false;
+				if(it->value->transformType == 'c')
+					delete it->value->transform.circle;
+				else if (it->value->transformType == 'r')
+					delete it->value->transform.rectangle;
+				else if (it->value->transformType == 'd')
+					delete it->value->transform.diamond;
+				else if (it->value->transformType == 't')
+					delete it->value->transform.triangle;
+				it->value->transform.circle = NULL;
+				it->value->transform.rectangle = NULL;
+				it->value->transform.diamond = NULL;
+				it->value->transform.triangle = NULL;
 				it->value->onCollision = NULL;
 				it->value->gameLoopFunc = NULL;
 				delete it->value->image;
