@@ -495,9 +495,9 @@ public:
 	gameObject(jhObject2D::diamond* transform, LPCTSTR file, int width, int height, bool visible = true);
 	gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width, int height, bool visible = true);
 	//设置碰撞回调函数
-	gameObject* setOnCollision(void (*onCollision)(gameObject* gameObject));
+	gameObject* setOnCollision(void (*onCollision)(gameObject* self, gameObject* gameObject));
 	//设置游戏循环回调函数
-	gameObject* setGameLoopFunc(void(*gameLoopFunc)(gameObject* gameObject));
+	gameObject* setGameLoopFunc(void(*gameLoopFunc)(gameObject* self));
 	// 修改游戏对象贴图
 	gameObject* changeImage(LPCTSTR file,jhVector2 size);
 	//标签
@@ -508,9 +508,9 @@ private:
 	//游戏对象的图片
 	IMAGE* image;
 	//碰撞回调函数
-	void (*onCollision)(gameObject* gameObject) = NULL;
+	void (*onCollision)(gameObject* self,gameObject* gameObject) = NULL;
 	//游戏循环回调函数
-	void(*gameLoopFunc)(gameObject* gameObject) = NULL;
+	void(*gameLoopFunc)(gameObject* self) = NULL;
 	//被引用次数
 	int refCount = 0;
 };

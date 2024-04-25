@@ -60,13 +60,13 @@ gameObject::gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width,
 	this->visible = visible;
 }
 
-gameObject* gameObject::setOnCollision(void(*onCollision)(gameObject* gameObject))
+gameObject* gameObject::setOnCollision(void(*onCollision)(gameObject* self, gameObject* gameObject))
 {
 	this->onCollision = onCollision;
 	return this;
 }
 
-gameObject* gameObject::setGameLoopFunc(void(*gameLoopFunc)(gameObject* gameObject))
+gameObject* gameObject::setGameLoopFunc(void(*gameLoopFunc)(gameObject* self))
 {
 	this->gameLoopFunc = gameLoopFunc;
 	return this;
@@ -365,7 +365,7 @@ void Game::gameLoop()
 							{
 								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.circle))
 								{
-									it->value->onCollision(it2->value);
+									it->value->onCollision(it->value,it2->value);
 									CHECK_n
 								}
 							}
@@ -373,7 +373,7 @@ void Game::gameLoop()
 							{
 								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.rectangle))
 								{
-									it->value->onCollision(it2->value);
+									it->value->onCollision(it->value, it2->value);
 									CHECK_n
 								}
 							}
@@ -381,7 +381,7 @@ void Game::gameLoop()
 							{
 								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.diamond))
 								{
-									it->value->onCollision(it2->value);
+									it->value->onCollision(it->value, it2->value);
 									CHECK_n
 								}
 							}
@@ -389,7 +389,7 @@ void Game::gameLoop()
 							{
 								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.triangle))
 								{
-									it->value->onCollision(it2->value);
+									it->value->onCollision(it->value, it2->value);
 									CHECK_n
 								}
 							}
@@ -631,6 +631,10 @@ void gameInput::getMessage(const ExMessage& msg)
 	if (msg.message == WM_KEYDOWN)
 	{
 		this->key = msg.vkcode;
+	}
+	else if (msg.message == WM_KEYUP)
+	{
+		this->key = 0;
 	}
 
 }

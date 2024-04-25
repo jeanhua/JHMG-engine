@@ -5,7 +5,7 @@ Game* mainGame;
 
 //声明函数
 void loop(gameObject* self);
-void trigger(gameObject* other);
+void trigger(gameObject* self, gameObject* other);
 void onClick(int messageType, jhVector2 position,gameObject* self);
 
 int main()
@@ -98,7 +98,7 @@ void loop(gameObject* self)
 	}
 }
 
-void trigger(gameObject* other)
+void trigger(gameObject* self,gameObject* other)
 {
 	//碰撞输出名字
 	cout << mainGame->getScene()->getName(other) << endl;
