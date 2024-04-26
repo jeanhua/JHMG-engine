@@ -131,6 +131,13 @@ gameUI* gameUI::changeImage(LPCTSTR file, jhVector2 size)
 	return this;
 }
 
+gameUI* gameUI::changeImage(IMAGE* image)
+{
+	delete this->image;
+	this->image = image;
+	return this;
+}
+
 gameUI::~gameUI()
 {
 	delete this->image;
@@ -139,49 +146,56 @@ gameUI::~gameUI()
 	this->mouseAction = NULL;
 }
 
-
-void gameSound::setSound(jhString music_file)
+void gameSound::open(jhString name, jhString music_file)
 {
-	this->music_file = music_file;
+	this->name = name;
+	char command[256];
+	sprintf(command, "open %s alias %s", music_file.to_char(), name.to_char());
+	mciSendString(command, NULL, 0, NULL);
 }
 
 void gameSound::play(bool repeat)
 {
 	char command[256];
-	sprintf(command, "open %s alias music", music_file.to_char());
-	mciSendString(command, NULL, 0, NULL);
 	if (repeat)
-		mciSendString("play music repeat", NULL, 0, NULL);
+		sprintf(command, "play %s repeat", name.to_char());
 	else
-		mciSendString("play music", NULL, 0, NULL);
+		sprintf(command, "play %s", name.to_char());
+	mciSendString(command, NULL, 0, NULL);
 }
 
 void gameSound::stop()
 {
-	mciSendString("close music", NULL, 0, NULL);
+	char command[256];
+	sprintf(command, "stop %s", name.to_char());
+	mciSendString(command, NULL, 0, NULL);
 }
 
 void gameSound::pause()
 {
-	mciSendString("pause music", NULL, 0, NULL);
+	char command[256];
+	sprintf(command, "pause %s", name.to_char());
+	mciSendString(command, NULL, 0, NULL);
 }
 
 void gameSound::resume()
 {
-	mciSendString("resume music", NULL, 0, NULL);
+	char command[256];
+	sprintf(command, "resume %s", name.to_char());
+	mciSendString(command, NULL, 0, NULL);
 }
 
 void gameSound::setVolume(int volume)
 {
 	char command[256];
-	sprintf(command, "setaudio music volume to %d", volume);
+	sprintf(command, "setaudio %s volume to %d", name.to_char(), volume);
 	mciSendString(command, NULL, 0, NULL);
 }
 
 int gameSound::getVolume()
 {
 	char command[256];
-	sprintf(command, "status music volume");
+	sprintf(command, "status %s volume", name.to_char());
 	char result[256];
 	mciSendString(command, result, 256, NULL);
 	int volume;
@@ -192,14 +206,14 @@ int gameSound::getVolume()
 void gameSound::setPosition(int position)
 {
 	char command[256];
-	sprintf(command, "seek music to %d", position);
+	sprintf(command, "seek %s to %d", name.to_char(), position);
 	mciSendString(command, NULL, 0, NULL);
 }
 
 int gameSound::getPosition()
 {
 	char command[256];
-	sprintf(command, "status music position");
+	sprintf(command, "status %s position", name.to_char());
 	char result[256];
 	mciSendString(command, result, 256, NULL);
 	int position;
@@ -210,7 +224,7 @@ int gameSound::getPosition()
 int gameSound::getLength()
 {
 	char command[256];
-	sprintf(command, "status music length");
+	sprintf(command, "status %s length", name.to_char());
 	char result[256];
 	mciSendString(command, result, 256, NULL);
 	int length;
@@ -221,35 +235,26 @@ int gameSound::getLength()
 int gameSound::getState()
 {
 	char command[256];
-	sprintf(command, "status music mode");
+	sprintf(command, "status %s mode", name.to_char());
 	char result[256];
 	mciSendString(command, result, 256, NULL);
-	if (strcmp(result, "playing") == 0)
-	{
-		return 1;
-	}
-	else if (strcmp(result, "paused") == 0)
-	{
-		return 2;
-	}
-	else if (strcmp(result, "stopped") == 0)
-	{
-		return 3;
-	}
-	else
-	{
-		return 0;
-	}
+	int state;
+	sscanf(result, "%d", &state);
+	return state;
 }
 
 void gameSound::close()
 {
-	mciSendString("close music", NULL, 0, NULL);
+	char command[256];
+	sprintf(command, "close %s", name.to_char());
+	mciSendString(command, NULL, 0, NULL);
 }
 
 gameSound::~gameSound()
 {
-	mciSendString("close music", NULL, 0, NULL);
+	char command[256];
+	sprintf(command, "close %s", name.to_char());
+	mciSendString(command, NULL, 0, NULL);
 }
 
 void Game::setWindowSize(jhVector2 windowSize)

@@ -543,6 +543,7 @@ public:
 	gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible = true);
 	//修改游戏界面贴图
 	gameUI* changeImage(LPCTSTR file, jhVector2 size);
+	gameUI* changeImage(IMAGE* image);
 	//标签
 	jhString tag = "gameUI";
 	//析构函数
@@ -580,11 +581,11 @@ class gameSound
 {
 	friend class Game;
 private:
-	//音效
-	jhString music_file;
+	//名称
+	jhString name;
 public:
-	//设置音乐文件
-	void setSound(jhString music_file);
+	//打开音乐文件
+	void open(jhString name,jhString music_file);
 	//播放音效
 	void play(bool repeat=false);
 	//停止音效
@@ -811,8 +812,6 @@ public:
 	gameScene* getScene();
 	//键盘输入
 	gameInput Input;
-	//游戏音效
-	gameSound Sound;
 };
 
 
