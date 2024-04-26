@@ -25,7 +25,7 @@ git clone https://github.com/jeanhua/JHMG-engine.git
 ```
 ### 类图
 
-![类图](https://pic.imgdb.cn/item/662b9e870ea9cb140358c6dd.png)
+![类图](./ClassDiagram.png)
 
 # 详细信息
 ## 类介绍
