@@ -6,11 +6,6 @@ JHMG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速�
 
 [gitee镜像地址 https://gitee.com/jeanhua/JHMG-engine](https://gitee.com/jeanhua/JHMG-engine)
 
-<div style="position: relative; padding: 30% 45%;">
-    <iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="https://www.veed.io/view/c44c8885-2a4d-45d8-b333-8c10f5b5261a?panel=share" frameborder="1" scrolling="yes" width="320" height="240"></iframe>
-</div>
-
-
 ## 特点
 
 - 提供了游戏场景管理、游戏对象管理、界面显示、音效播放、用户输入处理等核心功能。
