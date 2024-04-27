@@ -160,7 +160,7 @@ void gameSound::play(bool repeat)
 	if (repeat)
 		sprintf(command, "play %s repeat", name.to_char());
 	else
-		sprintf(command, "play %s", name.to_char());
+		sprintf(command, "play %s from 0", name.to_char());
 	mciSendString(command, NULL, 0, NULL);
 }
 
