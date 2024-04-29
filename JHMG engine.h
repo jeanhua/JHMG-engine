@@ -233,7 +233,7 @@ public:
 	{
 		node* p_back = NULL;
 		node* p_next = NULL;
-		T value;
+		T value = NULL;
 	};
 	//链表头
 	node* p_first;
@@ -500,6 +500,7 @@ public:
 	gameObject* setGameLoopFunc(void(*gameLoopFunc)(gameObject* self));
 	// 修改游戏对象贴图
 	gameObject* changeImage(LPCTSTR file,jhVector2 size);
+	gameObject* changeImage(IMAGE* image, bool release = true);
 	//标签
 	jhString tag="gameObject";
 	//析构函数
@@ -541,9 +542,10 @@ public:
 	gameUI* setGameLoopFunc(void (*gameLoopFunc)(gameUI* self));
 	//构造函数
 	gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible = true);
+	gameUI(jhVector2 position, IMAGE* image, bool visible = true);
 	//修改游戏界面贴图
 	gameUI* changeImage(LPCTSTR file, jhVector2 size);
-	gameUI* changeImage(IMAGE* image);
+	gameUI* changeImage(IMAGE* image,bool release = true);
 	//标签
 	jhString tag = "gameUI";
 	//析构函数

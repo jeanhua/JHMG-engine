@@ -81,6 +81,14 @@ gameObject* gameObject::changeImage(LPCTSTR file, jhVector2 size)
 	return this;
 }
 
+gameObject* gameObject::changeImage(IMAGE* image, bool release)
+{
+	if (release)
+		delete this->image;
+	this->image = image;
+	return this;
+}
+
 gameObject::~gameObject()
 {
 	if (this->transformType == 'c')
@@ -122,6 +130,17 @@ gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 	this->visible = visible;
 }
 
+gameUI::gameUI(jhVector2 position, IMAGE* image, bool visible)
+{
+	this->position = position;
+	this->image = image;
+	this->mouseAction = new MouseAction<gameUI*>;
+	this->mouseAction->beginPosition = position;
+	this->mouseAction->endPosition = position + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction->self = this;
+	this->visible = visible;
+}
+
 gameUI* gameUI::changeImage(LPCTSTR file, jhVector2 size)
 {
 	IMAGE* img = new IMAGE;
@@ -131,8 +150,9 @@ gameUI* gameUI::changeImage(LPCTSTR file, jhVector2 size)
 	return this;
 }
 
-gameUI* gameUI::changeImage(IMAGE* image)
+gameUI* gameUI::changeImage(IMAGE* image,bool release)
 {
+	if (release)
 	delete this->image;
 	this->image = image;
 	return this;
