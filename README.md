@@ -25,6 +25,9 @@ JHMG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速�
 ```bash
 git clone https://github.com/jeanhua/JHMG-engine.git
 ```
+
+或者[点此下载各版本](https://github.com/jeanhua/JHMG-engine/releases)
+
 ### 类图
 
 ![类图](./ClassDiagram.png)
