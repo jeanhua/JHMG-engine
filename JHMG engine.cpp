@@ -381,13 +381,12 @@ void Game::close()
 
 void Game::gameLoop()
 {
-	clock_t endtime = 0, starttime = 0,flushMessageDT = 0;
+	clock_t endtime = 0, starttime = 0;
 	//游戏循环
 	BeginBatchDraw();
 	while (isRun)
 	{
 		endtime = clock();
-		flushMessageDT = clock();
 		canOperator = true;
 		//判断场景是否为空
 		if (this->Scene == NULL)
@@ -528,11 +527,7 @@ void Game::gameLoop()
 					outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
 			}
 			//清除消息缓存
-			if (clock() - flushMessageDT >= 3000)
-			{
-				flushmessage(-1);
-				flushMessageDT = clock();
-			}
+			flushmessage(-1);
 			//清除打印缓存
 			FlushBatchDraw();
 			deltaTime = endtime - starttime;
