@@ -1,8 +1,9 @@
 #ifndef JHMG_ENGINE_H
 #define JHMG_ENGINE_H
-#include<easyx.h>
+#include "easyx.h"
 #include<map>
 #include<string>
+#include<time.h>
 #include<iostream>
 #include<stdexcept>
 #include<cmath>
@@ -490,10 +491,14 @@ public:
 	//游戏对象可视性
 	bool visible;
 	//构造函数
-	gameObject(jhObject2D::circle* transform, LPCTSTR file, int width, int height, bool visible = true);
-	gameObject(jhObject2D::rectangle* transform, LPCTSTR file, int width, int height, bool visible = true);
-	gameObject(jhObject2D::diamond* transform, LPCTSTR file, int width, int height, bool visible = true);
-	gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width, int height, bool visible = true);
+	gameObject(jhObject2D::circle* transform, jhString file, int width, int height, bool visible = true);
+	gameObject(jhObject2D::circle* transform, IMAGE* image, bool visible = true);
+	gameObject(jhObject2D::rectangle* transform, jhString file, int width, int height, bool visible = true);
+	gameObject(jhObject2D::rectangle* transform, IMAGE* image, bool visible = true);
+	gameObject(jhObject2D::diamond* transform, jhString file, int width, int height, bool visible = true);
+	gameObject(jhObject2D::diamond* transform, IMAGE* image, bool visible = true);
+	gameObject(jhObject2D::triangle* transform, jhString file, int width, int height, bool visible = true);
+	gameObject(jhObject2D::triangle* transform, IMAGE* image, bool visible = true);
 	//设置碰撞回调函数
 	gameObject* setOnCollision(void (*onCollision)(gameObject* self, gameObject* gameObject));
 	//设置游戏循环回调函数
@@ -515,6 +520,8 @@ private:
 	void(*gameLoopFunc)(gameObject* self) = NULL;
 	//被引用次数
 	int refCount = 0;
+	//是否删除图片
+	bool imgRelease = false;
 };
 
 //游戏界面类
@@ -529,6 +536,8 @@ private:
 	int refCount = 0;
 	//循环函数
 	void (*gameLoopFunc)(gameUI* self) = NULL;
+	//是否删除图片
+	bool imgRelease = false;
 public:
 	//位置
 	jhVector2 position;
@@ -793,6 +802,8 @@ private:
 	int targetFrame = 60;
 	//游戏循环
 	void gameLoop();
+	//游戏是否运行
+	bool isRun = true;
 public:
 	//设置游戏窗口大小
 	void setWindowSize(jhVector2 windowSize);
@@ -804,6 +815,8 @@ public:
 	void setScene(gameScene* Scene);
 	//设置游戏帧率
 	void setTargetFrame(int targetFrame);
+	//关闭游戏
+	void close();
 	//游戏间隔
 	long deltaTime;
 	//获取游戏窗口大小

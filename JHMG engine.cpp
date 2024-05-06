@@ -4,60 +4,116 @@ static bool canOperator = true;
 #define CHECK if(canOperator == false){canOperator = true;break;}
 #define CHECK_n if(canOperator == false){break;}
 
-gameObject::gameObject(jhObject2D::circle* transform, LPCTSTR file, int width, int height, bool visible)
+gameObject::gameObject(jhObject2D::circle* transform, jhString file, int width, int height, bool visible)
 {
 	this->transform.circle = transform;
 	this->transformType = 'c';
 	IMAGE* img = new IMAGE;
-	loadimage(img, file, width, height, true);
+	loadimage(img, file.to_char(), width, height, true);
 	this->image = img;
 	this->mouseAction = new MouseAction<gameObject*>;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
 	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
 	this->mouseAction->self = this;
 	this->visible = visible;
+	imgRelease = true;
 }
 
-gameObject::gameObject(jhObject2D::rectangle* transform, LPCTSTR file, int width, int height, bool visible)
+gameObject::gameObject(jhObject2D::circle* transform, IMAGE* image, bool visible)
+{
+	this->transform.circle = transform;
+	this->transformType = 'c';
+	this->image = image;
+	this->mouseAction = new MouseAction<gameObject*>;
+	this->mouseAction->beginPosition = transform->getLeftTopPosition();
+	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction->self = this;
+	this->visible = visible;
+	imgRelease = false;
+}
+
+gameObject::gameObject(jhObject2D::rectangle* transform, jhString file, int width, int height, bool visible)
 {
 	this->transform.rectangle = transform;
 	this->transformType = 'r';
 	IMAGE* img = new IMAGE;
-	loadimage(img, file, width, height, true);
+	loadimage(img, file.to_char(), width, height, true);
 	this->image = img;
 	this->mouseAction = new MouseAction<gameObject*>;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
 	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
 	this->mouseAction->self = this;
 	this->visible = visible;
+	imgRelease = true;
 }
 
-gameObject::gameObject(jhObject2D::diamond* transform, LPCTSTR file, int width, int height, bool visible)
+gameObject::gameObject(jhObject2D::rectangle* transform, IMAGE* image, bool visible)
+{
+	this->transform.rectangle = transform;
+	this->transformType = 'r';
+	this->image = image;
+	this->mouseAction = new MouseAction<gameObject*>;
+	this->mouseAction->beginPosition = transform->getLeftTopPosition();
+	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction->self = this;
+	this->visible = visible;
+	imgRelease = false;
+}
+
+gameObject::gameObject(jhObject2D::diamond* transform, jhString file, int width, int height, bool visible)
 {
 	this->transform.diamond = transform;
 	this->transformType = 'd';
 	IMAGE* img = new IMAGE;
-	loadimage(img, file, width, height, true);
+	loadimage(img, file.to_char(), width, height, true);
 	this->image = img;
 	this->mouseAction = new MouseAction<gameObject*>;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
 	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
 	this->mouseAction->self = this;
 	this->visible = visible;
+	imgRelease = true;
 }
 
-gameObject::gameObject(jhObject2D::triangle* transform, LPCTSTR file, int width, int height, bool visible)
+gameObject::gameObject(jhObject2D::diamond* transform, IMAGE* image, bool visible)
+{
+	this->transform.diamond = transform;
+	this->transformType = 'd';
+	this->image = image;
+	this->mouseAction = new MouseAction<gameObject*>;
+	this->mouseAction->beginPosition = transform->getLeftTopPosition();
+	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction->self = this;
+	this->visible = visible;
+	imgRelease = false;
+}
+
+gameObject::gameObject(jhObject2D::triangle* transform, jhString file, int width, int height, bool visible)
 {
 	this->transform.triangle = transform;
 	this->transformType = 't';
 	IMAGE* img = new IMAGE;
-	loadimage(img, file, width, height, true);
+	loadimage(img, file.to_char(), width, height, true);
 	this->image = img;
 	this->mouseAction = new MouseAction<gameObject*>;
 	this->mouseAction->beginPosition = transform->getLeftTopPosition();
 	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
 	this->mouseAction->self = this;
 	this->visible = visible;
+	imgRelease = true;
+}
+
+gameObject::gameObject(jhObject2D::triangle* transform, IMAGE* image, bool visible)
+{
+	this->transform.triangle = transform;
+	this->transformType = 't';
+	this->image = image;
+	this->mouseAction = new MouseAction<gameObject*>;
+	this->mouseAction->beginPosition = transform->getLeftTopPosition();
+	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction->self = this;
+	this->visible = visible;
+	imgRelease = false;
 }
 
 gameObject* gameObject::setOnCollision(void(*onCollision)(gameObject* self, gameObject* gameObject))
@@ -74,6 +130,7 @@ gameObject* gameObject::setGameLoopFunc(void(*gameLoopFunc)(gameObject* self))
 
 gameObject* gameObject::changeImage(LPCTSTR file, jhVector2 size)
 {
+	imgRelease = true;
 	IMAGE* img = new IMAGE;
 	loadimage(img, file, size.x, size.y, true);
 	delete this->image;
@@ -99,7 +156,8 @@ gameObject::~gameObject()
 		delete this->transform.diamond;
 	else if (this->transformType == 't')
 		delete this->transform.triangle;
-	delete this->image;
+	if (imgRelease)
+		delete this->image;
 	delete this->mouseAction;
 	this->transform.circle = NULL;
 	this->transform.rectangle = NULL;
@@ -128,6 +186,7 @@ gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 	this->mouseAction->endPosition = position + size;
 	this->mouseAction->self = this;
 	this->visible = visible;
+	imgRelease = true;
 }
 
 gameUI::gameUI(jhVector2 position, IMAGE* image, bool visible)
@@ -139,6 +198,7 @@ gameUI::gameUI(jhVector2 position, IMAGE* image, bool visible)
 	this->mouseAction->endPosition = position + jhVector2(image->getwidth(), image->getheight());
 	this->mouseAction->self = this;
 	this->visible = visible;
+	imgRelease = false;
 }
 
 gameUI* gameUI::changeImage(LPCTSTR file, jhVector2 size)
@@ -147,6 +207,7 @@ gameUI* gameUI::changeImage(LPCTSTR file, jhVector2 size)
 	loadimage(img, file, size.x, size.y, true);
 	delete this->image;
 	this->image = img;
+	imgRelease = true;
 	return this;
 }
 
@@ -155,12 +216,14 @@ gameUI* gameUI::changeImage(IMAGE* image,bool release)
 	if (release)
 	delete this->image;
 	this->image = image;
+	imgRelease = false;
 	return this;
 }
 
 gameUI::~gameUI()
 {
-	delete this->image;
+	if (imgRelease)
+		delete this->image;
 	delete this->mouseAction;
 	this->image = NULL;
 	this->mouseAction = NULL;
@@ -311,14 +374,20 @@ void Game::setTargetFrame(int targetFrame)
 		this->targetFrame = 60;
 }
 
+void Game::close()
+{
+	isRun = false;
+}
+
 void Game::gameLoop()
 {
-	clock_t endtime = 0, starttime = 0;
+	clock_t endtime = 0, starttime = 0,flushMessageDT = 0;
 	//游戏循环
 	BeginBatchDraw();
-	while (1)
+	while (isRun)
 	{
 		endtime = clock();
+		flushMessageDT = clock();
 		canOperator = true;
 		//判断场景是否为空
 		if (this->Scene == NULL)
@@ -459,8 +528,12 @@ void Game::gameLoop()
 					outtextxy(it->value->position.x, it->value->position.y, it->value->text.to_char());
 			}
 			//清除消息缓存
-			flushmessage(-1);
-			//清除缓存
+			if (clock() - flushMessageDT >= 3000)
+			{
+				flushmessage(-1);
+				flushMessageDT = clock();
+			}
+			//清除打印缓存
 			FlushBatchDraw();
 			deltaTime = endtime - starttime;
 			starttime = clock();
@@ -551,6 +624,7 @@ jhString gameScene::getName(gameObject* gameObject)
 			return it.first;
 		}
 	}
+	return jhString();
 }
 
 jhString gameScene::getName(gameUI* gameUI)
@@ -562,6 +636,7 @@ jhString gameScene::getName(gameUI* gameUI)
 			return it.first;
 		}
 	}
+	return jhString();
 }
 
 jhString gameScene::getName(gameUIText* gameUIText)
@@ -573,6 +648,7 @@ jhString gameScene::getName(gameUIText* gameUIText)
 			return it.first;
 		}
 	}
+	return jhString();
 }
 
 void gameScene::addGameUI(jhString name, gameUI* gameUI)
