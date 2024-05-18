@@ -1,5 +1,5 @@
 # ✅JHMG 游戏引擎
-![Language](https://img.shields.io/badge/language-c++-brightgreen)
+![Language](https://img.shields.io/badge/language-c++-brightgreen) ![author](https://img.shields.io/badge/auther-jeanhua-blue)
 
 JHMG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速搭建和开发2D游戏。
  
