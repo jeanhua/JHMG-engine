@@ -7,7 +7,6 @@
 #include<iostream>
 #include<stdexcept>
 #include<cmath>
-using namespace std;
 
 //音乐播放所需库
 #include<Windows.h>
@@ -56,60 +55,60 @@ inline void putimagePNG(int x, int y, IMAGE* img) {
 	}
 }
 
-/*
-   自定义类：jhString类，jhFraction类，jhVector2类，jhList类，jhMatrix类，jhObject2D命名空间{transform类,circle类,rectangle类,triangle类,diamond类,trapezium类}
-*/
+
 #define PI 3.14
-// 类的声明
-class jhString;
-class jhFraction;
-class jhVector2;
-template<class T> class jhList;
-class jhMatrix;
-namespace jhObject2D
+
+namespace JHMG_ENGINE
 {
-	class transform;
-	class circle;
-	class rectangle;
-	class triangle;
-	class diamond;
-	class trapezium;
+	// 类定义
+	class Transform;
+	class Circle;
+	class Rectangle;
+	class Triangle;
+	class Diamond;
+	class Trapezium;
+
+	class GameObject;
+	class GameUI;
+	class GameUIText;
+	class GameSound;
+	class GameInput;
+	class GameScene;
+	template<class T> class MouseAction;
+	class GameInputBox;
+	class GameMessageBox;
+	class Game;
+
+	class String;
+	class Fraction;
+	class Vector2;
+	template<class T> class List;
+	class Matrix;
 };
 
-//游戏各种类
-class gameObject;
-class gameUI;
-class gameUIText;
-class gameSound;
-class gameInput;
-class gameScene;
-template<class T> class MouseAction;
-class gameInputBox;
-class gameMessageBox;
-class Game;
 
 //jhString类:字符串类型
-class jhString
+class JHMG_ENGINE::String
 {
-public:
 	//友元类
-	friend ostream& operator<<(ostream& cout, const jhString& str);
-	friend istream& operator>>(istream& cin, const jhString& str);
+	friend std::ostream& operator<<(std::ostream& cout, const JHMG_ENGINE::String& m_str);
+	friend std::istream& operator>>(std::istream& cin, const JHMG_ENGINE::String& m_str);
+public:
 	//构造函数
-	jhString();
-	jhString(const string& str);
-	jhString(const char* str);
-	jhString(const jhString& str);
+	String();
+	String(const std::string& m_str);
+	String(const char* m_str);
+	String(const String& m_str);
 	//运算符重载
-	jhString operator+(const jhString& str);
-	jhString operator+(const string& str);
-	void operator=(const jhString& str);
-	void operator=(const string& str);
-	void operator+=(const jhString& str);
-	void operator+=(const string& str);
-	bool operator==(const jhString& str);
-	bool operator<(const jhString& str)const;
-	bool operator>(const jhString& str)const;
+	String operator+(const String& m_str);
+	String operator+(const std::string& m_str);
+	void operator=(const String& m_str);
+	void operator=(const std::string& m_str);
+	void operator+=(const String& m_str);
+	void operator+=(const std::string& m_str);
+	bool operator==(const String& m_str);
+	bool operator<(const String& m_str)const;
+	bool operator>(const String& m_str)const;
 	//字符串转换为整型数据(如果可以)
 	int to_int();
 	//转换为char*
@@ -117,33 +116,33 @@ public:
 	//字符串转换为浮点型数据(如果可以)
 	float to_float();
 	//返回字符串索引，从0开始
-	int indexOf(const string& str);
+	int indexOf(const std::string& m_str);
 	//返回字符串索引，从0开始
-	int indexOf(const jhString& str);
+	int indexOf(const String& m_str);
 	//转换为std::string
-	string to_stdString();
+	std::string to_stdString();
 	//字符串截取，从起始位置截取到终点位置，从0开始
-	string substr(int begin, int end);
+	std::string substr(int begin, int end);
 	//字符串截取,从左边字符截取到右边字符(不包含边界)，若找不到左边，返回空；若找到左边，但找不到右边，返回左边到末尾
-	string substr(const string& leftStr, const string& rightStr);
+	std::string substr(const std::string& leftStr, const std::string& rightStr);
 private:
-	string str;
+	std::string m_str;
 };
 //jhFraction类:s/m分数类
-class jhFraction
+class JHMG_ENGINE::Fraction
 {
 public:
 	//友元类
-	friend ostream& operator<<(ostream& cout, const jhFraction& num);
-	friend istream& operator>>(istream& cin, jhFraction& num);
+	friend std::ostream& operator<<(std::ostream& cout, const Fraction& num);
+	friend std::istream& operator>>(std::istream& cin, Fraction& num);
 	//构造函数
-	jhFraction();
+	Fraction();
 	//拷贝构造函数
-	jhFraction(const jhFraction& num);
+	Fraction(const Fraction& num);
 	//构造函数
-	jhFraction(int num);
-	jhFraction(double num);
-	jhFraction(int s, int m);
+	Fraction(int num);
+	Fraction(double num);
+	Fraction(int s, int m);
 	//化简
 	void simplify();
 	//打印
@@ -151,83 +150,83 @@ public:
 	//转换为浮点数
 	float to_float();
 	//加法运算符重载
-	jhFraction operator+(const jhFraction& num);
-	jhFraction operator+(float num);
+	Fraction operator+(const Fraction& num);
+	Fraction operator+(float num);
 	//加等于运算符重载
-	jhFraction& operator+=(float num);
-	jhFraction& operator+=(const jhFraction& num);
+	Fraction& operator+=(float num);
+	Fraction& operator+=(const Fraction& num);
 	//减法运算符重载
-	jhFraction operator-(const jhFraction& num);
-	jhFraction operator-(float num);
+	Fraction operator-(const Fraction& num);
+	Fraction operator-(float num);
 	//减等于运算符重载
-	jhFraction& operator-=(const jhFraction& num);
-	jhFraction& operator-=(float num);
+	Fraction& operator-=(const Fraction& num);
+	Fraction& operator-=(float num);
 	//乘法运算符重载
-	jhFraction operator*(const jhFraction& num);
-	jhFraction operator*(float num);
+	Fraction operator*(const Fraction& num);
+	Fraction operator*(float num);
 	//乘等于运算符重载
-	jhFraction operator*=(float num);
+	Fraction operator*=(float num);
 	//等于运算符重载
-	jhFraction operator=(const jhFraction& num);
+	Fraction operator=(const Fraction& num);
 	//除法运算符重载
-	jhFraction operator/(const jhFraction& num);
-	jhFraction operator/(float num);
+	Fraction operator/(const Fraction& num);
+	Fraction operator/(float num);
 	//除等于运算符重载
-	jhFraction operator/=(float num);
+	Fraction operator/=(float num);
 	//比较运算符重载
-	bool operator>(const jhFraction& num);
+	bool operator>(const Fraction& num);
 	bool operator>(float num);
-	bool operator>=(const jhFraction& num);
+	bool operator>=(const Fraction& num);
 	bool operator>=(float num);
-	bool operator<(const jhFraction& num);
+	bool operator<(const Fraction& num);
 	bool operator<(float num);
-	bool operator<=(const jhFraction& num);
+	bool operator<=(const Fraction& num);
 	bool operator<=(float num);
-	bool operator==(const jhFraction& num);
+	bool operator==(const Fraction& num);
 	bool operator==(float num);
 private:
 	int s, m;/* （s/m分数类型）*/
 };
 //jhVector2类：二维向量，坐标
-class jhVector2
+class JHMG_ENGINE::Vector2
 {
 public:
 	//友元类
 	float x, y;
 	//默认构造函数
-	jhVector2();
+	Vector2();
 	//构造函数
-	jhVector2(float x, float y);
+	Vector2(float x, float y);
 	//拷贝构造函数
-	jhVector2(const jhVector2& v2);
+	Vector2(const Vector2& v2);
 	//赋值运算符重载
-	jhVector2& operator=(const jhVector2& v2);
+	Vector2& operator=(const Vector2& v2);
 	//加法运算符重载
-	jhVector2 operator+(const jhVector2& v2);
+	Vector2 operator+(const Vector2& v2);
 	//加等于运算符重载
-	jhVector2& operator+=(const jhVector2& v2);
+	Vector2& operator+=(const Vector2& v2);
 	//减法运算符重载
-	jhVector2 operator-(const jhVector2& v2);
+	Vector2 operator-(const Vector2& v2);
 	//减等于运算符重载
-	jhVector2& operator-=(const jhVector2& v2);
+	Vector2& operator-=(const Vector2& v2);
 	//乘法运算符重载
-	jhVector2 operator*(float i);
+	Vector2 operator*(float i);
 	//除法运算符重载
-	jhVector2 operator/(float i);
+	Vector2 operator/(float i);
 	//判断是否相等
-	bool operator==(const jhVector2& v2);
+	bool operator==(const Vector2& v2);
 	//求坐标距离
-	double destance(const jhVector2& objective);
+	double destance(const Vector2& objective);
 	//求向量叉乘
-	double cross_product(const jhVector2& objective);
+	double cross_product(const Vector2& objective);
 	//求向量点乘
-	double dot_product(const jhVector2& objective);
+	double dot_product(const Vector2& objective);
 	//旋转
-	void rotate(const jhVector2& center, float angle);
+	void rotate(const Vector2& center, float angle);
 };
 //jhList:链表模板类(无序链表)
 template<class T>
-class jhList
+class JHMG_ENGINE::List
 {
 public:
 	struct node
@@ -243,12 +242,12 @@ public:
 	//删除节点
 	void deleteList(node* list);
 	//默认构造函数
-	jhList();
+	List();
 	//析构函数
-	~jhList();
+	~List();
 };
 //jhMatrix类，矩阵类
-class jhMatrix
+class JHMG_ENGINE::Matrix
 {
 private:
 
@@ -267,23 +266,23 @@ private:
 public:
 
 	// 默认构造函数
-	jhMatrix(int row, int column);
+	Matrix(int row, int column);
 	//用另一个矩阵构造
-	jhMatrix(const jhMatrix& other);
+	Matrix(const Matrix& other);
 	// jhVector2构造函数
-	jhMatrix(const jhVector2& v2);
+	Matrix(const Vector2& v2);
 	// 二维数组转换的一维指针构造
-	jhMatrix(float* other, int row, int column);
+	Matrix(float* other, int row, int column);
 	// 析构函数
-	~jhMatrix();
+	~Matrix();
 	// 设置矩阵值
 	void setValue(int row, int column, float value);
 	//打印矩阵
 	void print(bool isFraction = false);
 	// 取转置矩阵
-	jhMatrix getTransposeMatrix();
+	Matrix getTransposeMatrix();
 	// 取逆矩阵
-	jhMatrix getInverseMatrix();
+	Matrix getInverseMatrix();
 	//取行列式
 	float getDeterminant();
 	// 交换行
@@ -293,98 +292,89 @@ public:
 	// 将一行加到另一行的倍数
 	void addToRow(int sourceRow, int destRow, float multiple);
 	// 矩阵运算
-	jhMatrix operator+(const jhMatrix& other);
-	jhMatrix operator-(const jhMatrix& other);
-	jhMatrix operator*(const jhMatrix& other);
-	jhMatrix operator*(float num);
-	void operator=(const jhMatrix& other);
-	bool operator==(const jhMatrix& other);
+	Matrix operator+(const Matrix& other);
+	Matrix operator-(const Matrix& other);
+	Matrix operator*(const Matrix& other);
+	Matrix operator*(float num);
+	void operator=(const Matrix& other);
+	bool operator==(const Matrix& other);
 };
 
-namespace jhObject2D
-{
-	// 声明类
-	class transform;
-	class circle;
-	class rectangle;
-	class triangle;
-	class diamond;
-	//类的实现
 	// 物体基类
-	class transform
+	class JHMG_ENGINE::Transform
 	{
 	public:
 
 		//友元类
-		friend class circle;
-		friend class rectangle;
-		friend class triangle;
-		friend class diamond;
+		friend class Circle;
+		friend class Rectangle;
+		friend class Triangle;
+		friend class Diamond;
 		// 默认构造函数
-		transform();
+		Transform();
 		//拷贝构造函数
-		transform(const transform& other);
+		Transform(const JHMG_ENGINE::Transform& other);
 		// 构造函数
-		transform(jhVector2 position);
+		Transform(JHMG_ENGINE::Vector2 position);
 		//移动
-		virtual void move(jhVector2 dest) = 0;
+		virtual void move(JHMG_ENGINE::Vector2 dest) = 0;
 		//获取当前位置
-		virtual jhVector2 getPosition();
+		virtual JHMG_ENGINE::Vector2 getPosition();
 		// 计算面积
 		virtual float getAreaSize() = 0;
 		// 计算距离
-		float getDistance(const transform& other);
+		float getDistance(const JHMG_ENGINE::Transform& other);
 		//获取左上角坐标
-		virtual jhVector2 getLeftTopPosition() = 0;
+		virtual JHMG_ENGINE::Vector2 getLeftTopPosition() = 0;
 		// 判断是否在三角形内
-		virtual bool isTriggerEnter(const triangle& other) = 0;
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Triangle& other) = 0;
 		// 判断是否在矩形内
-		virtual bool isTriggerEnter(const rectangle& other) = 0;
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Rectangle& other) = 0;
 		// 判断是否在菱形内
-		virtual bool isTriggerEnter(const diamond& other) = 0;
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Diamond& other) = 0;
 		// 判断是否在圆形内
-		virtual bool isTriggerEnter(const circle& other) = 0;
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Circle& other) = 0;
 	private:
 		// 位置(图形中心坐标，即外接圆中心坐标)
-		jhVector2 position;
+		JHMG_ENGINE::Vector2 position;
 	};
 
 	// 圆形
-	class circle :public transform
+	class JHMG_ENGINE::Circle :public JHMG_ENGINE::Transform
 	{
 	public:
 
 		// 默认构造函数
-		circle(float radius, jhVector2 position = jhVector2(0, 0));
+		Circle(float radius, JHMG_ENGINE::Vector2 position = JHMG_ENGINE::Vector2(0, 0));
 		// 拷贝构造函数
-		circle(const circle& other);
+		Circle(const Circle& other);
 		// 半径
 		float radius;
 		// 获取面积
 		virtual float getAreaSize();
 		// 移动
-		virtual void move(jhVector2 dest);
+		virtual void move(JHMG_ENGINE::Vector2 dest);
 		//获取左上角坐标
-		virtual jhVector2 getLeftTopPosition();
+		virtual JHMG_ENGINE::Vector2 getLeftTopPosition();
 		// 判断是否在三角形内
-		virtual bool isTriggerEnter(const triangle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Triangle& other);
 		// 判断是否在矩形内
-		virtual bool isTriggerEnter(const rectangle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Rectangle& other);
 		// 判断是否在菱形内
-		virtual bool isTriggerEnter(const diamond& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Diamond& other);
 		// 判断是否在圆形内
-		virtual bool isTriggerEnter(const circle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Circle& other);
 	};
 
 	// 矩形
-	class rectangle : public transform
+	class JHMG_ENGINE::Rectangle : public JHMG_ENGINE::Transform
 	{
 	public:
 
 		// 默认构造函数
-		rectangle(float width, float height, jhVector2 position = jhVector2(0, 0));
+		Rectangle(float width, float height, JHMG_ENGINE::Vector2 position = JHMG_ENGINE::Vector2(0, 0));
 		// 拷贝构造函数
-		rectangle(const rectangle& other);
+		Rectangle(const Rectangle& other);
 		// 宽度和高度
 		float width;
 		// 高度
@@ -392,132 +382,131 @@ namespace jhObject2D
 		// 获取面积
 		virtual float getAreaSize();
 		// 移动
-		virtual void move(jhVector2 dest);
+		virtual void move(JHMG_ENGINE::Vector2 dest);
 		// 获取左上角坐标
-		virtual jhVector2 getLeftTopPosition();
+		virtual JHMG_ENGINE::Vector2 getLeftTopPosition();
 		// 判断是否在三角形内
-		virtual bool isTriggerEnter(const triangle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Triangle& other);
 		// 判断是否在矩形内
-		virtual bool isTriggerEnter(const rectangle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Rectangle& other);
 		// 判断是否在菱形内
-		virtual bool isTriggerEnter(const diamond& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Diamond& other);
 		// 判断是否在圆形内
-		virtual bool isTriggerEnter(const circle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Circle& other);
 	};
 	// 三角形
-	class triangle :public transform
+	class JHMG_ENGINE::Triangle :public JHMG_ENGINE::Transform
 	{
 	public:
 
 		// 构造普通三角形
-		triangle(jhVector2 pointA, jhVector2 pointB, jhVector2 pointC);
+		Triangle(JHMG_ENGINE::Vector2 pointA, JHMG_ENGINE::Vector2 pointB, JHMG_ENGINE::Vector2 pointC);
 		// 构造等边三角形
-		triangle(jhVector2 center, float coLength);
+		Triangle(JHMG_ENGINE::Vector2 center, float coLength);
 		// 拷贝构造函数
-		triangle(const triangle& other);
+		Triangle(const Triangle& other);
 		// 移动
-		virtual void move(jhVector2 dest);
+		virtual void move(JHMG_ENGINE::Vector2 dest);
 		// 三个顶点
-		jhVector2 pointA, pointB, pointC;
+		JHMG_ENGINE::Vector2 pointA, pointB, pointC;
 		// 获取点A的坐标
-		jhVector2 getPositionA();
+		JHMG_ENGINE::Vector2 getPositionA();
 		// 获取点B的坐标
-		jhVector2 getPositionB();
+		JHMG_ENGINE::Vector2 getPositionB();
 		// 获取点C的坐标
-		jhVector2 getPositionC();
+		JHMG_ENGINE::Vector2 getPositionC();
 		//获取左上角坐标
-		virtual jhVector2 getLeftTopPosition();
+		virtual JHMG_ENGINE::Vector2 getLeftTopPosition();
 		// 获取面积
 		virtual float getAreaSize();
 		// 判断是否在三角形内
-		virtual bool isTriggerEnter(const triangle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Triangle& other);
 		// 判断是否在矩形内
-		virtual bool isTriggerEnter(const rectangle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Rectangle& other);
 		// 判断是否在菱形内
-		virtual bool isTriggerEnter(const diamond& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Diamond& other);
 		// 判断是否在圆形内
-		virtual bool isTriggerEnter(const circle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Circle& other);
 	};
 
 	// 菱形
-	class diamond :public transform
+	class JHMG_ENGINE::Diamond :public JHMG_ENGINE::Transform
 	{
 	public:
 
 		// 以对角线长度构造菱形
-		diamond(float lengthX, float lengthY, jhVector2 position = jhVector2(0, 0));
+		Diamond(float lengthX, float lengthY, JHMG_ENGINE::Vector2 position = JHMG_ENGINE::Vector2(0, 0));
 		//拷贝构造函数
-		diamond(const diamond& other);
+		Diamond(const Diamond& other);
 		// 对角线长度
 		float lengthX, lengthY;
 		// 获取面积
 		virtual float getAreaSize();
 		// 移动
-		virtual void move(jhVector2 dest);
+		virtual void move(JHMG_ENGINE::Vector2 dest);
 		//获取左上角坐标
-		virtual jhVector2 getLeftTopPosition();
+		virtual JHMG_ENGINE::Vector2 getLeftTopPosition();
 		// 判断是否在三角形内
-		virtual bool isTriggerEnter(const triangle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Triangle& other);
 		// 判断是否在矩形内
-		virtual bool isTriggerEnter(const rectangle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Rectangle& other);
 		// 判断是否在菱形内
-		virtual bool isTriggerEnter(const diamond& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Diamond& other);
 		// 判断是否在圆形内
-		virtual bool isTriggerEnter(const circle& other);
+		virtual bool isTriggerEnter(const JHMG_ENGINE::Circle& other);
 	};
 
-};
 
 
 
 //游戏对象类
-class gameObject
+class JHMG_ENGINE::GameObject
 {
-	friend class Game;
-	friend class gameScene;
+	friend class JHMG_ENGINE::Game;
+	friend class JHMG_ENGINE::GameScene;
 public:
 	//游戏对象
 	union Transform
 	{
-		jhObject2D::circle* circle;
-		jhObject2D::diamond* diamond;
-		jhObject2D::rectangle* rectangle;
-		jhObject2D::triangle* triangle;
+		JHMG_ENGINE::Circle* Circle;
+		JHMG_ENGINE::Diamond* Diamond;
+		JHMG_ENGINE::Rectangle* Rectangle;
+		JHMG_ENGINE::Triangle* Triangle;
 	};
-	Transform transform;
+	Transform Transform;
 	char transformType;
 	//鼠标事件
-	MouseAction<gameObject*>* mouseAction;
+	JHMG_ENGINE::MouseAction<JHMG_ENGINE::GameObject*>* mouseAction;
 	//游戏对象可视性
 	bool visible;
 	//构造函数
-	gameObject(jhObject2D::circle* transform, jhString file, int width, int height, bool visible = true);
-	gameObject(jhObject2D::circle* transform, IMAGE* image, bool visible = true);
-	gameObject(jhObject2D::rectangle* transform, jhString file, int width, int height, bool visible = true);
-	gameObject(jhObject2D::rectangle* transform, IMAGE* image, bool visible = true);
-	gameObject(jhObject2D::diamond* transform, jhString file, int width, int height, bool visible = true);
-	gameObject(jhObject2D::diamond* transform, IMAGE* image, bool visible = true);
-	gameObject(jhObject2D::triangle* transform, jhString file, int width, int height, bool visible = true);
-	gameObject(jhObject2D::triangle* transform, IMAGE* image, bool visible = true);
+	GameObject(JHMG_ENGINE::Circle* Transform, JHMG_ENGINE::String file, int width, int height, bool visible = true);
+	GameObject(JHMG_ENGINE::Circle* Transform, IMAGE* image, bool visible = true);
+	GameObject(JHMG_ENGINE::Rectangle* Transform, JHMG_ENGINE::String file, int width, int height, bool visible = true);
+	GameObject(JHMG_ENGINE::Rectangle* Transform, IMAGE* image, bool visible = true);
+	GameObject(JHMG_ENGINE::Diamond* Transform, JHMG_ENGINE::String file, int width, int height, bool visible = true);
+	GameObject(JHMG_ENGINE::Diamond* Transform, IMAGE* image, bool visible = true);
+	GameObject(JHMG_ENGINE::Triangle* Transform, JHMG_ENGINE::String file, int width, int height, bool visible = true);
+	GameObject(JHMG_ENGINE::Triangle* Transform, IMAGE* image, bool visible = true);
 	//设置碰撞回调函数
-	gameObject* setOnCollision(void (*onCollision)(gameObject* self, gameObject* gameObject));
+	GameObject* setOnCollision(void (*onCollision)(GameObject* self, GameObject* GameObject));
 	//设置游戏循环回调函数
-	gameObject* setGameLoopFunc(void(*gameLoopFunc)(gameObject* self));
+	GameObject* setGameLoopFunc(void(*gameLoopFunc)(GameObject* self));
 	// 修改游戏对象贴图
-	gameObject* changeImage(LPCTSTR file,jhVector2 size);
-	gameObject* changeImage(IMAGE* image, bool release = true);
+	GameObject* changeImage(LPCTSTR file, JHMG_ENGINE::Vector2 size);
+	GameObject* changeImage(IMAGE* image, bool release = true);
 	//标签
-	jhString tag="gameObject";
+	JHMG_ENGINE::String tag="gameObject";
 	//析构函数
-	~gameObject();
+	~GameObject();
 
 private:
 	//游戏对象的图片
 	IMAGE* image;
 	//碰撞回调函数
-	void (*onCollision)(gameObject* self,gameObject* gameObject) = NULL;
+	void (*onCollision)(GameObject* self,GameObject* GameObject) = NULL;
 	//游戏循环回调函数
-	void(*gameLoopFunc)(gameObject* self) = NULL;
+	void(*gameLoopFunc)(GameObject* self) = NULL;
 	//被引用次数
 	int refCount = 0;
 	//是否删除图片
@@ -525,78 +514,78 @@ private:
 };
 
 //游戏界面类
-class gameUI
+class JHMG_ENGINE::GameUI
 {
-	friend class Game;
-	friend class gameScene;
+	friend class JHMG_ENGINE::Game;
+	friend class JHMG_ENGINE::GameScene;
 private:
 	//图片
 	IMAGE* image;
 	//被引用次数
 	int refCount = 0;
 	//循环函数
-	void (*gameLoopFunc)(gameUI* self) = NULL;
+	void (*gameLoopFunc)(GameUI* self) = NULL;
 	//是否删除图片
 	bool imgRelease = false;
 public:
 	//位置
-	jhVector2 position;
+	JHMG_ENGINE::Vector2 position;
 	//大小
-	jhVector2 size;
+	JHMG_ENGINE::Vector2 size;
 	//鼠标事件
-	MouseAction<gameUI*>* mouseAction;
+	JHMG_ENGINE::MouseAction<JHMG_ENGINE::GameUI*>* mouseAction;
 	//可视性
 	bool visible;
 	//设置循环函数
-	gameUI* setGameLoopFunc(void (*gameLoopFunc)(gameUI* self));
+	GameUI* setGameLoopFunc(void (*gameLoopFunc)(GameUI* self));
 	//构造函数
-	gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible = true);
-	gameUI(jhVector2 position, IMAGE* image, bool visible = true);
+	GameUI(JHMG_ENGINE::Vector2 position, JHMG_ENGINE::Vector2 size, JHMG_ENGINE::String image, bool visible = true);
+	GameUI(JHMG_ENGINE::Vector2 position, IMAGE* image, bool visible = true);
 	//修改游戏界面贴图
-	gameUI* changeImage(LPCTSTR file, jhVector2 size);
-	gameUI* changeImage(IMAGE* image,bool release = true);
+	GameUI* changeImage(LPCTSTR file, JHMG_ENGINE::Vector2 size);
+	GameUI* changeImage(IMAGE* image,bool release = true);
 	//标签
-	jhString tag = "gameUI";
+	JHMG_ENGINE::String tag = "gameUI";
 	//析构函数
-	~gameUI();
+	~GameUI();
 };
 
 //游戏界面文字类
-class gameUIText
+class JHMG_ENGINE::GameUIText
 {
-	friend class Game;
-	friend class gameScene;
+	friend class JHMG_ENGINE::Game;
+	friend class JHMG_ENGINE::GameScene;
 public:
 	// 文字
-	jhString text;
+	JHMG_ENGINE::String text;
 	// 颜色
 	COLORREF color;
 	// 字体大小
-	jhVector2 size;
+	JHMG_ENGINE::Vector2 size;
 	// 位置
-	jhVector2 position;
+	JHMG_ENGINE::Vector2 position;
 	// 可视性
 	bool visible;
 	// 构造函数
-	gameUIText(jhString text, jhVector2 position, COLORREF color = WHITE, jhVector2 size = jhVector2(0, 15), bool visible = true);
+	GameUIText(JHMG_ENGINE::String text, JHMG_ENGINE::Vector2 position, COLORREF color = WHITE, JHMG_ENGINE::Vector2 size = JHMG_ENGINE::Vector2(0, 15), bool visible = true);
 private:
 	//被引用次数
 	int refCount = 0;
 	//标签
-	jhString tag = "gameUIText";
+	JHMG_ENGINE::String tag = "gameUIText";
 };
 
 
 //游戏音效类
-class gameSound
+class JHMG_ENGINE::GameSound
 {
-	friend class Game;
+	friend class JHMG_ENGINE::Game;
 private:
 	//名称
-	jhString name;
+	JHMG_ENGINE::String name;
 public:
 	//打开音乐文件
-	void open(jhString name,jhString music_file);
+	void open(JHMG_ENGINE::String name, JHMG_ENGINE::String music_file);
 	//播放音效
 	void play(bool repeat=false);
 	//停止音效
@@ -620,7 +609,7 @@ public:
 	//关闭音效
 	void close();
 	//析构函数
-	~gameSound();
+	~GameSound();
 };
 
 //键盘消息类
@@ -658,9 +647,9 @@ enum KeyMessage
 };
 
 //键盘输入类
-class gameInput
+class JHMG_ENGINE::GameInput
 {
-	friend class Game;
+	friend class JHMG_ENGINE::Game;
 private:
 	char key;
 	void getMessage(const ExMessage& msg);
@@ -678,53 +667,53 @@ enum MouseMessage
 };
 
 //游戏场景类
-class gameScene
+class JHMG_ENGINE::GameScene
 {
-	friend class Game;
+	friend class JHMG_ENGINE::Game;
 private:
 	//游戏物体
-	jhList<gameObject*> gameObjects;
+	JHMG_ENGINE::List<JHMG_ENGINE::GameObject*> gameObjects;
 	//游戏界面
-	jhList<gameUI*> gameUIs;
+	JHMG_ENGINE::List<JHMG_ENGINE::GameUI*> gameUIs;
 	//界面文字
-	jhList<gameUIText*> gameUITexts;
+	JHMG_ENGINE::List<JHMG_ENGINE::GameUIText*> gameUITexts;
 	//游戏物体map
-	map<jhString, gameObject*> gameObjectsMap;
+	std::map<JHMG_ENGINE::String, JHMG_ENGINE::GameObject*> gameObjectsMap;
 	//游戏界面map
-	map<jhString, gameUI*> gameUIMap;
+	std::map<JHMG_ENGINE::String, JHMG_ENGINE::GameUI*> gameUIMap;
 	//游戏界面文字map
-	map<jhString, gameUIText*> gameUITextsMap;
+	std::map<JHMG_ENGINE::String, JHMG_ENGINE::GameUIText*> gameUITextsMap;
 	//资源总map 物体100，界面UI10，界面文字1
-	map<jhString, int> gameTotalMap;
+	std::map<JHMG_ENGINE::String, int> gameTotalMap;
 	//循环函数
 	void (*gameLoop)()=NULL;
 	//唤醒函数
 	void (*awake)() = NULL;
 public:
 	//析构函数
-	~gameScene();
+	~GameScene();
 	//添加游戏物体
-	void addGameObject(jhString name, gameObject* gameObject);
+	void addGameObject(JHMG_ENGINE::String name, JHMG_ENGINE::GameObject* GameObject);
 	//删除游戏物体
-	void removeGameObject(jhString name);
+	void removeGameObject(JHMG_ENGINE::String name);
 	//获取游戏对象名字
-	jhString getName(gameObject* gameObject);
-	jhString getName(gameUI* gameUI);
-	jhString getName(gameUIText* gameUIText);
+	JHMG_ENGINE::String getName(JHMG_ENGINE::GameObject* GameObject);
+	JHMG_ENGINE::String getName(JHMG_ENGINE::GameUI* GameUI);
+	JHMG_ENGINE::String getName(JHMG_ENGINE::GameUIText* GameUIText);
 	//添加游戏界面UI对象
-	void addGameUI(jhString name, gameUI* gameUI);
+	void addGameUI(JHMG_ENGINE::String name, JHMG_ENGINE::GameUI* GameUI);
 	//添加游戏界面文字
-	void addGameUIText(jhString name, gameUIText* text);
+	void addGameUIText(JHMG_ENGINE::String name, JHMG_ENGINE::GameUIText* text);
 	//删除游戏界面
-	void removeGameUI(jhString name);
+	void removeGameUI(JHMG_ENGINE::String name);
 	//删除游戏界面文字
-	void removeGameUIText(jhString name);
+	void removeGameUIText(JHMG_ENGINE::String name);
 	//获取游戏物体
-	gameObject* getGameObject(jhString name);
+	JHMG_ENGINE::GameObject* getGameObject(JHMG_ENGINE::String name);
 	//获取游戏界面
-	gameUI* getGameUI(jhString name);
+	JHMG_ENGINE::GameUI* getGameUI(JHMG_ENGINE::String name);
 	//获取游戏界面文本
-	gameUIText* getGameUIText(jhString name);
+	JHMG_ENGINE::GameUIText* getGameUIText(JHMG_ENGINE::String name);
 	//设置循环函数
 	void setGameLoopFunc(void (*gameLoop)());
 	//设置唤醒函数
@@ -733,71 +722,71 @@ public:
 
 //鼠标事件类
 template<class T>
-class MouseAction
+class JHMG_ENGINE::MouseAction
 {
 	friend class Game;
-	friend class gameObject;
-	friend class gameUI;
+	friend class GameObject;
+	friend class GameUI;
 private:
 	//鼠标当前位置
-	jhVector2 mousePosition;
+	Vector2 mousePosition;
 	//左上角起始判断坐标
-	jhVector2 beginPosition;
+	Vector2 beginPosition;
 	//右下角结束判断坐标
-	jhVector2 endPosition;
+	Vector2 endPosition;
 	//获取鼠标点击事件
 	void getMouseMessage(const ExMessage& msg);
 	//父对象指针
 	T self;
 	//鼠标点击回调函数
-	void (*onClick)(int mouseMessage, jhVector2 position,T self) = NULL;
+	void (*onClick)(int mouseMessage, Vector2 position,T self) = NULL;
 public:
 	//设置鼠标点击回调函数
-	void setClickFunc(void (*onClick)(int mouseMessage, jhVector2 position,T self));
+	void setClickFunc(void (*onClick)(int mouseMessage, Vector2 position,T self));
 	//获取鼠标当前位置
-	jhVector2 getMousePosition();
+	Vector2 getMousePosition();
 };
 
 //输入框类
-class gameInputBox
+class JHMG_ENGINE::GameInputBox
 {
-	friend class Game;
+	friend class JHMG_ENGINE::Game;
 private:
-	jhString* inputText;
-	jhString title;
-	jhString prompt = "";
-	jhString defaultText = "";
+	JHMG_ENGINE::String* inputText;
+	JHMG_ENGINE::String title;
+	JHMG_ENGINE::String prompt = "";
+	JHMG_ENGINE::String defaultText = "";
 	int maxInput = 100;
-	jhVector2 size = jhVector2(0,0);
+	JHMG_ENGINE::Vector2 size = JHMG_ENGINE::Vector2(0,0);
 public:
-	gameInputBox(jhString* inputText, jhString title="notice", jhString prompt="", jhString defaultText="", int max=256, jhVector2 size=jhVector2(0,0));
+	GameInputBox(JHMG_ENGINE::String* inputText, JHMG_ENGINE::String title="notice", JHMG_ENGINE::String prompt="", JHMG_ENGINE::String defaultText="", int max=256, JHMG_ENGINE::Vector2 size= JHMG_ENGINE::Vector2(0,0));
 	void show();
 };
 
 //消息框类
-class gameMessageBox
+class JHMG_ENGINE::GameMessageBox
 {
-	friend class Game;
+	friend class JHMG_ENGINE::Game;
 private:
-		jhString title = "notice:";
-		jhString message = "";
+	JHMG_ENGINE::String title = "notice:";
+	JHMG_ENGINE::String message = "";
 public:
-	gameMessageBox(jhString title, jhString message);
+	GameMessageBox(JHMG_ENGINE::String title, JHMG_ENGINE::String message);
 	void show();
 };
 
 //游戏类
-class Game
+class JHMG_ENGINE::Game
 {
 private:
 	//游戏窗口句柄
 	HWND window;
 	//游戏窗口大小
-	jhVector2 windowSize = jhVector2(800, 600);
+	JHMG_ENGINE::Vector2 windowSize = JHMG_ENGINE::Vector2(800, 600);
 	//游戏窗口标题
-	jhString windowTitle = "not define";
+	JHMG_ENGINE::String windowTitle = "not define";
 	//游戏场景
-	gameScene* Scene = NULL;
+	JHMG_ENGINE::GameScene* Scene = NULL;
 	//游戏帧率
 	int targetFrame = 60;
 	//游戏循环
@@ -806,13 +795,13 @@ private:
 	bool isRun = true;
 public:
 	//设置游戏窗口大小
-	void setWindowSize(jhVector2 windowSize);
+	void setWindowSize(JHMG_ENGINE::Vector2 windowSize);
 	//设置游戏窗口标题
-	void setWindowTitle(jhString windowTitle);
+	void setWindowTitle(JHMG_ENGINE::String windowTitle);
 	//初始化窗口,开始游戏
 	void initWindow();
 	//设置游戏场景
-	void setScene(gameScene* Scene);
+	void setScene(JHMG_ENGINE::GameScene* Scene);
 	//设置游戏帧率
 	void setTargetFrame(int targetFrame);
 	//关闭游戏
@@ -820,13 +809,13 @@ public:
 	//游戏间隔
 	long deltaTime;
 	//获取游戏窗口大小
-	jhVector2 getWindowSize();
+	JHMG_ENGINE::Vector2 getWindowSize();
 	//获取游戏窗口标题
-	jhString getWindowTitle();
+	JHMG_ENGINE::String getWindowTitle();
 	//获取游戏场景
-	gameScene* getScene();
+	JHMG_ENGINE::GameScene* getScene();
 	//键盘输入
-	gameInput Input;
+	JHMG_ENGINE::GameInput input;
 };
 
 

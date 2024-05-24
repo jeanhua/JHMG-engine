@@ -1,36 +1,37 @@
 #include "JHMG engine.h"
+using namespace JHMG_ENGINE;
 
 //声明全局游戏对象
 Game* mainGame;
 
 //声明函数
-void loop(gameObject* self);
-void trigger(gameObject* self, gameObject* other);
-void onClick(int messageType, jhVector2 position,gameObject* self);
+void loop(GameObject* self);
+void trigger(GameObject* self, GameObject* other);
+void onClick(int messageType, Vector2 position,GameObject* self);
 
 int main()
 {
 	//创建游戏对象
 	mainGame = new Game;
 	//设置窗口大小和标题
-	mainGame->setWindowSize(jhVector2(800, 600));
+	mainGame->setWindowSize(Vector2(800, 600));
 	mainGame->setWindowTitle("Game demo");
 	//设置游戏帧率
 	mainGame->setTargetFrame(165);
 	//创建游戏场景
-	gameScene* scene = new gameScene;
+	GameScene* scene = new GameScene;
 	//添加场景到游戏中
 	mainGame->setScene(scene);
 	//创建UI对象
-	gameUI* xiaoxin = new gameUI(jhVector2(0, 0), jhVector2(800, 600), ".\\background.jpg", true);
+	GameUI* xiaoxin = new GameUI(Vector2(0, 0), Vector2(800, 600), ".\\background.jpg", true);
 	//添加UI对象到场景中
 	scene->addGameUI("xiaoxin", xiaoxin);
 	//创建文本UI
-	gameUIText* text = new gameUIText(jhString("fps"), jhVector2(100, 100));
+	GameUIText* text = new GameUIText(String("fps"), Vector2(100, 100));
 	//添加文本UI到场景中
 	scene->addGameUIText("text", text);
 	//创建游戏对象
-	gameObject* player = new gameObject(new jhObject2D::circle(25, jhVector2(170, 70)), ".\\pkq.png", 50, 50, true);
+	GameObject* player = new GameObject(new Circle(25, Vector2(170, 70)), ".\\pkq.png", 50, 50, true);
 	//绑定游戏对象碰撞事件(物体碰撞调用)
 	player->setOnCollision(trigger);
 	//绑定游戏对象循环事件(每帧调用一次)
@@ -38,7 +39,7 @@ int main()
 	//添加游戏对象到场景中
 	scene->addGameObject("player", player);
 	//创建游戏对象
-	gameObject* pikaqiu = new gameObject(new jhObject2D::circle(25, jhVector2(270, 70)), ".\\pkq.png", 50, 50, true);
+	GameObject* pikaqiu = new GameObject(new Circle(25, Vector2(270, 70)), ".\\pkq.png", 50, 50, true);
 	//绑定游戏对象点击事件(点击调用)
 	pikaqiu->mouseAction->setClickFunc(onClick);
 	//添加游戏对象到场景中
@@ -47,7 +48,7 @@ int main()
 	mainGame->initWindow();
 }
 
-void loop(gameObject* self)
+void loop(GameObject* self)
 {
 	//获取游戏场景
 	auto scene = mainGame->getScene();
@@ -56,39 +57,39 @@ void loop(gameObject* self)
 	//获取UI文本对象
 	auto text = scene->getGameUIText("text");
 	//拼接显示fps
-	text->text = "fps:" + to_string(int(1000 / mainGame->deltaTime));
+	text->text = "fps:" + std::to_string(int(1000 / mainGame->deltaTime));
 	//获取键盘输入
-	auto key = mainGame->Input.getKey();
+	auto key = mainGame->input.getKey();
 	//判断键盘输入
 	if (key == KeyMessage::a)
 	{
-		jhVector2 currentPosition = player->transform.circle->getPosition();
+		Vector2 currentPosition = player->Transform.Circle->getPosition();
 		//x = deltaX + X0 = V*t + X0
-		currentPosition += jhVector2(-250, 0) * ((float)mainGame->deltaTime / 1000);
-		player->transform.circle->move(currentPosition);
+		currentPosition += Vector2(-250, 0) * ((float)mainGame->deltaTime / 1000);
+		player->Transform.Circle->move(currentPosition);
 	}
 	if (key == KeyMessage::d)
 	{
-		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(250, 0) * ((float)mainGame->deltaTime / 1000);
-		player->transform.circle->move(currentPosition);
+		Vector2 currentPosition = player->Transform.Circle->getPosition();
+		currentPosition += Vector2(250, 0) * ((float)mainGame->deltaTime / 1000);
+		player->Transform.Circle->move(currentPosition);
 	}
 	if (key == KeyMessage::w)
 	{
-		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(0, -250) * ((float)mainGame->deltaTime / 1000);
-		player->transform.circle->move(currentPosition);
+		Vector2 currentPosition = player->Transform.Circle->getPosition();
+		currentPosition += Vector2(0, -250) * ((float)mainGame->deltaTime / 1000);
+		player->Transform.Circle->move(currentPosition);
 	}
 	if (key == KeyMessage::s)
 	{
-		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(0, 250) * ((float)mainGame->deltaTime / 1000);
-		player->transform.circle->move(currentPosition);
+		Vector2 currentPosition = player->Transform.Circle->getPosition();
+		currentPosition += Vector2(0, 250) * ((float)mainGame->deltaTime / 1000);
+		player->Transform.Circle->move(currentPosition);
 	}
 	if (key == KeyMessage::space)
 	{
 		//删除物体
-		cout << "delete pikaqiu" << endl;
+		std::cout << "delete pikaqiu" << std::endl;
 		scene->removeGameObject("pikaqiu");
 	}
 	if (key == KeyMessage::esc)
@@ -98,22 +99,22 @@ void loop(gameObject* self)
 	}
 }
 
-void trigger(gameObject* self,gameObject* other)
+void trigger(GameObject* self,GameObject* other)
 {
 	//碰撞输出名字
-	cout << mainGame->getScene()->getName(other) << endl;
+	std::cout << mainGame->getScene()->getName(other) << std::endl;
 }
 
-void onClick(int messageType, jhVector2 position,gameObject* self)
+void onClick(int messageType, Vector2 position,GameObject* self)
 {
-	cout<<mainGame->getScene()->getName(self)<<endl;
+	std::cout<<mainGame->getScene()->getName(self)<< std::endl;
 	//点击输出
 	if (messageType == MouseMessage::leftDown)
-		cout << "左键按下" << endl;
+		std::cout << "左键按下" << std::endl;
 	if (messageType == MouseMessage::leftUp)
-		cout << "左键放开" << endl;
+		std::cout << "左键放开" << std::endl;
 	if (messageType == MouseMessage::rightDown)
-		cout << "右键按下" << endl;
+		std::cout << "右键按下" << std::endl;
 	if (messageType == MouseMessage::rightUp)
-		cout << "右键放开" << endl;
+		std::cout << "右键放开" << std::endl;
 }

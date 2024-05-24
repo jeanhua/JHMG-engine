@@ -1,134 +1,134 @@
 #include "JHMG engine.h"
-
+using namespace JHMG_ENGINE;
 static bool canOperator = true;
 #define CHECK if(canOperator == false){canOperator = true;break;}
 #define CHECK_n if(canOperator == false){break;}
 
-gameObject::gameObject(jhObject2D::circle* transform, jhString file, int width, int height, bool visible)
+GameObject::GameObject(Circle* Transform, String file, int width, int height, bool visible)
 {
-	this->transform.circle = transform;
+	this->Transform.Circle = Transform;
 	this->transformType = 'c';
 	IMAGE* img = new IMAGE;
 	loadimage(img, file.to_char(), width, height, true);
 	this->image = img;
-	this->mouseAction = new MouseAction<gameObject*>;
-	this->mouseAction->beginPosition = transform->getLeftTopPosition();
-	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
+	this->mouseAction = new MouseAction<GameObject*>;
+	this->mouseAction->beginPosition = Transform->getLeftTopPosition();
+	this->mouseAction->endPosition = Transform->getLeftTopPosition() + Vector2(width, height);
 	this->mouseAction->self = this;
 	this->visible = visible;
 	imgRelease = true;
 }
 
-gameObject::gameObject(jhObject2D::circle* transform, IMAGE* image, bool visible)
+GameObject::GameObject(Circle* Transform, IMAGE* image, bool visible)
 {
-	this->transform.circle = transform;
+	this->Transform.Circle = Transform;
 	this->transformType = 'c';
 	this->image = image;
-	this->mouseAction = new MouseAction<gameObject*>;
-	this->mouseAction->beginPosition = transform->getLeftTopPosition();
-	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction = new MouseAction<GameObject*>;
+	this->mouseAction->beginPosition = Transform->getLeftTopPosition();
+	this->mouseAction->endPosition = Transform->getLeftTopPosition() + Vector2(image->getwidth(), image->getheight());
 	this->mouseAction->self = this;
 	this->visible = visible;
 	imgRelease = false;
 }
 
-gameObject::gameObject(jhObject2D::rectangle* transform, jhString file, int width, int height, bool visible)
+GameObject::GameObject(Rectangle* Transform, String file, int width, int height, bool visible)
 {
-	this->transform.rectangle = transform;
+	this->Transform.Rectangle = Transform;
 	this->transformType = 'r';
 	IMAGE* img = new IMAGE;
 	loadimage(img, file.to_char(), width, height, true);
 	this->image = img;
-	this->mouseAction = new MouseAction<gameObject*>;
-	this->mouseAction->beginPosition = transform->getLeftTopPosition();
-	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
+	this->mouseAction = new MouseAction<GameObject*>;
+	this->mouseAction->beginPosition = Transform->getLeftTopPosition();
+	this->mouseAction->endPosition = Transform->getLeftTopPosition() + Vector2(width, height);
 	this->mouseAction->self = this;
 	this->visible = visible;
 	imgRelease = true;
 }
 
-gameObject::gameObject(jhObject2D::rectangle* transform, IMAGE* image, bool visible)
+GameObject::GameObject(Rectangle* Transform, IMAGE* image, bool visible)
 {
-	this->transform.rectangle = transform;
+	this->Transform.Rectangle = Transform;
 	this->transformType = 'r';
 	this->image = image;
-	this->mouseAction = new MouseAction<gameObject*>;
-	this->mouseAction->beginPosition = transform->getLeftTopPosition();
-	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction = new MouseAction<GameObject*>;
+	this->mouseAction->beginPosition = Transform->getLeftTopPosition();
+	this->mouseAction->endPosition = Transform->getLeftTopPosition() + Vector2(image->getwidth(), image->getheight());
 	this->mouseAction->self = this;
 	this->visible = visible;
 	imgRelease = false;
 }
 
-gameObject::gameObject(jhObject2D::diamond* transform, jhString file, int width, int height, bool visible)
+GameObject::GameObject(Diamond* Transform, String file, int width, int height, bool visible)
 {
-	this->transform.diamond = transform;
+	this->Transform.Diamond = Transform;
 	this->transformType = 'd';
 	IMAGE* img = new IMAGE;
 	loadimage(img, file.to_char(), width, height, true);
 	this->image = img;
-	this->mouseAction = new MouseAction<gameObject*>;
-	this->mouseAction->beginPosition = transform->getLeftTopPosition();
-	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
+	this->mouseAction = new MouseAction<GameObject*>;
+	this->mouseAction->beginPosition = Transform->getLeftTopPosition();
+	this->mouseAction->endPosition = Transform->getLeftTopPosition() + Vector2(width, height);
 	this->mouseAction->self = this;
 	this->visible = visible;
 	imgRelease = true;
 }
 
-gameObject::gameObject(jhObject2D::diamond* transform, IMAGE* image, bool visible)
+GameObject::GameObject(Diamond* Transform, IMAGE* image, bool visible)
 {
-	this->transform.diamond = transform;
+	this->Transform.Diamond = Transform;
 	this->transformType = 'd';
 	this->image = image;
-	this->mouseAction = new MouseAction<gameObject*>;
-	this->mouseAction->beginPosition = transform->getLeftTopPosition();
-	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction = new MouseAction<GameObject*>;
+	this->mouseAction->beginPosition = Transform->getLeftTopPosition();
+	this->mouseAction->endPosition = Transform->getLeftTopPosition() + Vector2(image->getwidth(), image->getheight());
 	this->mouseAction->self = this;
 	this->visible = visible;
 	imgRelease = false;
 }
 
-gameObject::gameObject(jhObject2D::triangle* transform, jhString file, int width, int height, bool visible)
+GameObject::GameObject(Triangle* Transform, String file, int width, int height, bool visible)
 {
-	this->transform.triangle = transform;
+	this->Transform.Triangle = Transform;
 	this->transformType = 't';
 	IMAGE* img = new IMAGE;
 	loadimage(img, file.to_char(), width, height, true);
 	this->image = img;
-	this->mouseAction = new MouseAction<gameObject*>;
-	this->mouseAction->beginPosition = transform->getLeftTopPosition();
-	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(width, height);
+	this->mouseAction = new MouseAction<GameObject*>;
+	this->mouseAction->beginPosition = Transform->getLeftTopPosition();
+	this->mouseAction->endPosition = Transform->getLeftTopPosition() + Vector2(width, height);
 	this->mouseAction->self = this;
 	this->visible = visible;
 	imgRelease = true;
 }
 
-gameObject::gameObject(jhObject2D::triangle* transform, IMAGE* image, bool visible)
+GameObject::GameObject(Triangle* Transform, IMAGE* image, bool visible)
 {
-	this->transform.triangle = transform;
+	this->Transform.Triangle = Transform;
 	this->transformType = 't';
 	this->image = image;
-	this->mouseAction = new MouseAction<gameObject*>;
-	this->mouseAction->beginPosition = transform->getLeftTopPosition();
-	this->mouseAction->endPosition = transform->getLeftTopPosition() + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction = new MouseAction<GameObject*>;
+	this->mouseAction->beginPosition = Transform->getLeftTopPosition();
+	this->mouseAction->endPosition = Transform->getLeftTopPosition() + Vector2(image->getwidth(), image->getheight());
 	this->mouseAction->self = this;
 	this->visible = visible;
 	imgRelease = false;
 }
 
-gameObject* gameObject::setOnCollision(void(*onCollision)(gameObject* self, gameObject* gameObject))
+GameObject* GameObject::setOnCollision(void(*onCollision)(GameObject* self, GameObject* GameObject))
 {
 	this->onCollision = onCollision;
 	return this;
 }
 
-gameObject* gameObject::setGameLoopFunc(void(*gameLoopFunc)(gameObject* self))
+GameObject* GameObject::setGameLoopFunc(void(*gameLoopFunc)(GameObject* self))
 {
 	this->gameLoopFunc = gameLoopFunc;
 	return this;
 }
 
-gameObject* gameObject::changeImage(LPCTSTR file, jhVector2 size)
+GameObject* GameObject::changeImage(LPCTSTR file, Vector2 size)
 {
 	imgRelease = true;
 	IMAGE* img = new IMAGE;
@@ -138,7 +138,7 @@ gameObject* gameObject::changeImage(LPCTSTR file, jhVector2 size)
 	return this;
 }
 
-gameObject* gameObject::changeImage(IMAGE* image, bool release)
+GameObject* GameObject::changeImage(IMAGE* image, bool release)
 {
 	if (release)
 		delete this->image;
@@ -146,42 +146,42 @@ gameObject* gameObject::changeImage(IMAGE* image, bool release)
 	return this;
 }
 
-gameObject::~gameObject()
+GameObject::~GameObject()
 {
 	if (this->transformType == 'c')
-		delete this->transform.circle;
+		delete this->Transform.Circle;
 	else if (this->transformType == 'r')
-		delete this->transform.rectangle;
+		delete this->Transform.Rectangle;
 	else if (this->transformType == 'd')
-		delete this->transform.diamond;
+		delete this->Transform.Diamond;
 	else if (this->transformType == 't')
-		delete this->transform.triangle;
+		delete this->Transform.Triangle;
 	if (imgRelease)
 		delete this->image;
 	delete this->mouseAction;
-	this->transform.circle = NULL;
-	this->transform.rectangle = NULL;
-	this->transform.diamond = NULL;
-	this->transform.triangle = NULL;
+	this->Transform.Circle = NULL;
+	this->Transform.Rectangle = NULL;
+	this->Transform.Diamond = NULL;
+	this->Transform.Triangle = NULL;
 	this->image = NULL;
 	this->mouseAction = NULL;
 }
 
 
-gameUI* gameUI::setGameLoopFunc(void(*gameLoopFunc)(gameUI* self))
+GameUI* GameUI::setGameLoopFunc(void(*gameLoopFunc)(GameUI* self))
 {
 	this->gameLoopFunc = gameLoopFunc;
 	return this;
 }
 
-gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
+GameUI::GameUI(Vector2 position, Vector2 size, String image, bool visible)
 {
 	this->position = position;
 	this->size = size;
 	IMAGE* img = new IMAGE;
 	loadimage(img, image.to_char(), size.x, size.y, true);
 	this->image = img;
-	this->mouseAction = new MouseAction<gameUI*>;
+	this->mouseAction = new MouseAction<GameUI*>;
 	this->mouseAction->beginPosition = position;
 	this->mouseAction->endPosition = position + size;
 	this->mouseAction->self = this;
@@ -189,19 +189,19 @@ gameUI::gameUI(jhVector2 position, jhVector2 size, jhString image, bool visible)
 	imgRelease = true;
 }
 
-gameUI::gameUI(jhVector2 position, IMAGE* image, bool visible)
+GameUI::GameUI(Vector2 position, IMAGE* image, bool visible)
 {
 	this->position = position;
 	this->image = image;
-	this->mouseAction = new MouseAction<gameUI*>;
+	this->mouseAction = new MouseAction<GameUI*>;
 	this->mouseAction->beginPosition = position;
-	this->mouseAction->endPosition = position + jhVector2(image->getwidth(), image->getheight());
+	this->mouseAction->endPosition = position + Vector2(image->getwidth(), image->getheight());
 	this->mouseAction->self = this;
 	this->visible = visible;
 	imgRelease = false;
 }
 
-gameUI* gameUI::changeImage(LPCTSTR file, jhVector2 size)
+GameUI* GameUI::changeImage(LPCTSTR file, Vector2 size)
 {
 	IMAGE* img = new IMAGE;
 	loadimage(img, file, size.x, size.y, true);
@@ -211,7 +211,7 @@ gameUI* gameUI::changeImage(LPCTSTR file, jhVector2 size)
 	return this;
 }
 
-gameUI* gameUI::changeImage(IMAGE* image,bool release)
+GameUI* GameUI::changeImage(IMAGE* image,bool release)
 {
 	if (release)
 	delete this->image;
@@ -220,7 +220,7 @@ gameUI* gameUI::changeImage(IMAGE* image,bool release)
 	return this;
 }
 
-gameUI::~gameUI()
+GameUI::~GameUI()
 {
 	if (imgRelease)
 		delete this->image;
@@ -229,7 +229,7 @@ gameUI::~gameUI()
 	this->mouseAction = NULL;
 }
 
-void gameSound::open(jhString name, jhString music_file)
+void GameSound::open(String name, String music_file)
 {
 	this->name = name;
 	char command[256];
@@ -237,7 +237,7 @@ void gameSound::open(jhString name, jhString music_file)
 	mciSendString(command, NULL, 0, NULL);
 }
 
-void gameSound::play(bool repeat)
+void GameSound::play(bool repeat)
 {
 	char command[256];
 	if (repeat)
@@ -247,35 +247,35 @@ void gameSound::play(bool repeat)
 	mciSendString(command, NULL, 0, NULL);
 }
 
-void gameSound::stop()
+void GameSound::stop()
 {
 	char command[256];
 	sprintf(command, "stop %s", name.to_char());
 	mciSendString(command, NULL, 0, NULL);
 }
 
-void gameSound::pause()
+void GameSound::pause()
 {
 	char command[256];
 	sprintf(command, "pause %s", name.to_char());
 	mciSendString(command, NULL, 0, NULL);
 }
 
-void gameSound::resume()
+void GameSound::resume()
 {
 	char command[256];
 	sprintf(command, "resume %s", name.to_char());
 	mciSendString(command, NULL, 0, NULL);
 }
 
-void gameSound::setVolume(int volume)
+void GameSound::setVolume(int volume)
 {
 	char command[256];
 	sprintf(command, "setaudio %s volume to %d", name.to_char(), volume);
 	mciSendString(command, NULL, 0, NULL);
 }
 
-int gameSound::getVolume()
+int GameSound::getVolume()
 {
 	char command[256];
 	sprintf(command, "status %s volume", name.to_char());
@@ -286,14 +286,14 @@ int gameSound::getVolume()
 	return volume;
 }
 
-void gameSound::setPosition(int position)
+void GameSound::setPosition(int position)
 {
 	char command[256];
 	sprintf(command, "seek %s to %d", name.to_char(), position);
 	mciSendString(command, NULL, 0, NULL);
 }
 
-int gameSound::getPosition()
+int GameSound::getPosition()
 {
 	char command[256];
 	sprintf(command, "status %s position", name.to_char());
@@ -304,7 +304,7 @@ int gameSound::getPosition()
 	return position;
 }
 
-int gameSound::getLength()
+int GameSound::getLength()
 {
 	char command[256];
 	sprintf(command, "status %s length", name.to_char());
@@ -315,7 +315,7 @@ int gameSound::getLength()
 	return length;
 }
 
-int gameSound::getState()
+int GameSound::getState()
 {
 	char command[256];
 	sprintf(command, "status %s mode", name.to_char());
@@ -326,26 +326,26 @@ int gameSound::getState()
 	return state;
 }
 
-void gameSound::close()
+void GameSound::close()
 {
 	char command[256];
 	sprintf(command, "close %s", name.to_char());
 	mciSendString(command, NULL, 0, NULL);
 }
 
-gameSound::~gameSound()
+GameSound::~GameSound()
 {
 	char command[256];
 	sprintf(command, "close %s", name.to_char());
 	mciSendString(command, NULL, 0, NULL);
 }
 
-void Game::setWindowSize(jhVector2 windowSize)
+void Game::setWindowSize(Vector2 windowSize)
 {
 	this->windowSize = windowSize;
 }
 
-void Game::setWindowTitle(jhString windowTitle)
+void Game::setWindowTitle(String windowTitle)
 {
 	this->windowTitle = windowTitle;
 }
@@ -361,7 +361,7 @@ void Game::initWindow()
 	this->gameLoop();
 }
 
-void Game::setScene(gameScene* Scene)
+void Game::setScene(GameScene* Scene)
 {
 	this->Scene = Scene;
 }
@@ -388,10 +388,16 @@ void Game::gameLoop()
 	{
 		endtime = clock();
 		canOperator = true;
+		///判断窗口是否关闭
+		if (GetHWnd() == NULL)
+		{
+			isRun = false;
+			break;
+		}
 		//判断场景是否为空
 		if (this->Scene == NULL)
 		{
-			throw invalid_argument("The scene is empty");
+			throw std::invalid_argument("The scene is empty");
 			return;
 		}
 		//按帧循环
@@ -421,7 +427,7 @@ void Game::gameLoop()
 						//调用鼠标事件
 						it->value->mouseAction->getMouseMessage(msg);
 						//获取键盘输入
-						Input.getMessage(msg);
+						input.getMessage(msg);
 						break;
 					}
 			}
@@ -435,27 +441,27 @@ void Game::gameLoop()
 					{
 						if (it->value->transformType == 'c')
 						{
-							putimagePNG(it->value->transform.circle->getLeftTopPosition().x, it->value->transform.circle->getLeftTopPosition().y, it->value->image);
-							it->value->mouseAction->beginPosition = it->value->transform.circle->getLeftTopPosition();
-							it->value->mouseAction->endPosition = it->value->transform.circle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
+							putimagePNG(it->value->Transform.Circle->getLeftTopPosition().x, it->value->Transform.Circle->getLeftTopPosition().y, it->value->image);
+							it->value->mouseAction->beginPosition = it->value->Transform.Circle->getLeftTopPosition();
+							it->value->mouseAction->endPosition = it->value->Transform.Circle->getLeftTopPosition() + Vector2(it->value->image->getwidth(), it->value->image->getheight());
 						}
 						else if (it->value->transformType == 'r')
 						{
-							putimagePNG(it->value->transform.rectangle->getLeftTopPosition().x, it->value->transform.rectangle->getLeftTopPosition().y, it->value->image);
-							it->value->mouseAction->beginPosition = it->value->transform.rectangle->getLeftTopPosition();
-							it->value->mouseAction->endPosition = it->value->transform.rectangle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
+							putimagePNG(it->value->Transform.Rectangle->getLeftTopPosition().x, it->value->Transform.Rectangle->getLeftTopPosition().y, it->value->image);
+							it->value->mouseAction->beginPosition = it->value->Transform.Rectangle->getLeftTopPosition();
+							it->value->mouseAction->endPosition = it->value->Transform.Rectangle->getLeftTopPosition() + Vector2(it->value->image->getwidth(), it->value->image->getheight());
 						}
 						else if (it->value->transformType == 'd')
 						{
-							putimagePNG(it->value->transform.diamond->getLeftTopPosition().x, it->value->transform.diamond->getLeftTopPosition().y, it->value->image);
-							it->value->mouseAction->beginPosition = it->value->transform.diamond->getLeftTopPosition();
-							it->value->mouseAction->endPosition = it->value->transform.diamond->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
+							putimagePNG(it->value->Transform.Diamond->getLeftTopPosition().x, it->value->Transform.Diamond->getLeftTopPosition().y, it->value->image);
+							it->value->mouseAction->beginPosition = it->value->Transform.Diamond->getLeftTopPosition();
+							it->value->mouseAction->endPosition = it->value->Transform.Diamond->getLeftTopPosition() + Vector2(it->value->image->getwidth(), it->value->image->getheight());
 						}
 						else if (it->value->transformType == 't')
 						{
-							putimagePNG(it->value->transform.triangle->getLeftTopPosition().x, it->value->transform.triangle->getLeftTopPosition().y, it->value->image);
-							it->value->mouseAction->beginPosition = it->value->transform.triangle->getLeftTopPosition();
-							it->value->mouseAction->endPosition = it->value->transform.triangle->getLeftTopPosition() + jhVector2(it->value->image->getwidth(), it->value->image->getheight());
+							putimagePNG(it->value->Transform.Triangle->getLeftTopPosition().x, it->value->Transform.Triangle->getLeftTopPosition().y, it->value->image);
+							it->value->mouseAction->beginPosition = it->value->Transform.Triangle->getLeftTopPosition();
+							it->value->mouseAction->endPosition = it->value->Transform.Triangle->getLeftTopPosition() + Vector2(it->value->image->getwidth(), it->value->image->getheight());
 						}
 					}
 				}
@@ -471,7 +477,7 @@ void Game::gameLoop()
 						//调用鼠标事件
 						it->value->mouseAction->getMouseMessage(msg);
 						//获取键盘输入
-						Input.getMessage(msg);
+						input.getMessage(msg);
 						break;
 					}
 				//遍历其他物体计算碰撞
@@ -483,7 +489,7 @@ void Game::gameLoop()
 						{
 							if (it2->value->transformType == 'c')
 							{
-								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.circle))
+								if (it->value->Transform.Circle->isTriggerEnter(*it2->value->Transform.Circle))
 								{
 									it->value->onCollision(it->value,it2->value);
 									CHECK_n
@@ -491,7 +497,7 @@ void Game::gameLoop()
 							}
 							else if (it2->value->transformType == 'r')
 							{
-								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.rectangle))
+								if (it->value->Transform.Circle->isTriggerEnter(*it2->value->Transform.Rectangle))
 								{
 									it->value->onCollision(it->value, it2->value);
 									CHECK_n
@@ -499,7 +505,7 @@ void Game::gameLoop()
 							}
 							else if (it2->value->transformType == 'd')
 							{
-								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.diamond))
+								if (it->value->Transform.Circle->isTriggerEnter(*it2->value->Transform.Diamond))
 								{
 									it->value->onCollision(it->value, it2->value);
 									CHECK_n
@@ -507,7 +513,7 @@ void Game::gameLoop()
 							}
 							else if (it2->value->transformType == 't')
 							{
-								if (it->value->transform.circle->isTriggerEnter(*it2->value->transform.triangle))
+								if (it->value->Transform.Circle->isTriggerEnter(*it2->value->Transform.Triangle))
 								{
 									it->value->onCollision(it->value, it2->value);
 									CHECK_n
@@ -537,22 +543,22 @@ void Game::gameLoop()
 	EndBatchDraw();
 }
 
-jhVector2 Game::getWindowSize()
+Vector2 Game::getWindowSize()
 {
 	return windowSize;
 }
 
-jhString Game::getWindowTitle()
+String Game::getWindowTitle()
 {
 	return windowTitle;
 }
 
-gameScene* Game::getScene()
+GameScene* Game::getScene()
 {
 	return Scene;
 }
 
-gameScene::~gameScene()
+GameScene::~GameScene()
 {
 	for (auto it = this->gameObjects.p_first; it != NULL; it = it->p_next)
 	{
@@ -568,11 +574,11 @@ gameScene::~gameScene()
 	}
 }
 
-void gameScene::addGameObject(jhString name, gameObject* gameObject_pre)
+void GameScene::addGameObject(String name, GameObject* gameObject_pre)
 {
 	if (this->gameTotalMap[name] >= 100)
 	{
-		throw invalid_argument("The name already exists");
+		throw std::invalid_argument("The name already exists");
 		return;
 	}
 	this->gameObjects.addList(gameObject_pre);
@@ -581,7 +587,7 @@ void gameScene::addGameObject(jhString name, gameObject* gameObject_pre)
 	gameObject_pre->refCount++;
 }
 
-void gameScene::removeGameObject(jhString name)
+void GameScene::removeGameObject(String name)
 {
 	for (auto it = this->gameObjects.p_first; it != NULL; it = it->p_next)
 	{
@@ -605,65 +611,65 @@ void gameScene::removeGameObject(jhString name)
 	}
 }
 
-gameObject* gameScene::getGameObject(jhString name)
+GameObject* GameScene::getGameObject(String name)
 {
 	return this->gameObjectsMap[name];
 }
 
-jhString gameScene::getName(gameObject* gameObject)
+String GameScene::getName(GameObject* GameObject)
 {
 	for (auto it : gameObjectsMap)
 	{
-		if (it.second == gameObject)
+		if (it.second == GameObject)
 		{
 			return it.first;
 		}
 	}
-	return jhString();
+	return String();
 }
 
-jhString gameScene::getName(gameUI* gameUI)
+String GameScene::getName(GameUI* GameUI)
 {
 	for (auto it : gameUIMap)
 	{
-		if (it.second == gameUI)
+		if (it.second == GameUI)
 		{
 			return it.first;
 		}
 	}
-	return jhString();
+	return String();
 }
 
-jhString gameScene::getName(gameUIText* gameUIText)
+String GameScene::getName(GameUIText* GameUIText)
 {
 	for (auto it : gameUITextsMap)
 	{
-		if (it.second == gameUIText)
+		if (it.second == GameUIText)
 		{
 			return it.first;
 		}
 	}
-	return jhString();
+	return String();
 }
 
-void gameScene::addGameUI(jhString name, gameUI* gameUI)
+void GameScene::addGameUI(String name, GameUI* GameUI)
 {
 	if (this->gameTotalMap[name] % 100 >= 10)
 	{
-		throw invalid_argument("The name already exists");
+		throw std::invalid_argument("The name already exists");
 		return;
 	}
-	this->gameUIs.addList(gameUI);
-	this->gameUIMap[name] = gameUI;
+	this->gameUIs.addList(GameUI);
+	this->gameUIMap[name] = GameUI;
 	this->gameTotalMap[name] += 10;
-	gameUI->refCount++;
+	GameUI->refCount++;
 }
 
-void gameScene::addGameUIText(jhString name, gameUIText* text)
+void GameScene::addGameUIText(String name, GameUIText* text)
 {
 	if (this->gameTotalMap[name] % 10 >= 1)
 	{
-		throw invalid_argument("The name already exists");
+		throw std::invalid_argument("The name already exists");
 		return;
 	}
 	this->gameUITexts.addList(text);
@@ -672,7 +678,7 @@ void gameScene::addGameUIText(jhString name, gameUIText* text)
 	text->refCount++;
 }
 
-void gameScene::removeGameUI(jhString name)
+void GameScene::removeGameUI(String name)
 {
 	for (auto it = this->gameUIs.p_first; it != NULL; it = it->p_next)
 	{
@@ -695,7 +701,7 @@ void gameScene::removeGameUI(jhString name)
 	}
 }
 
-void gameScene::removeGameUIText(jhString name)
+void GameScene::removeGameUIText(String name)
 {
 	for (auto it = this->gameUITexts.p_first; it != NULL; it = it->p_next)
 	{
@@ -717,27 +723,27 @@ void gameScene::removeGameUIText(jhString name)
 	}
 }
 
-gameUI* gameScene::getGameUI(jhString name)
+GameUI* GameScene::getGameUI(String name)
 {
 	return this->gameUIMap[name];
 }
 
-gameUIText* gameScene::getGameUIText(jhString name)
+GameUIText* GameScene::getGameUIText(String name)
 {
 	return this->gameUITextsMap[name];
 }
 
-void gameScene::setGameLoopFunc(void(*gameLoop)())
+void GameScene::setGameLoopFunc(void(*gameLoop)())
 {
 	this->gameLoop = gameLoop;
 }
 
-void gameScene::setAwakeFunc(void(*awake)())
+void GameScene::setAwakeFunc(void(*awake)())
 {
 	this->awake = awake;
 }
 
-void gameInput::getMessage(const ExMessage& msg)
+void GameInput::getMessage(const ExMessage& msg)
 {
 
 	if (msg.message == WM_KEYDOWN)
@@ -752,12 +758,12 @@ void gameInput::getMessage(const ExMessage& msg)
 
 }
 
-char gameInput::getKey()
+char GameInput::getKey()
 {
 	return this->key;
 }
 
-gameUIText::gameUIText(jhString text, jhVector2 position, COLORREF color, jhVector2 size, bool visible)
+GameUIText::GameUIText(String text, Vector2 position, COLORREF color, Vector2 size, bool visible)
 {
 	this->text = text;
 	this->color = color;
@@ -774,7 +780,7 @@ void MouseAction<T>::getMouseMessage(const ExMessage& msg)
 		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
 			if (onClick != NULL)
-				onClick(MouseMessage::leftDown, jhVector2(msg.x, msg.y), self);
+				onClick(MouseMessage::leftDown, Vector2(msg.x, msg.y), self);
 		}
 	}
 	if (msg.message == WM_LBUTTONUP)
@@ -782,7 +788,7 @@ void MouseAction<T>::getMouseMessage(const ExMessage& msg)
 		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
 			if (onClick != NULL)
-				onClick(MouseMessage::leftUp, jhVector2(msg.x, msg.y), self);
+				onClick(MouseMessage::leftUp, Vector2(msg.x, msg.y), self);
 		}
 	}
 	if (msg.message == WM_RBUTTONDOWN)
@@ -790,7 +796,7 @@ void MouseAction<T>::getMouseMessage(const ExMessage& msg)
 		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
 			if (onClick != NULL)
-				onClick(MouseMessage::rightDown, jhVector2(msg.x, msg.y), self);
+				onClick(MouseMessage::rightDown, Vector2(msg.x, msg.y), self);
 		}
 	}
 	if (msg.message == WM_RBUTTONUP)
@@ -798,7 +804,7 @@ void MouseAction<T>::getMouseMessage(const ExMessage& msg)
 		if (msg.x >= beginPosition.x && msg.x <= endPosition.x && msg.y >= beginPosition.y && msg.y <= endPosition.y)
 		{
 			if (onClick != NULL)
-				onClick(MouseMessage::rightUp, jhVector2(msg.x, msg.y), self);
+				onClick(MouseMessage::rightUp, Vector2(msg.x, msg.y), self);
 		}
 	}
 	if (msg.message == WM_MOUSEMOVE)
@@ -809,18 +815,18 @@ void MouseAction<T>::getMouseMessage(const ExMessage& msg)
 }
 
 template<class T>
-void MouseAction<T>::setClickFunc(void(*onClick)(int mouseMessage, jhVector2 position, T self))
+void MouseAction<T>::setClickFunc(void(*onClick)(int mouseMessage, Vector2 position, T self))
 {
 	this->onClick = onClick;
 }
 
 template<class T>
-jhVector2 MouseAction<T>::getMousePosition()
+Vector2 MouseAction<T>::getMousePosition()
 {
 	return this->mousePosition;
 }
 
-gameInputBox::gameInputBox(jhString* inputText, jhString title, jhString prompt, jhString defaultText, int max, jhVector2 size)
+GameInputBox::GameInputBox(String* inputText, String title, String prompt, String defaultText, int max, Vector2 size)
 {
 	this->inputText = inputText;
 	this->title = title;
@@ -830,89 +836,89 @@ gameInputBox::gameInputBox(jhString* inputText, jhString title, jhString prompt,
 	this->size = size;
 }
 
-void gameInputBox::show()
+void GameInputBox::show()
 {
 	InputBox(inputText->to_char(), this->maxInput, this->prompt.to_char(), this->title.to_char(), this->defaultText.to_char(), this->size.x, this->size.y);
 }
 
-gameMessageBox::gameMessageBox(jhString title, jhString message)
+GameMessageBox::GameMessageBox(String title, String message)
 {
 	this->title = title;
 	this->message = message;
 }
 
-void gameMessageBox::show()
+void GameMessageBox::show()
 {
 	MessageBox(GetHWnd(), message.to_char(), title.to_char(), MB_OK);
 }
 
 
 
-ostream& operator<<(ostream& cout, const jhString& str)
+std::ostream& JHMG_ENGINE::operator<<(std::ostream& cout, const JHMG_ENGINE::String& m_str)
 {
-	cout << str.str;
+	std::cout << m_str.m_str;
 	return cout;
 }
 
-istream& operator>>(istream& cin, const jhString& str)
+std::istream& JHMG_ENGINE::operator>>(std::istream& cin, const JHMG_ENGINE::String& m_str)
 {
-	cin >> str.str;
+	cin >> m_str.m_str;
 	return cin;
 }
 
-jhString::jhString()
+String::String()
 {
-	this->str = "";
+	this->m_str = "";
 }
 
-jhString::jhString(const string& str)
+String::String(const std::string& m_str)
 {
-	this->str = str;
+	this->m_str = m_str;
 }
 
-jhString::jhString(const char* str)
+String::String(const char* m_str)
 {
-	this->str = string(str);
+	this->m_str = std::string(m_str);
 }
 
-jhString::jhString(const jhString& str)
+String::String(const String& m_str)
 {
-	this->str = str.str;
+	this->m_str = m_str.m_str;
 }
 
-jhString jhString::operator+(const jhString& str)
+String String::operator+(const String& m_str)
 {
-	return jhString(this->str + str.str);
+	return String(this->m_str + m_str.m_str);
 }
 
-jhString jhString::operator+(const string& str)
+String String::operator+(const std::string& m_str)
 {
-	return jhString(this->str + str);
+	return String(this->m_str + m_str);
 }
 
-void jhString::operator=(const jhString& str)
+void String::operator=(const String& m_str)
 {
-	this->str = str.str;
+	this->m_str = m_str.m_str;
 }
 
-void jhString::operator=(const string& str)
+void String::operator=(const std::string& m_str)
 {
-	this->str = str;
+	this->m_str = m_str;
 }
 
-void jhString::operator+=(const jhString& str)
+void String::operator+=(const String& m_str)
 {
-	this->str += str.str;
+	this->m_str += m_str.m_str;
 }
 
-void jhString::operator+=(const string& str)
+void String::operator+=(const std::string& m_str)
 {
-	this->str += str;
+	this->m_str += m_str;
 }
 
-bool jhString::operator==(const jhString& str)
+bool String::operator==(const String& m_str)
 {
-	if (this->str == str.str)
+	if (this->m_str == m_str.m_str)
 	{
 		return true;
 	}
@@ -920,9 +926,9 @@ bool jhString::operator==(const jhString& str)
 	else return false;
 }
 
-bool jhString::operator<(const jhString& str)const
+bool String::operator<(const String& m_str)const
 {
-	if (this->str < str.str)
+	if (this->m_str < m_str.m_str)
 	{
 		return true;
 	}
@@ -930,9 +936,9 @@ bool jhString::operator<(const jhString& str)const
 	else return false;
 }
 
-bool jhString::operator>(const jhString& str)const
+bool String::operator>(const String& m_str)const
 {
-	if (this->str > str.str)
+	if (this->m_str > m_str.m_str)
 	{
 		return true;
 	}
@@ -940,47 +946,47 @@ bool jhString::operator>(const jhString& str)const
 	else return false;
 }
 
-int jhString::to_int()
+int String::to_int()
 {
-	return atoi(this->str.c_str());
+	return atoi(this->m_str.c_str());
 }
 
-char* jhString::to_char()
+char* String::to_char()
 {
-	return (char*)(this->str.c_str());
+	return (char*)(this->m_str.c_str());
 }
 
-float jhString::to_float()
+float String::to_float()
 {
-	return atof(this->str.c_str());
+	return atof(this->m_str.c_str());
 }
 
-int jhString::indexOf(const string& str)
+int String::indexOf(const std::string& m_str)
 {
-	return this->str.find(str);
+	return this->m_str.find(m_str);
 }
 
-int jhString::indexOf(const jhString& str)
+int String::indexOf(const String& m_str)
 {
-	return this->str.find(str.str);
+	return this->m_str.find(m_str.m_str);
 }
 
-string jhString::to_stdString()
+std::string String::to_stdString()
 {
-	return this->str;
+	return this->m_str;
 }
 
-string jhString::substr(int begin, int end)
+std::string String::substr(int begin, int end)
 {
 	if (end <= begin)
-		return this->str.substr(begin, end - begin + 1);
+		return this->m_str.substr(begin, end - begin + 1);
 	else
-		return this->str;
+		return this->m_str;
 }
 
-string jhString::substr(const string& leftStr, const string& rightStr)//取出中间字符串
+std::string String::substr(const std::string& leftStr, const std::string& rightStr)//取出中间字符串
 {
-	int left = this->str.find(leftStr);
+	int left = this->m_str.find(leftStr);
 	int right;
 	if (left == -1)
 	{
@@ -989,22 +995,23 @@ string jhString::substr(const string& leftStr, const string& rightStr)//取出中间
 
 	else
 	{
-		right = this->str.find(rightStr, left);
+		right = this->m_str.find(rightStr, left);
 	}
 
 	if (right != -1)//找到右边
 	{
-		return this->str.substr(left + leftStr.length(), right - (left + leftStr.length()));
+		return this->m_str.substr(left + leftStr.length(), right - (left + leftStr.length()));
 	}
 
 	else//找不到右边，截取从左边到末尾
 	{
-		return this->str.substr(left + 1);
+		return this->m_str.substr(left + 1);
 	}
 
 }
 
-ostream& operator<<(ostream& cout, const jhFraction& num)
+
+std::ostream& JHMG_ENGINE::operator<<(std::ostream& cout, const Fraction& num)
 {
 	if (num.m != 1 && num.s != 0)
 		cout << num.s << "/" << num.m;
@@ -1013,7 +1020,7 @@ ostream& operator<<(ostream& cout, const jhFraction& num)
 	return cout;
 }
 
-istream& operator>>(istream& cin, jhFraction& num)
+std::istream& JHMG_ENGINE::operator>>(std::istream& cin, Fraction& num)
 {
 	int s, m;
 	scanf("%d/%d", &s, &m);
@@ -1026,7 +1033,7 @@ istream& operator>>(istream& cin, jhFraction& num)
 	return cin;
 }
 
-void jhFraction::simplify()
+void Fraction::simplify()
 {
 	if (s >= 0 && m > 0)
 	{
@@ -1060,29 +1067,29 @@ void jhFraction::simplify()
 
 }
 
-void jhFraction::print()
+void Fraction::print()
 {
-	cout << s << "/" << m;
+	std::cout << s << "/" << m;
 }
 
-jhFraction::jhFraction()
+Fraction::Fraction()
 {
 	s = 0; m = 1;
 }
 
-jhFraction::jhFraction(const jhFraction& num)
+Fraction::Fraction(const Fraction& num)
 {
 	s = num.s;
 	m = num.m;
 }
 
-jhFraction::jhFraction(int sm)
+Fraction::Fraction(int sm)
 {
 	s = sm;
 	m = 1;
 }
 
-jhFraction::jhFraction(double num)
+Fraction::Fraction(double num)
 {
 	int M = 1;
 	while (num - int(num) != 0)
@@ -1095,7 +1102,7 @@ jhFraction::jhFraction(double num)
 	simplify();
 }
 
-jhFraction::jhFraction(int s, int m)
+Fraction::Fraction(int s, int m)
 {
 	if ((s < 0 && m < 0) || (s > 0 && m < 0))
 	{
@@ -1110,71 +1117,71 @@ jhFraction::jhFraction(int s, int m)
 	simplify();
 }
 
-float jhFraction::to_float()
+float Fraction::to_float()
 {
 	return float(s) / m;
 }
 
-jhFraction jhFraction::operator+(const jhFraction& num)
+Fraction Fraction::operator+(const Fraction& num)
 {
-	return jhFraction(this->s * num.m + this->m * num.s, this->m * num.m);
+	return Fraction(this->s * num.m + this->m * num.s, this->m * num.m);
 }
 
-jhFraction jhFraction::operator+(float num)
+Fraction Fraction::operator+(float num)
 {
-	return jhFraction(this->to_float() + num);
+	return Fraction(this->to_float() + num);
 }
 
-jhFraction& jhFraction::operator+=(float num)
+Fraction& Fraction::operator+=(float num)
 {
 	*this = *this + num;
 	return *this;
 }
 
-jhFraction jhFraction::operator-(const jhFraction& num)
+Fraction Fraction::operator-(const Fraction& num)
 {
-	return jhFraction(this->s * num.m - this->m * num.s, this->m * num.m);
+	return Fraction(this->s * num.m - this->m * num.s, this->m * num.m);
 }
 
-jhFraction jhFraction::operator-(float num)
+Fraction Fraction::operator-(float num)
 {
-	return jhFraction(this->to_float() - num);
+	return Fraction(this->to_float() - num);
 }
 
-jhFraction jhFraction::operator*(const jhFraction& num)
+Fraction Fraction::operator*(const Fraction& num)
 {
-	return jhFraction(this->s * num.s, this->m * num.m);
+	return Fraction(this->s * num.s, this->m * num.m);
 }
 
-jhFraction jhFraction::operator*(float num)
+Fraction Fraction::operator*(float num)
 {
-	return jhFraction(this->to_float() * num);
+	return Fraction(this->to_float() * num);
 }
 
-jhFraction jhFraction::operator*=(float num)
+Fraction Fraction::operator*=(float num)
 {
 	*this = *this * num;
 	return *this;
 }
 
-jhFraction jhFraction::operator=(const jhFraction& num)
+Fraction Fraction::operator=(const Fraction& num)
 {
 	this->s = num.s;
 	this->m = num.m;
 	return *this;
 }
 
-jhFraction jhFraction::operator/(const jhFraction& num)
+Fraction Fraction::operator/(const Fraction& num)
 {
-	return jhFraction(this->s * num.m, this->m * num.s);
+	return Fraction(this->s * num.m, this->m * num.s);
 }
 
-jhFraction jhFraction::operator/(float num)
+Fraction Fraction::operator/(float num)
 {
-	return jhFraction(this->to_float() / num);
+	return Fraction(this->to_float() / num);
 }
 
-jhFraction jhFraction::operator/=(float num)
+Fraction Fraction::operator/=(float num)
 {
 	if (num != 0)
 	{
@@ -1189,7 +1196,7 @@ jhFraction jhFraction::operator/=(float num)
 	return *this;
 }
 
-bool jhFraction::operator>(const jhFraction& num)
+bool Fraction::operator>(const Fraction& num)
 {
 	if (this->s * num.m - num.s - this->m > 0)
 		return true;
@@ -1197,7 +1204,7 @@ bool jhFraction::operator>(const jhFraction& num)
 		return false;
 }
 
-bool jhFraction::operator>(float num)
+bool Fraction::operator>(float num)
 {
 	if (this->to_float() > num)
 		return true;
@@ -1205,7 +1212,7 @@ bool jhFraction::operator>(float num)
 		return false;
 }
 
-bool jhFraction::operator>=(const jhFraction& num)
+bool Fraction::operator>=(const Fraction& num)
 {
 	if (*this > num || *this == num)
 	{
@@ -1216,7 +1223,7 @@ bool jhFraction::operator>=(const jhFraction& num)
 		return false;
 }
 
-bool jhFraction::operator>=(float num)
+bool Fraction::operator>=(float num)
 {
 	if (this->to_float() >= num)
 		return true;
@@ -1224,7 +1231,7 @@ bool jhFraction::operator>=(float num)
 		return false;
 }
 
-bool jhFraction::operator<=(const jhFraction& num)
+bool Fraction::operator<=(const Fraction& num)
 {
 	if (*this < num || *this == num)
 	{
@@ -1235,7 +1242,7 @@ bool jhFraction::operator<=(const jhFraction& num)
 		return false;
 }
 
-bool jhFraction::operator<=(float num)
+bool Fraction::operator<=(float num)
 {
 	if (this->to_float() <= num)
 		return true;
@@ -1243,7 +1250,7 @@ bool jhFraction::operator<=(float num)
 		return false;
 }
 
-bool jhFraction::operator<(const jhFraction& num)
+bool Fraction::operator<(const Fraction& num)
 {
 	if (this->s * num.m - num.s - this->m > 0)
 		return false;
@@ -1251,7 +1258,7 @@ bool jhFraction::operator<(const jhFraction& num)
 		return true;
 }
 
-bool jhFraction::operator<(float num)
+bool Fraction::operator<(float num)
 {
 	if (this->to_float() < num)
 		return true;
@@ -1259,7 +1266,7 @@ bool jhFraction::operator<(float num)
 		return false;
 }
 
-bool jhFraction::operator==(const jhFraction& num)
+bool Fraction::operator==(const Fraction& num)
 {
 	if (this->s * num.m - num.s - this->m == 0)
 		return true;
@@ -1267,7 +1274,7 @@ bool jhFraction::operator==(const jhFraction& num)
 		return false;
 }
 
-bool jhFraction::operator==(float num)
+bool Fraction::operator==(float num)
 {
 	if (this->to_float() == num)
 		return true;
@@ -1275,83 +1282,83 @@ bool jhFraction::operator==(float num)
 		return false;
 }
 
-jhFraction& jhFraction::operator+=(const jhFraction& num)
+Fraction& Fraction::operator+=(const Fraction& num)
 {
 	*this = *this + num;
 	return *this;
 }
 
-jhFraction& jhFraction::operator-=(const jhFraction& num)
+Fraction& Fraction::operator-=(const Fraction& num)
 {
 	*this = *this - num;
 	return *this;
 }
 
-jhFraction& jhFraction::operator-=(float num)
+Fraction& Fraction::operator-=(float num)
 {
 	*this = *this - num;
 	return *this;
 }
 
-jhVector2::jhVector2()
+Vector2::Vector2()
 {
 	x = 0; y = 0;
 }
 
-jhVector2::jhVector2(float x, float y)
+Vector2::Vector2(float x, float y)
 {
 	this->x = x;
 	this->y = y;
 }
 
-jhVector2::jhVector2(const jhVector2& v2)
+Vector2::Vector2(const Vector2& v2)
 {
 	this->x = v2.x;
 	this->y = v2.y;
 }
 
-jhVector2& jhVector2::operator=(const jhVector2& v2)
+Vector2& Vector2::operator=(const Vector2& v2)
 {
 	this->x = v2.x;
 	this->y = v2.y;
 	return *this;
 }
 
-jhVector2 jhVector2::operator+(const jhVector2& v2)
+Vector2 Vector2::operator+(const Vector2& v2)
 {
-	return jhVector2(this->x + v2.x, this->y + v2.y);
+	return Vector2(this->x + v2.x, this->y + v2.y);
 }
 
-jhVector2& jhVector2::operator+=(const jhVector2& v2)
+Vector2& Vector2::operator+=(const Vector2& v2)
 {
 	this->x += v2.x;
 	this->y += v2.y;
 	return *this;
 }
 
-jhVector2 jhVector2::operator-(const jhVector2& v2)
+Vector2 Vector2::operator-(const Vector2& v2)
 {
-	return jhVector2(this->x - v2.x, this->y - v2.y);
+	return Vector2(this->x - v2.x, this->y - v2.y);
 }
 
-jhVector2& jhVector2::operator-=(const jhVector2& v2)
+Vector2& Vector2::operator-=(const Vector2& v2)
 {
 	this->x -= v2.x;
 	this->y -= v2.y;
 	return *this;
 }
 
-jhVector2 jhVector2::operator*(float i)
+Vector2 Vector2::operator*(float i)
 {
-	return jhVector2(this->x * i, this->y * i);
+	return Vector2(this->x * i, this->y * i);
 }
 
-jhVector2 jhVector2::operator/(float i)
+Vector2 Vector2::operator/(float i)
 {
-	return jhVector2(this->x / i, this->y / i);
+	return Vector2(this->x / i, this->y / i);
 }
 
-bool jhVector2::operator==(const jhVector2& v2)
+bool Vector2::operator==(const Vector2& v2)
 {
 	if (this->x == v2.x && this->y == v2.y)
 		return true;
@@ -1359,22 +1366,22 @@ bool jhVector2::operator==(const jhVector2& v2)
 		return false;
 }
 
-double jhVector2::destance(const jhVector2& obj)
+double Vector2::destance(const Vector2& obj)
 {
 	return sqrt(pow(this->x - obj.x, 2) + pow(this->y - obj.y, 2));
 }
 
-double jhVector2::cross_product(const jhVector2& objective)
+double Vector2::cross_product(const Vector2& objective)
 {
 	return this->x * objective.y - this->y * objective.x;
 }
 
-double jhVector2::dot_product(const jhVector2& objective)
+double Vector2::dot_product(const Vector2& objective)
 {
 	return this->x * objective.x + this->y * objective.y;
 }
 
-void jhVector2::rotate(const jhVector2& center, float angle)
+void Vector2::rotate(const Vector2& center, float angle)
 {
 	float s = sin(angle);
 	float c = cos(angle);
@@ -1383,7 +1390,7 @@ void jhVector2::rotate(const jhVector2& center, float angle)
 }
 
 template<class T>
-inline void jhList<T>::addList(T value)
+inline void List<T>::addList(T value)
 {
 	node* newlist = new node;
 	newlist->p_next = NULL;
@@ -1409,7 +1416,7 @@ inline void jhList<T>::addList(T value)
 }
 
 template<class T>
-inline void jhList<T>::deleteList(node* list)
+inline void List<T>::deleteList(node* list)
 {
 	if (list == NULL)
 		return;
@@ -1454,13 +1461,13 @@ inline void jhList<T>::deleteList(node* list)
 }
 
 template<class T>
-inline jhList<T>::jhList()
+inline List<T>::List()
 {
 	p_first = NULL;
 }
 
 template<class T>
-inline jhList<T>::~jhList()
+inline List<T>::~List()
 {
 	node* now = this->p_first;
 	while (now != NULL)
@@ -1473,13 +1480,13 @@ inline jhList<T>::~jhList()
 }
 
 //模板实例化
-template class jhList<gameObject*>;
-template class jhList<gameUI*>;
-template class jhList<gameUIText*>;
-template class MouseAction<gameObject*>;
-template class MouseAction<gameUI*>;
+template class List<GameObject*>;
+template class List<GameUI*>;
+template class List<GameUIText*>;
+template class MouseAction<GameObject*>;
+template class MouseAction<GameUI*>;
 
-jhMatrix::jhMatrix(int row, int column)
+Matrix::Matrix(int row, int column)
 {
 	this->init(row, column);
 	for (int i = 0; i < row; i++)
@@ -1493,7 +1500,7 @@ jhMatrix::jhMatrix(int row, int column)
 
 }
 
-jhMatrix::jhMatrix(const jhMatrix& other)
+Matrix::Matrix(const Matrix& other)
 {
 	this->row = other.row;
 	this->column = other.column;
@@ -1510,18 +1517,18 @@ jhMatrix::jhMatrix(const jhMatrix& other)
 
 }
 
-jhMatrix::~jhMatrix()
+Matrix::~Matrix()
 {
 	for (int i = 0; i < this->row; i++)delete[] this->matrix[i];
 	delete[] this->matrix;
 }
 
-jhMatrix::jhMatrix(const jhVector2& v2)
+Matrix::Matrix(const Vector2& v2)
 {
 	this->init(int(v2.x), int(v2.y));
 }
 
-jhMatrix::jhMatrix(float* other, int row, int column)
+Matrix::Matrix(float* other, int row, int column)
 {
 	this->init(row, column);
 	for (int i = 0; i < row; i++)
@@ -1535,22 +1542,22 @@ jhMatrix::jhMatrix(float* other, int row, int column)
 
 }
 
-void jhMatrix::setValue(int row, int column, float value)
+void Matrix::setValue(int row, int column, float value)
 {
 	this->matrix[row][column] = value;
 }
 
-void jhMatrix::print(bool isFraction)
+void Matrix::print(bool isFraction)
 {
 	if (isFraction == false)
 		for (int i = 0; i < row; i++)
 		{
 			for (int j = 0; j < column; j++)
 			{
-				cout << matrix[i][j] << " ";
+				std::cout << matrix[i][j] << " ";
 			}
 
-			cout << endl;
+			std::cout << std::endl;
 		}
 
 	else
@@ -1558,15 +1565,15 @@ void jhMatrix::print(bool isFraction)
 		{
 			for (int j = 0; j < column; j++)
 			{
-				cout << jhFraction(matrix[i][j]) << " ";
+				std::cout << Fraction(matrix[i][j]) << " ";
 			}
 
-			cout << endl;
+			std::cout << std::endl;
 		}
 
 }
 
-void jhMatrix::swapRows(int row1, int row2) {
+void Matrix::swapRows(int row1, int row2) {
 	if (row1 < 0 || row1 >= row || row2 < 0 || row2 >= row) {
 		throw std::out_of_range("Row index out of range");
 	}
@@ -1576,7 +1583,7 @@ void jhMatrix::swapRows(int row1, int row2) {
 	matrix[row2] = temp;
 }
 
-void jhMatrix::divideRow(int row, float divisor) {
+void Matrix::divideRow(int row, float divisor) {
 	if (row < 0 || row >= this->row) {
 		throw std::out_of_range("Row index out of range");
 	}
@@ -1592,7 +1599,7 @@ void jhMatrix::divideRow(int row, float divisor) {
 
 }
 
-void jhMatrix::addToRow(int sourceRow, int destRow, float multiple) {
+void Matrix::addToRow(int sourceRow, int destRow, float multiple) {
 	if (sourceRow < 0 || sourceRow >= row || destRow < 0 || destRow >= row) {
 		throw std::out_of_range("Row index out of range");
 	}
@@ -1603,9 +1610,9 @@ void jhMatrix::addToRow(int sourceRow, int destRow, float multiple) {
 
 }
 
-jhMatrix jhMatrix::getTransposeMatrix()
+Matrix Matrix::getTransposeMatrix()
 {
-	jhMatrix transpose(column, row); // 新建一个矩阵，行列互换
+	Matrix transpose(column, row); // 新建一个矩阵，行列互换
 	for (int i = 0; i < row; ++i)
 	{
 		for (int j = 0; j < column; ++j)
@@ -1645,7 +1652,7 @@ float calDeterminant(float** det, int n)//det-行列式，n:行列式的阶数
 }
 
 //使用高斯消元法对矩阵进行求逆
-jhMatrix jhMatrix::getInverseMatrix() {
+Matrix Matrix::getInverseMatrix() {
 	if (row != column) {
 		throw std::invalid_argument("Matrix is not square.");
 	}
@@ -1698,7 +1705,7 @@ jhMatrix jhMatrix::getInverseMatrix() {
 	}
 
 	// 提取逆矩阵
-	jhMatrix inverse(row, column);
+	Matrix inverse(row, column);
 	for (int i = 0; i < row; ++i) {
 		for (int j = 0; j < row; ++j) {
 			inverse.matrix[i][j] = augmentedMatrix[i][j + row];
@@ -1715,7 +1722,7 @@ jhMatrix jhMatrix::getInverseMatrix() {
 	return inverse;
 }
 
-float jhMatrix::getDeterminant()
+float Matrix::getDeterminant()
 {
 	if (row != column) {
 		throw std::invalid_argument("Cannot calculate determinant for non-square matrix");
@@ -1733,12 +1740,12 @@ float jhMatrix::getDeterminant()
 }
 
 // 矩阵加法
-jhMatrix jhMatrix::operator+(const jhMatrix& other) {
+Matrix Matrix::operator+(const Matrix& other) {
 	if (row != other.row || column != other.column) {
 		throw std::invalid_argument("Matrix dimensions do not match for addition");
 	}
 
-	jhMatrix result(row, column);
+	Matrix result(row, column);
 	for (int i = 0; i < row; ++i)
 	{
 		for (int j = 0; j < column; ++j)
@@ -1752,14 +1759,14 @@ jhMatrix jhMatrix::operator+(const jhMatrix& other) {
 }
 
 // 矩阵减法
-jhMatrix jhMatrix::operator-(const jhMatrix& other)
+Matrix Matrix::operator-(const Matrix& other)
 {
 	if (row != other.row || column != other.column)
 	{
 		throw std::invalid_argument("Matrix dimensions do not match for subtraction");
 	}
 
-	jhMatrix result(row, column);
+	Matrix result(row, column);
 	for (int i = 0; i < row; ++i)
 	{
 		for (int j = 0; j < column; ++j)
@@ -1773,14 +1780,14 @@ jhMatrix jhMatrix::operator-(const jhMatrix& other)
 }
 
 // 矩阵乘法
-jhMatrix jhMatrix::operator*(const jhMatrix& other)
+Matrix Matrix::operator*(const Matrix& other)
 {
 	if (column != other.row)
 	{
 		throw std::invalid_argument("Matrix dimensions do not match for multiplication");
 	}
 
-	jhMatrix result(this->row, other.column);
+	Matrix result(this->row, other.column);
 	for (int i = 0; i < row; ++i)
 	{
 		for (int j = 0; j < other.column; ++j)
@@ -1799,9 +1806,9 @@ jhMatrix jhMatrix::operator*(const jhMatrix& other)
 }
 
 // 矩阵与标量乘法
-jhMatrix jhMatrix::operator*(float num)
+Matrix Matrix::operator*(float num)
 {
-	jhMatrix result(row, column);
+	Matrix result(row, column);
 	for (int i = 0; i < row; ++i)
 	{
 		for (int j = 0; j < column; ++j)
@@ -1814,7 +1821,7 @@ jhMatrix jhMatrix::operator*(float num)
 	return result;
 }
 
-void jhMatrix::operator=(const jhMatrix& other)
+void Matrix::operator=(const Matrix& other)
 {
 	this->row = other.row;
 	this->column = other.column;
@@ -1829,7 +1836,7 @@ void jhMatrix::operator=(const jhMatrix& other)
 
 }
 
-bool jhMatrix::operator==(const jhMatrix& other)
+bool Matrix::operator==(const Matrix& other)
 {
 	if (this->row != other.row || this->column != other.column)return false;
 	for (int i = 0; i < this->row; i++)
@@ -1845,60 +1852,60 @@ bool jhMatrix::operator==(const jhMatrix& other)
 	return true;
 }
 
-jhObject2D::transform::transform()
+Transform::Transform()
 {
-	position = jhVector2(0, 0);
+	position = Vector2(0, 0);
 }
 
-jhObject2D::transform::transform(const transform& other)
+Transform::Transform(const Transform& other)
 {
 	this->position = other.position;
 }
 
-jhObject2D::transform::transform(jhVector2 position)
+Transform::Transform(Vector2 position)
 {
 	this->position = position;
 }
 
-jhVector2 jhObject2D::transform::getPosition()
+Vector2 Transform::getPosition()
 {
 	return this->position;
 }
 
-float jhObject2D::transform::getDistance(const transform& other)
+float Transform::getDistance(const Transform& other)
 {
 	return this->position.destance(other.position);
 }
 
-jhObject2D::circle::circle(float radius, jhVector2 position) :transform()
+Circle::Circle(float radius, Vector2 position) :Transform()
 {
 	this->radius = radius;
 	this->position = position;
 }
 
-jhObject2D::circle::circle(const circle& other)
+Circle::Circle(const Circle& other)
 {
 	this->position = other.position;
 	this->radius = other.radius;
 }
 
-float jhObject2D::circle::getAreaSize()
+float Circle::getAreaSize()
 {
 	return PI * this->radius * this->radius;
 }
 
-void jhObject2D::circle::move(jhVector2 dest)
+void Circle::move(Vector2 dest)
 {
 	this->position = dest;
 }
 
-jhVector2 jhObject2D::circle::getLeftTopPosition()
+Vector2 Circle::getLeftTopPosition()
 {
-	return jhVector2(this->position.x - this->radius, this->position.y - this->radius);
+	return Vector2(this->position.x - this->radius, this->position.y - this->radius);
 }
 
 
-bool jhObject2D::circle::isTriggerEnter(const triangle& other)
+bool Circle::isTriggerEnter(const Triangle& other)
 {
 	//圆形与三角形的碰撞检测
 	float a = this->position.destance(other.pointA) - radius;
@@ -1912,7 +1919,7 @@ bool jhObject2D::circle::isTriggerEnter(const triangle& other)
 		return false;
 }
 
-bool jhObject2D::circle::isTriggerEnter(const rectangle& other)
+bool Circle::isTriggerEnter(const Rectangle& other)
 {
 	//圆形与矩形的碰撞检测
 	float x = this->position.x;
@@ -1927,7 +1934,7 @@ bool jhObject2D::circle::isTriggerEnter(const rectangle& other)
 		return false;
 }
 
-bool jhObject2D::circle::isTriggerEnter(const diamond& other)
+bool Circle::isTriggerEnter(const Diamond& other)
 {
 	//圆形与菱形粗略的碰撞检测
 	float x = this->position.x;
@@ -1942,7 +1949,7 @@ bool jhObject2D::circle::isTriggerEnter(const diamond& other)
 		return false;
 }
 
-bool jhObject2D::circle::isTriggerEnter(const circle& other)
+bool Circle::isTriggerEnter(const Circle& other)
 {
 	//圆形与圆形的碰撞检测
 	if (this->position.destance(other.position) <= this->radius + other.radius)
@@ -1951,22 +1958,22 @@ bool jhObject2D::circle::isTriggerEnter(const circle& other)
 		return false;
 }
 
-float jhObject2D::rectangle::getAreaSize()
+float Rectangle::getAreaSize()
 {
 	return this->height * this->width;
 }
 
-void jhObject2D::rectangle::move(jhVector2 dest)
+void Rectangle::move(Vector2 dest)
 {
 	this->position = dest;
 }
 
-jhVector2 jhObject2D::rectangle::getLeftTopPosition()
+Vector2 Rectangle::getLeftTopPosition()
 {
-	return jhVector2(this->position.x - this->width / 2, this->position.y - this->height / 2);
+	return Vector2(this->position.x - this->width / 2, this->position.y - this->height / 2);
 }
 
-bool jhObject2D::rectangle::isTriggerEnter(const triangle& other)
+bool Rectangle::isTriggerEnter(const Triangle& other)
 {
 	//矩形与三角形的碰撞检测
 	float x1 = this->position.x - this->width / 2;
@@ -1985,7 +1992,7 @@ bool jhObject2D::rectangle::isTriggerEnter(const triangle& other)
 				return false;
 }
 
-bool jhObject2D::rectangle::isTriggerEnter(const rectangle& other)
+bool Rectangle::isTriggerEnter(const Rectangle& other)
 {
 	//矩形与矩形的碰撞检测
 	float x1 = this->position.x - this->width / 2;
@@ -2002,7 +2009,7 @@ bool jhObject2D::rectangle::isTriggerEnter(const rectangle& other)
 		return false;
 }
 
-bool jhObject2D::rectangle::isTriggerEnter(const diamond& other)
+bool Rectangle::isTriggerEnter(const Diamond& other)
 {
 	//矩形与菱形的碰撞检测
 	float x1 = this->position.x - this->width / 2;
@@ -2019,7 +2026,7 @@ bool jhObject2D::rectangle::isTriggerEnter(const diamond& other)
 		return false;
 }
 
-bool jhObject2D::rectangle::isTriggerEnter(const circle& other)
+bool Rectangle::isTriggerEnter(const Circle& other)
 {
 	//矩形与圆形的碰撞检测
 	float x1 = this->position.x - this->width / 2;
@@ -2032,21 +2039,21 @@ bool jhObject2D::rectangle::isTriggerEnter(const circle& other)
 		return false;
 }
 
-jhObject2D::rectangle::rectangle(float width, float height, jhVector2 position) :transform()
+Rectangle::Rectangle(float width, float height, Vector2 position) :Transform()
 {
 	this->width = width;
 	this->height = height;
 	this->position = position;
 }
 
-jhObject2D::rectangle::rectangle(const rectangle& other)
+Rectangle::Rectangle(const Rectangle& other)
 {
 	this->position = other.position;
 	this->width = other.width;
 	this->height = other.height;
 }
 
-float jhObject2D::triangle::getAreaSize()
+float Triangle::getAreaSize()
 {
 	float a = this->pointA.destance(this->pointB);
 	float b = this->pointB.destance(this->pointC);
@@ -2055,7 +2062,7 @@ float jhObject2D::triangle::getAreaSize()
 	return sqrt(p * (p - a) * (p - b) * (p - c));
 }
 
-bool jhObject2D::triangle::isTriggerEnter(const triangle& other)
+bool Triangle::isTriggerEnter(const Triangle& other)
 {
 	//三角形与三角形的碰撞检测
 	float x1 = this->pointA.x;
@@ -2097,7 +2104,7 @@ bool jhObject2D::triangle::isTriggerEnter(const triangle& other)
 
 }
 
-bool jhObject2D::triangle::isTriggerEnter(const rectangle& other)
+bool Triangle::isTriggerEnter(const Rectangle& other)
 {
 	//三角形与矩形的碰撞检测
 	float x1 = this->pointA.x;
@@ -2122,7 +2129,7 @@ bool jhObject2D::triangle::isTriggerEnter(const rectangle& other)
 				return false;
 }
 
-bool jhObject2D::triangle::isTriggerEnter(const diamond& other)
+bool Triangle::isTriggerEnter(const Diamond& other)
 {
 	//三角形与菱形的碰撞检测
 	float x1 = this->pointA.x;
@@ -2147,7 +2154,7 @@ bool jhObject2D::triangle::isTriggerEnter(const diamond& other)
 				return false;
 }
 
-bool jhObject2D::triangle::isTriggerEnter(const circle& other)
+bool Triangle::isTriggerEnter(const Circle& other)
 {
 	//三角形与圆形的碰撞检测
 	float x1 = this->pointA.x;
@@ -2167,14 +2174,14 @@ bool jhObject2D::triangle::isTriggerEnter(const circle& other)
 		return false;
 }
 
-jhObject2D::triangle::triangle(jhVector2 pointA, jhVector2 pointB, jhVector2 pointC)
+Triangle::Triangle(Vector2 pointA, Vector2 pointB, Vector2 pointC)
 {
 	//计算三角形外接圆中心坐标
-	jhVector2 center;
+	Vector2 center;
 	// 计算中点坐标
-	jhVector2 midpointAB = { (pointA.x + pointB.x) / 2, (pointA.y + pointB.y) / 2 }
+	Vector2 midpointAB = { (pointA.x + pointB.x) / 2, (pointA.y + pointB.y) / 2 }
 	;
-	jhVector2 midpointBC = { (pointB.x + pointC.x) / 2, (pointB.y + pointC.y) / 2 }
+	Vector2 midpointBC = { (pointB.x + pointC.x) / 2, (pointB.y + pointC.y) / 2 }
 	;
 	// 计算边的斜率
 	double slopeAB = (pointB.y - pointA.y) / (pointB.x - pointA.x);
@@ -2194,15 +2201,15 @@ jhObject2D::triangle::triangle(jhVector2 pointA, jhVector2 pointB, jhVector2 poi
 	this->pointC = pointC;
 }
 
-jhObject2D::triangle::triangle(jhVector2 center, float coLength)
+Triangle::Triangle(Vector2 center, float coLength)
 {
 	this->position = center;
-	this->pointA = jhVector2(center.x, center.y + coLength);
-	this->pointB = jhVector2(center.x + coLength * sqrt(3) / 2, center.y - coLength / 2);
-	this->pointC = jhVector2(center.x - coLength * sqrt(3) / 2, center.y - coLength / 2);
+	this->pointA = Vector2(center.x, center.y + coLength);
+	this->pointB = Vector2(center.x + coLength * sqrt(3) / 2, center.y - coLength / 2);
+	this->pointC = Vector2(center.x - coLength * sqrt(3) / 2, center.y - coLength / 2);
 }
 
-jhObject2D::triangle::triangle(const triangle& other)
+Triangle::Triangle(const Triangle& other)
 {
 	this->position = other.position;
 	this->pointA = other.pointA;
@@ -2210,53 +2217,53 @@ jhObject2D::triangle::triangle(const triangle& other)
 	this->pointC = other.pointC;
 }
 
-void jhObject2D::triangle::move(jhVector2 dest)
+void Triangle::move(Vector2 dest)
 {
-	jhVector2 offset = dest - this->position;
+	Vector2 offset = dest - this->position;
 	this->pointA += offset;
 	this->pointB += offset;
 	this->pointC += offset;
 	this->position = dest;
 }
 
-jhVector2 jhObject2D::triangle::getPositionA()
+Vector2 Triangle::getPositionA()
 {
 	return this->pointA;
 }
 
-jhVector2 jhObject2D::triangle::getPositionB()
+Vector2 Triangle::getPositionB()
 {
 	return this->pointB;
 }
 
-jhVector2 jhObject2D::triangle::getPositionC()
+Vector2 Triangle::getPositionC()
 {
 	return this->pointC;
 }
 
-jhVector2 jhObject2D::triangle::getLeftTopPosition()
+Vector2 Triangle::getLeftTopPosition()
 {
 	float minX = min(this->pointA.x, min(this->pointB.x, this->pointC.x));
 	float minY = min(this->pointA.y, min(this->pointB.y, this->pointC.y));
-	return jhVector2(minX, minY);
+	return Vector2(minX, minY);
 }
 
-float jhObject2D::diamond::getAreaSize()
+float Diamond::getAreaSize()
 {
 	return this->lengthX * this->lengthY / 2;
 }
 
-void jhObject2D::diamond::move(jhVector2 dest)
+void Diamond::move(Vector2 dest)
 {
 	this->position = dest;
 }
 
-jhVector2 jhObject2D::diamond::getLeftTopPosition()
+Vector2 Diamond::getLeftTopPosition()
 {
-	return jhVector2(this->position.x - this->lengthX / 2, this->position.y - this->lengthY / 2);
+	return Vector2(this->position.x - this->lengthX / 2, this->position.y - this->lengthY / 2);
 }
 
-bool jhObject2D::diamond::isTriggerEnter(const triangle& other)
+bool Diamond::isTriggerEnter(const Triangle& other)
 {
 	//菱形与三角形的碰撞检测
 	float x1 = this->position.x - this->lengthX / 2;
@@ -2275,7 +2282,7 @@ bool jhObject2D::diamond::isTriggerEnter(const triangle& other)
 				return false;
 }
 
-bool jhObject2D::diamond::isTriggerEnter(const rectangle& other)
+bool Diamond::isTriggerEnter(const Rectangle& other)
 {
 	//菱形与矩形的碰撞检测
 	float x1 = this->position.x - this->lengthX / 2;
@@ -2292,7 +2299,7 @@ bool jhObject2D::diamond::isTriggerEnter(const rectangle& other)
 		return false;
 }
 
-bool jhObject2D::diamond::isTriggerEnter(const diamond& other)
+bool Diamond::isTriggerEnter(const Diamond& other)
 {
 	//菱形与菱形的碰撞检测
 	float x1 = this->position.x - this->lengthX / 2;
@@ -2309,7 +2316,7 @@ bool jhObject2D::diamond::isTriggerEnter(const diamond& other)
 		return false;
 }
 
-bool jhObject2D::diamond::isTriggerEnter(const circle& other)
+bool Diamond::isTriggerEnter(const Circle& other)
 {
 	//菱形与圆形的碰撞检测
 	float x1 = this->position.x - this->lengthX / 2;
@@ -2324,14 +2331,14 @@ bool jhObject2D::diamond::isTriggerEnter(const circle& other)
 		return false;
 }
 
-jhObject2D::diamond::diamond(float lengthX, float lengthY, jhVector2 position) : transform()
+Diamond::Diamond(float lengthX, float lengthY, Vector2 position) : Transform()
 {
 	this->lengthX = lengthX;
 	this->lengthY = lengthY;
 	this->position = position;
 }
 
-jhObject2D::diamond::diamond(const diamond& other)
+Diamond::Diamond(const Diamond& other)
 {
 	this->position = other.position;
 	this->lengthX = other.lengthX;

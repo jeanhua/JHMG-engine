@@ -1,13 +1,13 @@
-# ✅JHMG 游戏引擎
+# ✅MG 游戏引擎
 ![Language](https://img.shields.io/badge/language-c++-brightgreen) ![author](https://img.shields.io/badge/auther-jeanhua-blue)
 
-JHMG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速搭建和开发2D游戏。
+MG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速搭建和开发2D游戏。
  
-[源仓库地址 https://github.com/jeanhua/JHMG-engine](https://github.com/jeanhua/JHMG-engine)
+[源仓库地址 https://github.com/jeanhua/MG-engine](https://github.com/jeanhua/MG-engine)
 
-[gitee镜像地址 https://gitee.com/jeanhua/JHMG-engine](https://gitee.com/jeanhua/JHMG-engine)
+[gitee镜像地址 https://gitee.com/jeanhua/MG-engine](https://gitee.com/jeanhua/MG-engine)
 
-[代码案例仓库](https://github.com/jeanhua/demo-codes-of-JHMG)
+[代码案例仓库](https://github.com/jeanhua/demo-codes-of-MG)
 
 ## 特点
 
@@ -24,10 +24,10 @@ JHMG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速�
 你可以从GitHub仓库下载源代码：
 
 ```bash
-git clone https://github.com/jeanhua/JHMG-engine.git
+git clone https://github.com/jeanhua/MG-engine.git
 ```
 
-或者[点此下载各版本](https://github.com/jeanhua/JHMG-engine/releases)
+或者[点此下载各版本](https://github.com/jeanhua/MG-engine/releases)
 
 ### 类图
 
@@ -36,37 +36,37 @@ git clone https://github.com/jeanhua/JHMG-engine.git
 # 详细信息
 ## 类介绍
 
-### `gameObject` 类
+### `GameObject` 类
 - **描述：** 代表游戏中的各种对象，可以是圆形、矩形、菱形或三角形等形状。
 - **功能：**
   - 管理对象的位置、大小、图像和可见性。
   - 处理对象之间的碰撞检测。
   - 允许设置游戏循环中对象的自定义行为。
 
-### `gameUI` 类
+### `GameUI` 类
 - **描述：** 管理游戏中的用户界面元素，例如图片等。
 - **功能：**
   - 控制界面元素的位置、大小、图像和可见性。
   - 处理用户界面元素的鼠标交互，如点击事件。
 
-### `gameUIText` 类
+### `GameUIText` 类
 - **描述：** 管理游戏用户界面中的文本元素。
 - **功能：**
   - 设置文本的内容、位置和可见性。
 
-### `gameSound` 类
+### `GameSound` 类
 - **描述：** 处理游戏音效的播放和控制。
 - **功能：**
   - 播放、停止、暂停和恢复音效。
   - 设置音效的音量和播放位置。
   - 获取音效的长度和状态。
 
-### `gameInput` 类
+### `GameInput` 类
 - **描述：** 处理游戏中的键盘输入。
 - **功能：**
   - 捕获键盘按键事件。
 
-### `gameScene` 类
+### `GameScene` 类
 - **描述：** 表示游戏中的一个场景，包含游戏对象、用户界面元素和文本元素。
 - **功能：**
   - 管理场景中的游戏对象、用户界面元素和文本元素。
@@ -77,12 +77,12 @@ git clone https://github.com/jeanhua/JHMG-engine.git
 - **功能：**
   - 处理鼠标点击事件，并触发相应的回调函数。
 
-### `gameInputBox` 类
+### `GameInputBox` 类
 - **描述：** 处理游戏中的输入框，允许用户输入文本。
 - **功能：**
   - 显示输入框，并允许用户输入文本内容。
 
-### `gameMessageBox` 类
+### `GameMessageBox` 类
 - **描述：** 管理游戏中的消息框，用于向用户显示消息。
 - **功能：**
   - 显示消息框，并显示指定的消息内容。
@@ -96,15 +96,15 @@ git clone https://github.com/jeanhua/JHMG-engine.git
   - 管理游戏中的场景和声音。
   - 处理游戏中的输入事件。
 
-### `jhString` 类
+### `String` 类
 - **描述：** 字符串类型，提供字符串操作的功能。
 - **功能：**
-  - 构造函数：可以从字符串、字符数组或另一个 `jhString` 对象构造。
+  - 构造函数：可以从字符串、字符数组或另一个 `String` 对象构造。
   - 运算符重载：支持字符串的拼接、赋值、比较等操作。
   - 类型转换：可以将字符串转换为整型、浮点型等数据类型。
   - 字符串操作：包括索引、截取、查找等操作。
 
-### `jhFraction` 类
+### `Fraction` 类
 - **描述：** 分数类型，用于处理分数的计算。
 - **功能：**
   - 构造函数：可以从整型、浮点型或分子分母构造分数。
@@ -112,14 +112,14 @@ git clone https://github.com/jeanhua/JHMG-engine.git
   - 分数化简：将分数进行化简操作。
   - 类型转换：可以将分数转换为浮点型。
 
-### `jhVector2` 类
+### `Vector2` 类
 - **描述：** 二维向量，表示坐标或方向。
 - **功能：**
   - 构造函数：可以从两个浮点数构造二维向量。
   - 运算符重载：支持向量的加减乘除等运算。
   - 向量操作：包括距离计算、叉乘、点乘等操作。
 
-### `jhList` 类模板
+### `List` 类模板
 - **描述：** 链表模板类，用于管理元素的链表结构。
 - **功能：**
   - 添加元素：在链表末尾添加元素。
@@ -127,7 +127,7 @@ git clone https://github.com/jeanhua/JHMG-engine.git
   - 构造函数：初始化链表。
   - 析构函数：释放链表内存。
 
-### `jhMatrix` 类
+### `Matrix` 类
 - **描述：** 矩阵类，用于矩阵的运算和处理。
 - **功能：**
   - 构造函数：可以从二维数组、其他矩阵对象或行列数构造矩阵。
@@ -135,7 +135,7 @@ git clone https://github.com/jeanhua/JHMG-engine.git
   - 求解行列式：计算矩阵的行列式值。
   - 判断相等：判断两个矩阵是否相等。
 
-### `jhObject2D` 命名空间
+### `Transform` 基类(包含子类 Circle，Rectangle，Triangle，Diamond，Trapezium)
 - **描述：** 二维物体类，包括圆形、矩形、三角形、菱形等。
 - **功能：**
   - 各种形状的构造：可以构造圆形、矩形、三角形、菱形等物体。
@@ -157,7 +157,7 @@ mainGame = new Game;
 ```
 2.设置窗口大小和标题
 ```cpp
-mainGame->setWindowSize(jhVector2(800, 600));
+mainGame->setWindowSize(Vector2(800, 600));
 mainGame->setWindowTitle("Game demo");
 ```
 3.设置游戏帧率
@@ -166,7 +166,7 @@ mainGame->setTargetFrame(165);
 ```
 4.创建游戏场景
 ```cpp
-gameScene* scene = new gameScene;
+GameScene* scene = new GameScene;
 ```
 5.添加场景到游戏中
 ```cpp
@@ -174,7 +174,7 @@ mainGame->setScene(scene);
 ```
 6.创建游戏对象
 ```cpp
-gameObject* player = new gameObject(new jhObject2D::circle(25, jhVector2(170, 70)), ".\\pkq.png", 50, 50, true);
+GameObject* player = new GameObject(new circle(25, Vector2(170, 70)), ".\\pkq.png", 50, 50, true);
 ```
 7.添加游戏对象到场景中
 ```cpp
@@ -182,7 +182,7 @@ scene->addGameObject("player", player);
 ```
 8.创建游戏UI对象
 ```cpp
-gameUI* xiaoxin = new gameUI(jhVector2(0, 0), jhVector2(50, 50), ".\\xiaoxin.png", true);
+GameUI* xiaoxin = new GameUI(Vector2(0, 0), Vector2(50, 50), ".\\xiaoxin.png", true);
 ```
 9.添加UI对象到场景中
 ```cpp
@@ -190,7 +190,7 @@ scene->addGameUI("xiaoxin", xiaoxin);
 ```
 10.创建文本UI对象
 ```cpp
-gameUIText* text = new gameUIText(jhString("fps"), jhVector2(100, 100));
+GameUIText* text = new GameUIText(String("fps"), Vector2(100, 100));
 ```
 11.添加文本UI到场景中
 ```cpp
@@ -264,7 +264,7 @@ if (key == KeyMessage::esc)
 1.绑定游戏对象碰撞事件(物体碰撞调用)
 ```cpp
 //声明碰撞事件函数
-void trigger(gameObject* other)
+void trigger(GameObject* other)
 {
   //other是与 绑定的的游戏对象 相碰撞的 ·游戏对象· 的指针
   //碰撞输出名字
@@ -294,7 +294,7 @@ int main()
 3.绑定游戏对象点击事件(点击调用)
 ```cpp
 //声明点击事件
-void onClick(int messageType, jhVector2 position,gameObject* self)
+void onClick(int messageType, Vector2 position,GameObject* self)
 {
   //输出被点击对象id名
   cout<<mainGame->getScene()->getName(self)<<endl;
@@ -319,38 +319,39 @@ int main()
 ## 完整示例
 ```cpp
 #include "JHMG engine.h"
+using namespace JHMG_ENGINE;
 
 //声明全局游戏对象
 Game* mainGame;
 
 //声明函数
-void loop(gameObject* self);
-void trigger(gameObject* self, gameObject* other);
-void onClick(int messageType, jhVector2 position,gameObject* self);
+void loop(GameObject* self);
+void trigger(GameObject* self, GameObject* other);
+void onClick(int messageType, Vector2 position,GameObject* self);
 
 int main()
 {
 	//创建游戏对象
 	mainGame = new Game;
 	//设置窗口大小和标题
-	mainGame->setWindowSize(jhVector2(800, 600));
+	mainGame->setWindowSize(Vector2(800, 600));
 	mainGame->setWindowTitle("Game demo");
 	//设置游戏帧率
 	mainGame->setTargetFrame(165);
 	//创建游戏场景
-	gameScene* scene = new gameScene;
+	GameScene* scene = new GameScene;
 	//添加场景到游戏中
 	mainGame->setScene(scene);
 	//创建UI对象
-	gameUI* xiaoxin = new gameUI(jhVector2(0, 0), jhVector2(800, 600), ".\\background.jpg", true);
+	GameUI* xiaoxin = new GameUI(Vector2(0, 0), Vector2(800, 600), ".\\background.jpg", true);
 	//添加UI对象到场景中
 	scene->addGameUI("xiaoxin", xiaoxin);
 	//创建文本UI
-	gameUIText* text = new gameUIText(jhString("fps"), jhVector2(100, 100));
+	GameUIText* text = new GameUIText(String("fps"), Vector2(100, 100));
 	//添加文本UI到场景中
 	scene->addGameUIText("text", text);
 	//创建游戏对象
-	gameObject* player = new gameObject(new jhObject2D::circle(25, jhVector2(170, 70)), ".\\pkq.png", 50, 50, true);
+	GameObject* player = new GameObject(new Circle(25, Vector2(170, 70)), ".\\pkq.png", 50, 50, true);
 	//绑定游戏对象碰撞事件(物体碰撞调用)
 	player->setOnCollision(trigger);
 	//绑定游戏对象循环事件(每帧调用一次)
@@ -358,7 +359,7 @@ int main()
 	//添加游戏对象到场景中
 	scene->addGameObject("player", player);
 	//创建游戏对象
-	gameObject* pikaqiu = new gameObject(new jhObject2D::circle(25, jhVector2(270, 70)), ".\\pkq.png", 50, 50, true);
+	GameObject* pikaqiu = new GameObject(new Circle(25, Vector2(270, 70)), ".\\pkq.png", 50, 50, true);
 	//绑定游戏对象点击事件(点击调用)
 	pikaqiu->mouseAction->setClickFunc(onClick);
 	//添加游戏对象到场景中
@@ -367,7 +368,7 @@ int main()
 	mainGame->initWindow();
 }
 
-void loop(gameObject* self)
+void loop(GameObject* self)
 {
 	//获取游戏场景
 	auto scene = mainGame->getScene();
@@ -376,39 +377,39 @@ void loop(gameObject* self)
 	//获取UI文本对象
 	auto text = scene->getGameUIText("text");
 	//拼接显示fps
-	text->text = "fps:" + to_string(int(1000 / mainGame->deltaTime));
+	text->text = "fps:" + std::to_string(int(1000 / mainGame->deltaTime));
 	//获取键盘输入
-	auto key = mainGame->Input.getKey();
+	auto key = mainGame->input.getKey();
 	//判断键盘输入
 	if (key == KeyMessage::a)
 	{
-		jhVector2 currentPosition = player->transform.circle->getPosition();
+		Vector2 currentPosition = player->Transform.Circle->getPosition();
 		//x = deltaX + X0 = V*t + X0
-		currentPosition += jhVector2(-250, 0) * ((float)mainGame->deltaTime / 1000);
-		player->transform.circle->move(currentPosition);
+		currentPosition += Vector2(-250, 0) * ((float)mainGame->deltaTime / 1000);
+		player->Transform.Circle->move(currentPosition);
 	}
 	if (key == KeyMessage::d)
 	{
-		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(250, 0) * ((float)mainGame->deltaTime / 1000);
-		player->transform.circle->move(currentPosition);
+		Vector2 currentPosition = player->Transform.Circle->getPosition();
+		currentPosition += Vector2(250, 0) * ((float)mainGame->deltaTime / 1000);
+		player->Transform.Circle->move(currentPosition);
 	}
 	if (key == KeyMessage::w)
 	{
-		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(0, -250) * ((float)mainGame->deltaTime / 1000);
-		player->transform.circle->move(currentPosition);
+		Vector2 currentPosition = player->Transform.Circle->getPosition();
+		currentPosition += Vector2(0, -250) * ((float)mainGame->deltaTime / 1000);
+		player->Transform.Circle->move(currentPosition);
 	}
 	if (key == KeyMessage::s)
 	{
-		jhVector2 currentPosition = player->transform.circle->getPosition();
-		currentPosition += jhVector2(0, 250) * ((float)mainGame->deltaTime / 1000);
-		player->transform.circle->move(currentPosition);
+		Vector2 currentPosition = player->Transform.Circle->getPosition();
+		currentPosition += Vector2(0, 250) * ((float)mainGame->deltaTime / 1000);
+		player->Transform.Circle->move(currentPosition);
 	}
 	if (key == KeyMessage::space)
 	{
 		//删除物体
-		cout << "delete pikaqiu" << endl;
+		std::cout << "delete pikaqiu" << std::endl;
 		scene->removeGameObject("pikaqiu");
 	}
 	if (key == KeyMessage::esc)
@@ -418,23 +419,23 @@ void loop(gameObject* self)
 	}
 }
 
-void trigger(gameObject* self,gameObject* other)
+void trigger(GameObject* self,GameObject* other)
 {
 	//碰撞输出名字
-	cout << mainGame->getScene()->getName(other) << endl;
+	std::cout << mainGame->getScene()->getName(other) << std::endl;
 }
 
-void onClick(int messageType, jhVector2 position,gameObject* self)
+void onClick(int messageType, Vector2 position,GameObject* self)
 {
-	cout<<mainGame->getScene()->getName(self)<<endl;
+	std::cout<<mainGame->getScene()->getName(self)<< std::endl;
 	//点击输出
 	if (messageType == MouseMessage::leftDown)
-		cout << "左键按下" << endl;
+		std::cout << "左键按下" << std::endl;
 	if (messageType == MouseMessage::leftUp)
-		cout << "左键放开" << endl;
+		std::cout << "左键放开" << std::endl;
 	if (messageType == MouseMessage::rightDown)
-		cout << "右键按下" << endl;
+		std::cout << "右键按下" << std::endl;
 	if (messageType == MouseMessage::rightUp)
-		cout << "右键放开" << endl;
+		std::cout << "右键放开" << std::endl;
 }
 ```
