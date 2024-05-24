@@ -3,11 +3,11 @@
 
 MG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速搭建和开发2D游戏。
  
-[源仓库地址 https://github.com/jeanhua/MG-engine](https://github.com/jeanhua/MG-engine)
+[源仓库地址 https://github.com/jeanhua/JHMG-engine](https://github.com/jeanhua/JHMG-engine)
 
-[gitee镜像地址 https://gitee.com/jeanhua/MG-engine](https://gitee.com/jeanhua/MG-engine)
+[gitee镜像地址 https://gitee.com/jeanhua/JHMG-engine](https://gitee.com/jeanhua/JHMG-engine)
 
-[代码案例仓库](https://github.com/jeanhua/demo-codes-of-MG)
+[代码案例仓库](https://github.com/jeanhua/demo-codes-of-JHMG)
 
 ## 特点
 
@@ -24,10 +24,10 @@ MG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速搭
 你可以从GitHub仓库下载源代码：
 
 ```bash
-git clone https://github.com/jeanhua/MG-engine.git
+git clone https://github.com/jeanhua/JHMG-engine.git
 ```
 
-或者[点此下载各版本](https://github.com/jeanhua/MG-engine/releases)
+或者[点此下载各版本](https://github.com/jeanhua/JHMG-engine/releases)
 
 ### 类图
 
