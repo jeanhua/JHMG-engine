@@ -1,7 +1,13 @@
-# ✅MG 游戏引擎
+- 该项目作为我的C++大作业已经结束，但是未来可能无聊更一点东西
+	- 画个大饼
+		- 未来可能出一个场景编辑器
+		- 用lua作为脚本语言填充
+		- 更多物理模拟(bushi
+
+# ✅JHMG 游戏引擎
 ![Language](https://img.shields.io/badge/language-c++-brightgreen) ![author](https://img.shields.io/badge/auther-jeanhua-blue)
 
-MG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速搭建和开发2D游戏。
+JHMG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速搭建和开发2D游戏。
  
 [源仓库地址 https://github.com/jeanhua/JHMG-engine](https://github.com/jeanhua/JHMG-engine)
 
