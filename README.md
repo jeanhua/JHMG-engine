@@ -1,23 +1,17 @@
 本人为四川大学2023级大一本科生，初学C++，项目代码质量不高，欢迎各路大佬给予指正  
 
-<div align="center">
-
- **项目浏览量** ![counter](https://counter.seku.su/cmoe?name=JHMG-engine&theme=mbs)
-
-</div>
-
 # ✅JHMG 游戏引擎
 ![Language](https://img.shields.io/badge/language-c++-brightgreen) ![author](https://img.shields.io/badge/auther-jeanhua-blue)
 
 JHMG 游戏引擎是我写的一个简单的2D游戏引擎，旨在帮助快速搭建和开发2D游戏。
- 
+
+### [代码示例仓库](https://github.com/jeanhua/demo-codes-of-JHMG)
+
 [源仓库地址 https://github.com/jeanhua/JHMG-engine](https://github.com/jeanhua/JHMG-engine)
 
 [gitee镜像地址 https://gitee.com/jeanhua/JHMG-engine](https://gitee.com/jeanhua/JHMG-engine)
 
-[代码案例仓库](https://github.com/jeanhua/demo-codes-of-JHMG)
-
-## 特点
+### 特点
 
 - 提供了游戏场景管理、游戏对象管理、界面显示、音效播放、用户输入处理等核心功能。
 - 包含了一系列基础的自定义类，如字符串处理、数学计算和图形操作等。
